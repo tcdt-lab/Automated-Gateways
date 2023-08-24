@@ -10,7 +10,7 @@ services:
       - FABRIC_CA_SERVER_HOME=/tmp/hyperledger/fabric-ca/crypto
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_CSR_CN=ca-tls
-      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0,localhost,206.12.95.178,127.0.0.1,ca-tls,host.docker.internal,host-gateway
+      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0,localhost,127.0.0.1,ca-tls,host.docker.internal,host-gateway
       - FABRIC_CA_SERVER_DEBUG=true
     volumes:
       - /tmp/hyperledger/tls-ca:/tmp/hyperledger/fabric-ca

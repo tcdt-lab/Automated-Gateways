@@ -11,7 +11,7 @@ services:
     #  - FABRIC_CA_SERVER_TLS_KEYSTORE=/tmp/hyperledger/fabric-ca/tls/msp/keystore/5f32133dd5a687e44951fdf03642833a1c2b16cd79be524626aad562df08099f_sk
     #  - FABRIC_CA_SERVER_TLS_CERTFILE=/tmp/hyperledger/fabric-ca/tls/msp/signcerts/cert.pem
       - FABRIC_CA_SERVER_CSR_CN=rca-org0
-      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0,localhost,127.0.0.1,rca-org0,host.docker.internal,host-gateway,206.12.95.178
+      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0,localhost,127.0.0.1,rca-org0,host.docker.internal,host-gateway
       - FABRIC_CA_SERVER_DEBUG=true
    volumes:
       - /tmp/hyperledger/org0/ca:/tmp/hyperledger/fabric-ca
@@ -26,7 +26,7 @@ services:
    environment:
      - ORDERER_HOME=/tmp/hyperledger/orderer
      - ORDERER_HOST=orderer1-org0
-     - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+     - ORDERER_GENERAL_LISTENADDRESS=orderer1-org0
      - ORDERER_GENERAL_LISTENPORT=7050
      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
      - ORDERER_GENERAL_LOCALMSPID=org0MSP
@@ -59,7 +59,7 @@ services:
    environment:
      - ORDERER_HOME=/tmp/hyperledger/orderer
      - ORDERER_HOST=orderer2-org0
-     - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+     - ORDERER_GENERAL_LISTENADDRESS=orderer2-org0
      - ORDERER_GENERAL_LISTENPORT=7050
      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
      - ORDERER_GENERAL_LOCALMSPID=org0MSP
@@ -91,7 +91,7 @@ services:
    environment:
      - ORDERER_HOME=/tmp/hyperledger/orderer
      - ORDERER_HOST=orderer1-org0
-     - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+     - ORDERER_GENERAL_LISTENADDRESS=orderer3-org0
      - ORDERER_GENERAL_LISTENPORT=7050
      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
      - ORDERER_GENERAL_LOCALMSPID=org0MSP

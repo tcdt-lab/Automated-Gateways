@@ -10,7 +10,7 @@ services:
       - FABRIC_CA_SERVER_HOME=/tmp/hyperledger/fabric-ca/crypto
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_CSR_CN=rca-org1
-      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0,localhost,206.12.95.178,127.0.0.1,rca-org1,host.docker.internal,host-gateway
+      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0,localhost,127.0.0.1,rca-org1,host.docker.internal,host-gateway
       - FABRIC_CA_SERVER_DEBUG=true
    volumes:
       - /tmp/hyperledger/org1/ca:/tmp/hyperledger/fabric-ca
@@ -30,7 +30,7 @@ services:
       - CORE_PEER_LOCALMSPID=org1MSP
       - CORE_PEER_MSPCONFIGPATH=/tmp/hyperledger/org1/peer1/msp
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker-org1.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=guide_fabric-ca
+      #- CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=bridge
       - FABRIC_LOGGING_SPEC=debug
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/tmp/hyperledger/org1/peer1/tls-msp/signcerts/cert.pem
@@ -38,7 +38,8 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/tmp/hyperledger/org1/peer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
-
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7021
+      - CORE_PEER_CHAINCODEADDRESS=127.0.0.1:7021
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=127.0.0.1:7051
       - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
 
@@ -49,7 +50,7 @@ services:
 
    ports:
       - 7061:7051
-
+      - 7021:7021
   peer2-org1:
 
    container_name: peer2-org1
@@ -64,7 +65,7 @@ services:
       - CORE_PEER_LOCALMSPID=org1MSP
       - CORE_PEER_MSPCONFIGPATH=/tmp/hyperledger/org1/peer2/msp
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker-org1.sock
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=guide_fabric-ca
+      #- CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=bridge
       - FABRIC_LOGGING_SPEC=debug
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/tmp/hyperledger/org1/peer2/tls-msp/signcerts/cert.pem
@@ -75,13 +76,16 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=127.0.0.1:7051
       - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
       - CORE_PEER_GOSSIP_BOOTSTRAP=host.docker.internal:7061
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7022
+      - CORE_PEER_CHAINCODEADDRESS=host.localhost:7022
+
    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/org1/peer2
    volumes:
       - /var/run:/host/var/run
       - /tmp/hyperledger/org1/peer2:/tmp/hyperledger/org1/peer2
    ports:
       - 7062:7051
-
+      - 7022:7022
   cli-org1:
    container_name: cli-org1
    image: hyperledger/fabric-tools
@@ -106,3 +110,5 @@ services:
      - /tmp/hyperledger/org1/peer1:/tmp/hyperledger/org1/peer1
      - /tmp/hyperledger/org1/peer1/assets/chaincode:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
      - /tmp/hyperledger/org1/admin/msp:/tmp/hyperledger/org1/admin/msp
+     - /tmp/hyperledger/org0:/tmp/hyperledger/org0
+
