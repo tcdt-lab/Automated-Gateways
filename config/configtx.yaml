@@ -27,28 +27,28 @@ Organizations:
     # SampleOrg defines an MSP using the sampleconfig. It should never be used
     # in production but may be used as a template for other definitions.
     - &org0
-         Name: org0
+         Name: org0MSP
          ID: org0MSP
          MSPDir: /tmp/hyperledger/org0/msp
          Policies: &org0Policies
             Readers:
                 Type: Signature
-                Rule: "OR('org0.member')"
+                Rule: "OR('org0MSP.admin','org0MSP.client','org0MSP.member','org0MSP.peer')"
                 # If your MSP is configured with the new NodeOUs, you might
                 # want to use a more specific rule like the following:
                 # Rule: "OR('SampleOrg.admin', 'SampleOrg.peer', 'SampleOrg.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('org0.member')"
+                Rule: "OR('org0MSP.admin','org0MSP.client','org0MSP.member','org0MSP.peer')"
                 # If your MSP is configured with the new NodeOUs, you might
                 # want to use a more specific rule like the following:
                 # Rule: "OR('SampleOrg.admin', 'SampleOrg.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('org0.admin')"
+                Rule: "OR('org0MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('org0.member')"
+                Rule: "OR('org0MSP.admin','org0MSP.client','org0MSP.member','org0MSP.peer')"
 
          OrdererEndpoints:
             - host.docker.internal:7041
@@ -58,7 +58,7 @@ Organizations:
         # Name is the key by which this org will be referenced in channel
         # configuration transactions.
         # Name can include alphanumeric characters as well as dots and dashes.
-        Name: org1
+        Name: org1MSP
 
         # SkipAsForeign can be set to true for org definitions which are to be
         # inherited from the orderer system channel during channel creation.  This
@@ -81,22 +81,22 @@ Organizations:
         Policies: &org1Policies
             Readers:
                 Type: Signature
-                Rule: "OR('org1.member')"
+                Rule: "OR('org1MSP.admin','org1MSP.peer','org1MSP.client')"
                 # If your MSP is configured with the new NodeOUs, you might
                 # want to use a more specific rule like the following:
                 # Rule: "OR('SampleOrg.admin', 'SampleOrg.peer', 'SampleOrg.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('org1.member')"
+                Rule: "OR('org1MSP.admin','org1MSP.peer','org1MSP.client')"
                 # If your MSP is configured with the new NodeOUs, you might
                 # want to use a more specific rule like the following:
                 # Rule: "OR('SampleOrg.admin', 'SampleOrg.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('org1.admin')"
+                Rule: "OR('org1MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('org1.member')"
+                Rule: "OR('org1MSP.admin','org1MSP.peer','org1MSP.client')"
 
         # OrdererEndpoints is a list of all orderers this org runs which clients
         # and peers may to connect to to push transactions and receive blocks respectively.
@@ -119,7 +119,7 @@ Organizations:
         # Name is the key by which this org will be referenced in channel
         # configuration transactions.
         # Name can include alphanumeric characters as well as dots and dashes.
-        Name: org2
+        Name: org2MSP
 
         # SkipAsForeign can be set to true for org definitions which are to be
         # inherited from the orderer system channel during channel creation.  This
@@ -142,22 +142,22 @@ Organizations:
         Policies: &org2Policies
             Readers:
                 Type: Signature
-                Rule: "OR('org2.member')"
+                Rule: "OR('org2MSP.admin','org2MSP.peer','org2MSP.client')"
                 # If your MSP is configured with the new NodeOUs, you might
                 # want to use a more specific rule like the following:
                 # Rule: "OR('SampleOrg.admin', 'SampleOrg.peer', 'SampleOrg.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('org2.member')"
+                Rule: "OR('org2MSP.admin','org2MSP.peer','org2MSP.client')"
                 # If your MSP is configured with the new NodeOUs, you might
                 # want to use a more specific rule like the following:
                 # Rule: "OR('SampleOrg.admin', 'SampleOrg.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('org2.admin')"
+                Rule: "OR('org2MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('org2.member')"
+                Rule: "OR('org2MSP.admin','org2MSP.peer','org2MSP.client')"
 
         # OrdererEndpoints is a list of all orderers this org runs which clients
         # and peers may to connect to to push transactions and receive blocks respectively.
@@ -253,7 +253,6 @@ Application: &ApplicationDefaults
 
         # ACL policy for _lifecycle's "CommitChaincodeDefinition" function
         _lifecycle/CommitChaincodeDefinition: /Channel/Application/Writers
-
         # ACL policy for _lifecycle's "QueryChaincodeDefinition" function
         _lifecycle/QueryChaincodeDefinition: /Channel/Application/Writers
 
@@ -327,10 +326,10 @@ Application: &ApplicationDefaults
     Policies: &ApplicationDefaultPolicies
         LifecycleEndorsement:
             Type: ImplicitMeta
-            Rule: "MAJORITY Endorsement"
+            Rule: "ANY Endorsement"
         Endorsement:
             Type: ImplicitMeta
-            Rule: "MAJORITY Endorsement"
+            Rule: "ANY Endorsement"
         Readers:
             Type: ImplicitMeta
             Rule: "ANY Readers"
@@ -367,9 +366,9 @@ Orderer: &OrdererDefaults
     # as TLS validation.  The preferred way to specify orderer addresses is now
     # to include the OrdererEndpoints item in your org definition
     Addresses:
-         - 0.0.0.0:7041
-         - 0.0.0.0:7042
-         - 0.0.0.0:7043
+         - host.docker.internal:7041
+         - host.docker.internal:7042
+         - host.docker.internal:7043
 
     # Batch Timeout: The amount of time to wait before creating a batch.
     BatchTimeout: 2s
@@ -444,15 +443,15 @@ Orderer: &OrdererDefaults
         # a subset of the host:port items enumerated in this list should be
         # replicated under the Orderer.Addresses key above.
         Consenters:
-            - Host: 0.0.0.0
+            - Host: host.docker.internal
               Port: 7041
               ClientTLSCert: /tmp/hyperledger/org0/orderer1/tls-msp/signcerts/cert.pem
               ServerTLSCert: /tmp/hyperledger/org0/orderer1/tls-msp/signcerts/cert.pem
-            - Host: 0.0.0.0
+            - Host: host.docker.internal
               Port: 7042
               ClientTLSCert: /tmp/hyperledger/org0/orderer2/tls-msp/signcerts/cert.pem
               ServerTLSCert: /tmp/hyperledger/org0/orderer2/tls-msp/signcerts/cert.pem
-            - Host: 0.0.0.0
+            - Host: host.docker.internal
               Port: 7043
               ClientTLSCert: /tmp/hyperledger/org0/orderer3/tls-msp/signcerts/cert.pem
               ServerTLSCert: /tmp/hyperledger/org0/orderer3/tls-msp/signcerts/cert.pem
@@ -486,7 +485,6 @@ Orderer: &OrdererDefaults
     # Organizations lists the orgs participating on the orderer side of the
     # network.
     Organizations:
-    - *org0
 
     # Policies defines the set of policies at this level of the config tree
     # For Orderer policies, their canonical path is
@@ -575,7 +573,17 @@ Profiles:
                       <<: *org0Policies
                       Admins:
                           Type: Signature
-                          Rule: "OR('org0.member')"
+                          Rule: "OR('org0MSP.member')"
+                      Writers:
+                          Type: Signature
+                          Rule: "OR('org0MSP.admin','org0MSP.peer','org0MSP.client','org0MSP.member')"
+                      Readers:
+                          Type: Signature
+                          Rule: "OR('org0MSP.admin','org0MSP.peer','org0MSP.client','org0MSP.member')"
+                      Endorsement:
+                          Type: Signature
+                          Rule: "OR('org0MSP.admin','org0MSP.peer','org0MSP.client','org0MSP.member')"
+
         Application:
             <<: *ApplicationDefaults
             Organizations:
@@ -584,10 +592,32 @@ Profiles:
                       <<: *org1Policies
                       Admins:
                           Type: Signature
-                          Rule: "OR('org1.member')"
+                          Rule: "OR('org1MSP.member')"
+                      Writers:
+                          Type: Signature
+                          Rule: "OR('org1MSP.admin','org1MSP.peer','org1MSP.client','org1MSP.member')"
+                      Readers:
+                          Type: Signature
+                          Rule: "OR('org1MSP.admin','org1MSP.peer','org1MSP.client','org1MSP.member')"
+                      Endorsement:
+                          Type: Signature
+                          Rule: "OR('org1MSP.admin','org1MSP.peer','org1MSP.client','org1MSP.member')"
+
+ 
                 - <<: *org2
                   Policies:
                       <<: *org2Policies
                       Admins:
                           Type: Signature
-                          Rule: "OR('org2.member')"
+                          Rule: "OR('org2MSP.member')"
+                      Writers:
+                          Type: Signature
+                          Rule: "OR('org2MSP.admin','org2MSP.peer','org2MSP.client','org2MSP.member')"
+                      Readers:
+                          Type: Signature
+                          Rule: "OR('org2MSP.admin','org2MSP.peer','org2MSP.client','org2MSP.member')"
+                      Endorsement:
+                          Type: Signature
+                          Rule: "OR('org2MSP.admin','org2MSP.peer','org2MSP.client','org2MSP.member')"
+
+                     
