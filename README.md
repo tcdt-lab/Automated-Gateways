@@ -5,7 +5,7 @@ It most be mentioned that in the architecture, we influenced from paper named [E
 
 In order to get a better insight about the project we highly recommand to read these sections :
 
-*  [Project Architecture]([https://github.com/tcdt-lab/Automated-Gateways/wiki/Project-Overview](https://github.com/tcdt-lab/Automated-Gateways/wiki/Architecture-and-Scenarios))
+*  [Project Architecture](https://github.com/tcdt-lab/Automated-Gateways/wiki/Architecture-and-Scenarios)
 *  [Project Implementation](https://github.com/tcdt-lab/Automated-Gateways/wiki/Implementation)
 
 
