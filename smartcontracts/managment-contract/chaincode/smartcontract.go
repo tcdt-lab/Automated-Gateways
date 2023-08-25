@@ -71,23 +71,7 @@ func (s *SmartContract) GetOutsiderAsset(ctx contractapi.TransactionContextInter
 	return &outsiderAsset, nil
 }
 
-func (s *SmartContract) ReadOutsiderAsset(ctx contractapi.TransactionContextInterface, id string) (*OutsiderAsset, error) {
-	assetJSON, err := ctx.GetStub().GetState(id)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read from world state: %v", err)
-	}
-	if assetJSON == nil {
-		return nil, fmt.Errorf("the asset %s does not exist", id)
-	}
 
-	var asset OutsiderAsset
-	err = json.Unmarshal(assetJSON, &asset)
-	if err != nil {
-		return nil, err
-	}
-
-	return &asset, nil
-}
 
 func (s *SmartContract) UpdateOutsiderAsset(ctx contractapi.TransactionContextInterface, id string, name string, username string, ip string, password string) error {
 	exists, err := s.OutsiderExists(ctx, id)
