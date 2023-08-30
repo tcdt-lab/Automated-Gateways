@@ -2,10 +2,7 @@ module data-exposure-contract
 
 go 1.20
 
-require (
-	github.com/hyperledger/fabric-contract-api-go v1.2.1
-	rsc.io/quote v1.5.2
-)
+require github.com/hyperledger/fabric-contract-api-go v1.2.1
 
 require (
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
@@ -32,5 +29,4 @@ require (
 	google.golang.org/grpc v1.53.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	rsc.io/sampler v1.3.0 // indirect
 )

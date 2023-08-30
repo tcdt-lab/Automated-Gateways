@@ -13,20 +13,24 @@ var outsiderMethodIdConst = "OUTSIDER_METHOD_ID_"
 type SmartContract struct {
 	contractapi.Contract
 }
-
+type MethodArg struct {
+	ArgName string `json:"ArgName"`
+	ArgType string `json:"ArgType"`
+}
 type ExposedMethodAsset struct {
-	ChannelName   string `json:"ChannelName"`
-	ChaincodeName string `json:"ChaincodeName"`
-	MethodName    string `json:"MethodName"`
-	MethodID      string `json:"methodID"`
+	ChannelName   string      `json:"ChannelName"`
+	ChaincodeName string      `json:"ChaincodeName"`
+	MethodName    string      `json:"MethodName"`
+	MethodID      string      `json:"methodID"`
+	MethodArgs    []MethodArg `json:"MethodArgs"`
 }
 
 type MethodsOwnerAsset struct {
-	OutsiderID string               `json:"OutsiderID"`
-	Methods    []ExposedMethodAsset `json:"Methods"`
+	OutsiderNetworkID string               `json:"OutsiderNetworkID"`
+	Methods           []ExposedMethodAsset `json:"Methods"`
 }
 
-func (s *SmartContract) ExposeMethod(ctx contractapi.TransactionContextInterface, methodID string, methodName string, chaincodeName string, channelName string) error {
+func (s *SmartContract) ExposeMethod(ctx contractapi.TransactionContextInterface, methodID string, methodName string, chaincodeName string, channelName string, methodArgs string) error {
 	exists, err := s.AssetExists(ctx, methodIdConst+methodID)
 	if err != nil {
 		return err
@@ -35,12 +39,19 @@ func (s *SmartContract) ExposeMethod(ctx contractapi.TransactionContextInterface
 		return fmt.Errorf("the method %s already exposed", methodName)
 	}
 
+	var methodArgsAsset []MethodArg
+
+	errAsset := json.Unmarshal([]byte(methodArgs), &methodArgsAsset)
+	if errAsset != nil {
+		return errAsset
+	}
 	exposedMethodAsset := ExposedMethodAsset{
 
 		MethodName:    methodName,
 		MethodID:      methodID,
 		ChannelName:   channelName,
 		ChaincodeName: chaincodeName,
+		MethodArgs:    methodArgsAsset,
 	}
 	assetJSON, err := json.Marshal(exposedMethodAsset)
 	if err != nil {
@@ -124,8 +135,8 @@ func (s *SmartContract) AssignMethodToOutsider(ctx contractapi.TransactionContex
 	var assetMethodsList []ExposedMethodAsset
 	assetMethodsList = append(assetMethodsList, *assetMethod)
 	outsiderMethodAsset := MethodsOwnerAsset{
-		Methods:    assetMethodsList,
-		OutsiderID: outsiderId,
+		Methods:           assetMethodsList,
+		OutsiderNetworkID: outsiderId,
 	}
 	assetJSON, err := json.Marshal(outsiderMethodAsset)
 	if err != nil {
