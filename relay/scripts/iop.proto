@@ -1,0 +1,30 @@
+syntax = "proto3";
+option go_package = "relay/scripts";
+
+service IOP{
+rpc invoke(IOPInfo) returns (response);
+rpc queryMethods(OutsiderNetwork) returns (stream IOPInfo);
+}
+
+message OutsiderNetwork{
+    string network_id = 1;
+    string network_token = 2;
+}
+message response{
+    string status = 1;
+    string response_str = 2;
+}
+
+message IOPInfo{
+//  Exposed Method Info
+    string method_name = 1;
+    string method_type = 2;
+    string method_input = 3;
+    string method_output = 4;
+    string method_Id = 5;
+    string channelName = 6;
+    string chaincodeName = 7;
+//User Info
+    string user_id = 8;
+    string user_token = 9;
+}
