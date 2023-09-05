@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.12.4
-// source: iop.proto
+// source: scripts/iop.proto
 
 package scripts
 
@@ -22,7 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type IOPClient interface {
-	Invoke(ctx context.Context, in *IOPInfo, opts ...grpc.CallOption) (*Response, error)
+	Login(ctx context.Context, in *OutsiderNetworkLoginInfo, opts ...grpc.CallOption) (*OutsiderNetwork, error)
+	Invoke(ctx context.Context, in *MethodInfo, opts ...grpc.CallOption) (*Response, error)
 	QueryMethods(ctx context.Context, in *OutsiderNetwork, opts ...grpc.CallOption) (IOP_QueryMethodsClient, error)
 }
 
@@ -34,7 +35,16 @@ func NewIOPClient(cc grpc.ClientConnInterface) IOPClient {
 	return &iOPClient{cc}
 }
 
-func (c *iOPClient) Invoke(ctx context.Context, in *IOPInfo, opts ...grpc.CallOption) (*Response, error) {
+func (c *iOPClient) Login(ctx context.Context, in *OutsiderNetworkLoginInfo, opts ...grpc.CallOption) (*OutsiderNetwork, error) {
+	out := new(OutsiderNetwork)
+	err := c.cc.Invoke(ctx, "/IOP/login", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iOPClient) Invoke(ctx context.Context, in *MethodInfo, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
 	err := c.cc.Invoke(ctx, "/IOP/invoke", in, out, opts...)
 	if err != nil {
@@ -59,7 +69,7 @@ func (c *iOPClient) QueryMethods(ctx context.Context, in *OutsiderNetwork, opts 
 }
 
 type IOP_QueryMethodsClient interface {
-	Recv() (*IOPInfo, error)
+	Recv() (*MethodInfo, error)
 	grpc.ClientStream
 }
 
@@ -67,8 +77,8 @@ type iOPQueryMethodsClient struct {
 	grpc.ClientStream
 }
 
-func (x *iOPQueryMethodsClient) Recv() (*IOPInfo, error) {
-	m := new(IOPInfo)
+func (x *iOPQueryMethodsClient) Recv() (*MethodInfo, error) {
+	m := new(MethodInfo)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -79,7 +89,8 @@ func (x *iOPQueryMethodsClient) Recv() (*IOPInfo, error) {
 // All implementations must embed UnimplementedIOPServer
 // for forward compatibility
 type IOPServer interface {
-	Invoke(context.Context, *IOPInfo) (*Response, error)
+	Login(context.Context, *OutsiderNetworkLoginInfo) (*OutsiderNetwork, error)
+	Invoke(context.Context, *MethodInfo) (*Response, error)
 	QueryMethods(*OutsiderNetwork, IOP_QueryMethodsServer) error
 	mustEmbedUnimplementedIOPServer()
 }
@@ -88,7 +99,10 @@ type IOPServer interface {
 type UnimplementedIOPServer struct {
 }
 
-func (UnimplementedIOPServer) Invoke(context.Context, *IOPInfo) (*Response, error) {
+func (UnimplementedIOPServer) Login(context.Context, *OutsiderNetworkLoginInfo) (*OutsiderNetwork, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedIOPServer) Invoke(context.Context, *MethodInfo) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Invoke not implemented")
 }
 func (UnimplementedIOPServer) QueryMethods(*OutsiderNetwork, IOP_QueryMethodsServer) error {
@@ -107,8 +121,26 @@ func RegisterIOPServer(s grpc.ServiceRegistrar, srv IOPServer) {
 	s.RegisterService(&IOP_ServiceDesc, srv)
 }
 
+func _IOP_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OutsiderNetworkLoginInfo)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IOPServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/IOP/login",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IOPServer).Login(ctx, req.(*OutsiderNetworkLoginInfo))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _IOP_Invoke_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IOPInfo)
+	in := new(MethodInfo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -120,7 +152,7 @@ func _IOP_Invoke_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: "/IOP/invoke",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IOPServer).Invoke(ctx, req.(*IOPInfo))
+		return srv.(IOPServer).Invoke(ctx, req.(*MethodInfo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -134,7 +166,7 @@ func _IOP_QueryMethods_Handler(srv interface{}, stream grpc.ServerStream) error 
 }
 
 type IOP_QueryMethodsServer interface {
-	Send(*IOPInfo) error
+	Send(*MethodInfo) error
 	grpc.ServerStream
 }
 
@@ -142,7 +174,7 @@ type iOPQueryMethodsServer struct {
 	grpc.ServerStream
 }
 
-func (x *iOPQueryMethodsServer) Send(m *IOPInfo) error {
+func (x *iOPQueryMethodsServer) Send(m *MethodInfo) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -153,6 +185,10 @@ var IOP_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "IOP",
 	HandlerType: (*IOPServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "login",
+			Handler:    _IOP_Login_Handler,
+		},
 		{
 			MethodName: "invoke",
 			Handler:    _IOP_Invoke_Handler,
@@ -165,5 +201,5 @@ var IOP_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "iop.proto",
+	Metadata: "scripts/iop.proto",
 }
