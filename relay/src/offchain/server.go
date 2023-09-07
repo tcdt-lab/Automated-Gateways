@@ -9,7 +9,6 @@ import (
 
 type IOPserver struct {
 	pb.UnimplementedIOPServer
-	methodInfoList []*pb.MethodInfo
 }
 
 func (s *IOPserver) Invoke(ctx context.Context, info *pb.MethodInfo) (*pb.Response, error) {
@@ -38,7 +37,7 @@ func (s *IOPserver) QueryMethods(outsiderNetwork *pb.OutsiderNetwork, stream pb.
 	log.Println("QueryMethods IS INVOKED")
 	var methodsList, error = onchain.QueryMethods(outsiderNetwork)
 	if error != nil {
-		return errorcd
+		return error
 	}
 	for _, method := range methodsList {
 
