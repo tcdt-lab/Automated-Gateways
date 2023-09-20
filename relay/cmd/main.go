@@ -1,12 +1,15 @@
 package main
 
 import (
+	tlsInterface "crypto/tls"
+	"crypto/x509"
 	"flag"
 	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
+	"os"
 	"relay/scripts"
 	"relay/src/offchain"
 )
@@ -20,7 +23,9 @@ var (
 )
 
 func main() {
+
 	startServer()
+	//offchain.RunClient()
 }
 
 func startServer() {
@@ -30,20 +35,48 @@ func startServer() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	var opts []grpc.ServerOption
-	if *tls {
-		if *certFile == "" {
-			//*certFile = data.Path("x509/server_cert.pem")
-		}
-		if *keyFile == "" {
-			//*keyFile = data.Path("x509/server_key.pem")
-		}
-		creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
-		if err != nil {
-			log.Fatalf("Failed to generate credentials: %v", err)
-		}
-		opts = []grpc.ServerOption{grpc.Creds(creds)}
+
+	caPem, err := os.ReadFile("../relay/certs/ca-cert.pem")
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	// create cert pool and append ca's cert
+	certPool := x509.NewCertPool()
+	if !certPool.AppendCertsFromPEM(caPem) {
+		log.Fatal(err)
+	}
+
+	// read server cert & key
+	serverCert, err := tlsInterface.LoadX509KeyPair("../relay/certs/server-cert.pem", "../relay/certs/server-key.pem")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// configuration of the certificate what we want to
+	conf := &tlsInterface.Config{
+		Certificates: []tlsInterface.Certificate{serverCert},
+		ClientAuth:   tlsInterface.RequireAndVerifyClientCert,
+		ClientCAs:    certPool,
+	}
+
+	//create tls certificate
+	tlsCredentials := credentials.NewTLS(conf)
+	//
+	var opts []grpc.ServerOption
+	//if *tls {
+	//	if *certFile == "" {
+	//		//*certFile = data.Path("x509/server_cert.pem")
+	//	}
+	//	if *keyFile == "" {
+	//		//*keyFile = data.Path("x509/server_key.pem")
+	//	}
+	//	creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
+	//	if err != nil {
+	//		log.Fatalf("Failed to generate credentials: %v", err)
+	//	}
+	opts = []grpc.ServerOption{grpc.Creds(tlsCredentials)}
+
 	grpcServer := grpc.NewServer(opts...)
 	s := offchain.IOPserver{}
 	scripts.RegisterIOPServer(grpcServer, &s)
