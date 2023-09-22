@@ -3,19 +3,21 @@ option go_package = "relay/scripts";
 
 service IOP{
 
-    rpc login(OutsiderNetworkLoginInfo) returns (OutsiderNetwork);
+    rpc getNetworkInfo(OutsiderNetworkId) returns (OutsiderNetworkInfo);
     rpc invoke(MethodInfo) returns (response);
-    rpc queryMethods(OutsiderNetwork) returns (stream MethodInfo);
+    rpc queryMethods(OutsiderNetworkId) returns (stream MethodInfo);
 }
-message OutsiderNetworkLoginInfo{
+message OutsiderNetworkInfo{
     string network_username = 1;
     string network_id = 2;
     string network_password= 3;
     string network_IP = 4;
 }
-message OutsiderNetwork{
+message OutsiderNetworkId{
     string network_id = 1;
-    string network_token = 2;
+}
+message OutsiderNetworkUsername{
+    string name = 1;
 }
 message response{
     string status = 1;
@@ -32,6 +34,6 @@ message MethodInfo{
     string channelName = 6;
     string chaincodeName = 7;
 //User Info
-    OutsiderNetwork network = 8;
+    OutsiderNetworkId network = 8;
 
 }

@@ -22,9 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type IOPClient interface {
-	Login(ctx context.Context, in *OutsiderNetworkLoginInfo, opts ...grpc.CallOption) (*OutsiderNetwork, error)
+	GetNetworkInfo(ctx context.Context, in *OutsiderNetworkId, opts ...grpc.CallOption) (*OutsiderNetworkInfo, error)
 	Invoke(ctx context.Context, in *MethodInfo, opts ...grpc.CallOption) (*Response, error)
-	QueryMethods(ctx context.Context, in *OutsiderNetwork, opts ...grpc.CallOption) (IOP_QueryMethodsClient, error)
+	QueryMethods(ctx context.Context, in *OutsiderNetworkId, opts ...grpc.CallOption) (IOP_QueryMethodsClient, error)
 }
 
 type iOPClient struct {
@@ -35,9 +35,9 @@ func NewIOPClient(cc grpc.ClientConnInterface) IOPClient {
 	return &iOPClient{cc}
 }
 
-func (c *iOPClient) Login(ctx context.Context, in *OutsiderNetworkLoginInfo, opts ...grpc.CallOption) (*OutsiderNetwork, error) {
-	out := new(OutsiderNetwork)
-	err := c.cc.Invoke(ctx, "/IOP/login", in, out, opts...)
+func (c *iOPClient) GetNetworkInfo(ctx context.Context, in *OutsiderNetworkId, opts ...grpc.CallOption) (*OutsiderNetworkInfo, error) {
+	out := new(OutsiderNetworkInfo)
+	err := c.cc.Invoke(ctx, "/IOP/getNetworkInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (c *iOPClient) Invoke(ctx context.Context, in *MethodInfo, opts ...grpc.Cal
 	return out, nil
 }
 
-func (c *iOPClient) QueryMethods(ctx context.Context, in *OutsiderNetwork, opts ...grpc.CallOption) (IOP_QueryMethodsClient, error) {
+func (c *iOPClient) QueryMethods(ctx context.Context, in *OutsiderNetworkId, opts ...grpc.CallOption) (IOP_QueryMethodsClient, error) {
 	stream, err := c.cc.NewStream(ctx, &IOP_ServiceDesc.Streams[0], "/IOP/queryMethods", opts...)
 	if err != nil {
 		return nil, err
@@ -89,9 +89,9 @@ func (x *iOPQueryMethodsClient) Recv() (*MethodInfo, error) {
 // All implementations must embed UnimplementedIOPServer
 // for forward compatibility
 type IOPServer interface {
-	Login(context.Context, *OutsiderNetworkLoginInfo) (*OutsiderNetwork, error)
+	GetNetworkInfo(context.Context, *OutsiderNetworkId) (*OutsiderNetworkInfo, error)
 	Invoke(context.Context, *MethodInfo) (*Response, error)
-	QueryMethods(*OutsiderNetwork, IOP_QueryMethodsServer) error
+	QueryMethods(*OutsiderNetworkId, IOP_QueryMethodsServer) error
 	mustEmbedUnimplementedIOPServer()
 }
 
@@ -99,13 +99,13 @@ type IOPServer interface {
 type UnimplementedIOPServer struct {
 }
 
-func (UnimplementedIOPServer) Login(context.Context, *OutsiderNetworkLoginInfo) (*OutsiderNetwork, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+func (UnimplementedIOPServer) GetNetworkInfo(context.Context, *OutsiderNetworkId) (*OutsiderNetworkInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNetworkInfo not implemented")
 }
 func (UnimplementedIOPServer) Invoke(context.Context, *MethodInfo) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Invoke not implemented")
 }
-func (UnimplementedIOPServer) QueryMethods(*OutsiderNetwork, IOP_QueryMethodsServer) error {
+func (UnimplementedIOPServer) QueryMethods(*OutsiderNetworkId, IOP_QueryMethodsServer) error {
 	return status.Errorf(codes.Unimplemented, "method QueryMethods not implemented")
 }
 func (UnimplementedIOPServer) mustEmbedUnimplementedIOPServer() {}
@@ -121,20 +121,20 @@ func RegisterIOPServer(s grpc.ServiceRegistrar, srv IOPServer) {
 	s.RegisterService(&IOP_ServiceDesc, srv)
 }
 
-func _IOP_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OutsiderNetworkLoginInfo)
+func _IOP_GetNetworkInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OutsiderNetworkId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(IOPServer).Login(ctx, in)
+		return srv.(IOPServer).GetNetworkInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IOP/login",
+		FullMethod: "/IOP/getNetworkInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IOPServer).Login(ctx, req.(*OutsiderNetworkLoginInfo))
+		return srv.(IOPServer).GetNetworkInfo(ctx, req.(*OutsiderNetworkId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -158,7 +158,7 @@ func _IOP_Invoke_Handler(srv interface{}, ctx context.Context, dec func(interfac
 }
 
 func _IOP_QueryMethods_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(OutsiderNetwork)
+	m := new(OutsiderNetworkId)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -186,8 +186,8 @@ var IOP_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*IOPServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "login",
-			Handler:    _IOP_Login_Handler,
+			MethodName: "getNetworkInfo",
+			Handler:    _IOP_GetNetworkInfo_Handler,
 		},
 		{
 			MethodName: "invoke",

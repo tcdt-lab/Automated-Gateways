@@ -24,10 +24,14 @@ var (
 
 func main() {
 
+	//onchain.CloseConnection()
 	startServer()
+
 	//offchain.RunClient()
 }
+func startOnchainProcess() {
 
+}
 func startServer() {
 	log.Println("gRPC server is starting...")
 	flag.Parse()

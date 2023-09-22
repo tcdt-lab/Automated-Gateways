@@ -22,18 +22,26 @@ func (s *IOPserver) Invoke(ctx context.Context, info *pb.MethodInfo) (*pb.Respon
 	return invokeRes, nil
 }
 
-func (s *IOPserver) Login(ctx context.Context, info *pb.OutsiderNetworkLoginInfo) (*pb.OutsiderNetwork, error) {
-	log.Println(" Login METHOD START")
-	var invokeRes, error = onchain.CheckNetworkInfo(info)
+func (s *IOPserver) GetNetworkInfo(ctx context.Context, info *pb.OutsiderNetworkId) (*pb.OutsiderNetworkInfo, error) {
+	log.Println(" GetNetworkInfo METHOD START")
+	clientCon, gw, err := onchain.OpenConnection()
+	if err != nil {
+		log.Println(" GetNetworkInfo METHOD ENDED.Error in Chain connection Error : %s", err)
+	}
+	defer onchain.CloseConnection(clientCon, gw)
+	var invokeRes, error = onchain.GetOutsiderNetworksInfo(info.GetNetworkId(), gw)
 	if error != nil {
-		log.Println(" Login METHOD ENDED. Error : %s", error)
+		log.Println(" GetNetworkInfo METHOD ENDED. Error : %s", error)
 		return nil, error
 	}
 	log.Println(" Login METHOD ENDED.")
-	return invokeRes, nil
+	netId := pb.OutsiderNetworkInfo{
+		NetworkId: invokeRes,
+	}
+	return &netId, nil
 }
 
-func (s *IOPserver) QueryMethods(outsiderNetwork *pb.OutsiderNetwork, stream pb.IOP_QueryMethodsServer) error {
+func (s *IOPserver) QueryMethods(outsiderNetwork *pb.OutsiderNetworkId, stream pb.IOP_QueryMethodsServer) error {
 	log.Println("QueryMethods IS INVOKED")
 	var methodsList, error = onchain.QueryMethods(outsiderNetwork)
 	if error != nil {
