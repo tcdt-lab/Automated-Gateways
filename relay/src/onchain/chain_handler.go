@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/x509"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/hyperledger/fabric-gateway/pkg/client"
 	"github.com/hyperledger/fabric-gateway/pkg/identity"
@@ -115,7 +114,7 @@ func CloseConnection(clientConnection *grpc.ClientConn, gw *client.Gateway) erro
 	return nil
 }
 
-func GetOutsiderNetworksInfo(id string, gw *client.Gateway) (string, error) {
+func GetPermittedNetworksInfo(address string, gw *client.Gateway) (string, error) {
 	chaincodeName := "mng"
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -127,10 +126,10 @@ func GetOutsiderNetworksInfo(id string, gw *client.Gateway) (string, error) {
 	}
 	network := gw.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
-
+	methodName := "GetPermittedNetworkByAddress"
 	fmt.Println("\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger")
 
-	evaluateResult, err := contract.EvaluateTransaction("GetOutsiderAsset", id)
+	evaluateResult, err := contract.EvaluateTransaction(methodName, address)
 	if err != nil {
 		panic(fmt.Errorf("failed to evaluate transaction: %w", err))
 	}
@@ -139,27 +138,34 @@ func GetOutsiderNetworksInfo(id string, gw *client.Gateway) (string, error) {
 	fmt.Printf("*** Result:%s\n", result)
 	return result, nil
 }
-func InvokeMethod(methodInfo *scripts.MethodInfo) (*scripts.Response, error) {
-	fmt.Println("The method %s from chaincode %s and channel %s has been invoked by Network Id :%s", methodInfo.GetMethodName(), methodInfo.GetChaincodeName(), methodInfo.GetChannelName(), methodInfo.GetNetwork().GetNetworkId())
-	var mockResult = scripts.Response{Status: "200", ResponseStr: "The method has been invoked"}
-	return &mockResult, nil
-}
-func CheckNetworkInfo(info *scripts.OutsiderNetworkInfo) (*scripts.OutsiderNetworkId, error) {
-	fmt.Println("The network %s credentialCheck", info.GetNetworkUsername())
-	if info.NetworkId == "mockID" && info.Network_IP == "mockIP" && info.NetworkPassword == "mockPassword" && info.NetworkUsername == "mockUsername" {
-		fmt.Println("The network %s has been logged in", info.GetNetworkId())
-		return &scripts.OutsiderNetworkId{NetworkId: "mockID"}, nil
+func InvokeMethod(methodInfo *scripts.MethodInfo, gw *client.Gateway) (*scripts.Response, error) {
+	chaincodeName := methodInfo.GetChaincodeName()
+	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
+		chaincodeName = ccname
 	}
-	return nil, errors.New(fmt.Sprintln("The network %s credentialCheck failed", info.GetNetworkId()))
+
+	channelName := methodInfo.GetChannelName()
+	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
+		channelName = cname
+	}
+	network := gw.GetNetwork(channelName)
+	contract := network.GetContract(chaincodeName)
+	methodName := methodInfo.GetMethodName()
+	fmt.Println("\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger")
+
+	evaluateResult, err := contract.EvaluateTransaction(methodName, address)
+	if err != nil {
+		panic(fmt.Errorf("failed to evaluate transaction: %w", err))
+	}
+	result := formatJSON(evaluateResult)
+
+	fmt.Printf("*** Result:%s\n", result)
+	return result, nil
 }
 
-func QueryMethods(network *scripts.OutsiderNetworkId) ([]*scripts.MethodInfo, error) {
+func QueryMethods(network *scripts.PermittedNetworkId) ([]*scripts.MethodInfo, error) {
 	fmt.Println("The methods from network %s has been queried", network.GetNetworkId())
-	var mockNetwork = scripts.OutsiderNetworkId{NetworkId: "mockID"}
-	var mockResult = scripts.MethodInfo{MethodName: "mockMethod", ChaincodeName: "mockChaincode", ChannelName: "mockChannel", Method_Id: "mockID", MethodInput: "mockInput", MethodOutput: "mockOutput", MethodType: "mockType", Network: &mockNetwork}
-	var mockResult2 = scripts.MethodInfo{MethodName: "mockMethod2", ChaincodeName: "mockChaincode2", ChannelName: "mockChannel2", Method_Id: "mockID2", MethodInput: "mockInput", MethodOutput: "mockOutput", MethodType: "mockType", Network: &mockNetwork}
-	var mockResult3 = scripts.MethodInfo{MethodName: "mockMethod3", ChaincodeName: "mockChaincode3", ChannelName: "mockChannel3", Method_Id: "mockID3", MethodInput: "mockInput", MethodOutput: "mockOutput", MethodType: "mockType", Network: &mockNetwork}
-	mockList := []*scripts.MethodInfo{&mockResult, &mockResult2, &mockResult3}
+
 	return mockList, nil
 }
 func formatJSON(data []byte) string {
@@ -168,4 +174,12 @@ func formatJSON(data []byte) string {
 		panic(fmt.Errorf("failed to parse JSON: %w", err))
 	}
 	return prettyJSON.String()
+}
+
+func formatMethodArgs(jsonArgStr string) []string {
+	var jsonArgs map[string]interface{}
+	json.Unmarshal([]byte(jsonArgStr), &jsonArgs)
+	for _, v := range jsonArgs {
+		fmt.Println(v)
+	}
 }
