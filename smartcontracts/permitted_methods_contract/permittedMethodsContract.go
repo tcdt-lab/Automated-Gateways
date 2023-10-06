@@ -1,9 +1,9 @@
 package main
 
 import (
-	"accessible-netwrok-managment-contract/chaincode"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"log"
+	"permitted_methods_contract/chaincode"
 )
 
 func main() {

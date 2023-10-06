@@ -1,4 +1,4 @@
-module accessible-netwrok-managment-contract
+module permitted_methods_contract
 
 go 1.20
 

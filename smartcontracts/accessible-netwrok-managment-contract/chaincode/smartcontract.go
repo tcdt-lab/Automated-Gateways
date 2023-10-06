@@ -35,6 +35,7 @@ func accessibleNetworkInfoGenerator(networkName string, ip string, address strin
 }
 
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
+
 	ctx.GetStub().PutState(
 		lastAccessibleNetworkId,
 		[]byte("0"),
@@ -122,4 +123,25 @@ func (s *SmartContract) GetAccessibleNetwork(ctx contractapi.TransactionContextI
 	}
 
 	return &accessibleNetworkInfo, nil
+}
+
+func (s *SmartContract) QueryAllAccessibleNetworks(ctx contractapi.TransactionContextInterface) ([]*AccessibleNetworkInfo, error) {
+	startKey := AccessibleNetworkIdPrefix + "0"
+	endKey := AccessibleNetworkIdPrefix + "999"
+	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
+	if err != nil {
+		return nil, err
+	}
+	defer resultsIterator.Close()
+	results := []*AccessibleNetworkInfo{}
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return nil, err
+		}
+		permittedNetworkInfo := new(AccessibleNetworkInfo)
+		_ = json.Unmarshal(queryResponse.Value, permittedNetworkInfo)
+		results = append(results, permittedNetworkInfo)
+	}
+	return results, nil
 }
