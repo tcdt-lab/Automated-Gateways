@@ -15,7 +15,7 @@ type SmartContract struct {
 	contractapi.Contract
 }
 
-type AccessibleNetworkInfo struct {
+type PermittedNetworkInfo struct {
 	NetworkName        string `json:"NetworkName"`
 	IP                 string `json:"IP"`
 	ADDRESS            string `json:"ADDRESS"`
@@ -23,8 +23,8 @@ type AccessibleNetworkInfo struct {
 	PermittedNetworkId string `json:"PermittedNetworkId"`
 }
 
-func permittedNetworkInfoGenerator(networkName string, ip string, address string, companyName string, permittedNetworkId string) AccessibleNetworkInfo {
-	return AccessibleNetworkInfo{
+func permittedNetworkInfoGenerator(networkName string, ip string, address string, companyName string, permittedNetworkId string) PermittedNetworkInfo {
+	return PermittedNetworkInfo{
 		NetworkName:        networkName,
 		IP:                 ip,
 		ADDRESS:            address,
@@ -71,7 +71,7 @@ func (s *SmartContract) CreatePermittedNetwork(ctx contractapi.TransactionContex
 	return ctx.GetStub().PutState(permittedNetworkId, permittedNetworkInfoAsBytes)
 }
 
-func (s *SmartContract) GetPermittedNetwork(ctx contractapi.TransactionContextInterface, permittedNetworkId string) (*AccessibleNetworkInfo, error) {
+func (s *SmartContract) GetPermittedNetwork(ctx contractapi.TransactionContextInterface, permittedNetworkId string) (*PermittedNetworkInfo, error) {
 	logger(false, "GetPermittedNetwork", "METHOD START with Id "+permittedNetworkId+" as input ...")
 	permittedNetworkInfoAsBytes, err := ctx.GetStub().GetState(permittedNetworkId)
 	if err != nil {
@@ -82,13 +82,13 @@ func (s *SmartContract) GetPermittedNetwork(ctx contractapi.TransactionContextIn
 		logger(true, "GetPermittedNetwork", "METHOD END with error: "+permittedNetworkId+" does not exist...")
 		return nil, fmt.Errorf("%s does not exist", permittedNetworkId)
 	}
-	permittedNetworkInfo := new(AccessibleNetworkInfo)
+	permittedNetworkInfo := new(PermittedNetworkInfo)
 	_ = json.Unmarshal(permittedNetworkInfoAsBytes, permittedNetworkInfo)
 	logger(false, "GetPermittedNetwork", "METHOD END with permittedNetworkInfo: "+string(permittedNetworkInfoAsBytes)+"...")
 	return permittedNetworkInfo, nil
 }
 
-func (s *SmartContract) GetPermittedNetworks(ctx contractapi.TransactionContextInterface, startIndex string, endIndex string) ([]*AccessibleNetworkInfo, error) {
+func (s *SmartContract) GetPermittedNetworks(ctx contractapi.TransactionContextInterface, startIndex string, endIndex string) ([]*PermittedNetworkInfo, error) {
 	logger(false, "GetPermittedNetworks", "METHOD START with startIndex "+startIndex+" and endIndex "+endIndex+" as input ...")
 	startKey := PermittedNetworkIdPrefix + startIndex
 	endKey := PermittedNetworkIdPrefix + endIndex
@@ -98,14 +98,14 @@ func (s *SmartContract) GetPermittedNetworks(ctx contractapi.TransactionContextI
 		return nil, err
 	}
 	defer resultsIterator.Close()
-	results := []*AccessibleNetworkInfo{}
+	results := []*PermittedNetworkInfo{}
 	for resultsIterator.HasNext() {
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
 			logger(true, "GetPermittedNetworks", "METHOD END with error in loop : "+err.Error())
 			return nil, err
 		}
-		permittedNetworkInfo := new(AccessibleNetworkInfo)
+		permittedNetworkInfo := new(PermittedNetworkInfo)
 		_ = json.Unmarshal(queryResponse.Value, permittedNetworkInfo)
 		results = append(results, permittedNetworkInfo)
 	}
@@ -167,7 +167,7 @@ func logger(isError bool, methodName string, txt string) {
 	fmt.Println("METHOD_NAME: ", methodName, " TEXT: ", txt)
 }
 
-func (s *SmartContract) GetPermittedNetworkByAddress(ctx contractapi.TransactionContextInterface, address string) ([]*AccessibleNetworkInfo, error) {
+func (s *SmartContract) GetPermittedNetworkByAddress(ctx contractapi.TransactionContextInterface, address string) ([]*PermittedNetworkInfo, error) {
 	logger(false, "GetPermittedNetworkByCompanyName", "METHOD START with address "+address+" as input ...")
 	startKey := PermittedNetworkIdPrefix + address + "0"
 	endKey := PermittedNetworkIdPrefix + address + "9999999999999999999"
@@ -177,14 +177,14 @@ func (s *SmartContract) GetPermittedNetworkByAddress(ctx contractapi.Transaction
 		return nil, err
 	}
 	defer resultsIterator.Close()
-	results := []*AccessibleNetworkInfo{}
+	results := []*PermittedNetworkInfo{}
 	for resultsIterator.HasNext() {
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
 			logger(true, "GetPermittedNetworkByAddress", "METHOD END with error in loop : "+err.Error())
 			return nil, err
 		}
-		permittedNetworkInfo := new(AccessibleNetworkInfo)
+		permittedNetworkInfo := new(PermittedNetworkInfo)
 		_ = json.Unmarshal(queryResponse.Value, permittedNetworkInfo)
 		results = append(results, permittedNetworkInfo)
 	}

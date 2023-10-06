@@ -3,21 +3,22 @@ option go_package = "relay/scripts";
 
 service IOP{
 
-    rpc getNetworkInfo(OutsiderNetworkId) returns (OutsiderNetworkInfo);
+    rpc getPermittedNetworkInfo(PermittedNetworkAddress) returns (PermittedNetworkInfo);
     rpc invoke(MethodInfo) returns (response);
-    rpc queryMethods(OutsiderNetworkId) returns (stream MethodInfo);
+    rpc queryMethods(PermittedNetworkId) returns (stream MethodInfo);
 }
-message OutsiderNetworkInfo{
-    string network_username = 1;
+message PermittedNetworkInfo{
+    string network_name = 1;
     string network_id = 2;
-    string network_password= 3;
+    string network_address= 3;
     string network_IP = 4;
+    string company_name = 5;
 }
-message OutsiderNetworkId{
+message PermittedNetworkId{
     string network_id = 1;
 }
-message OutsiderNetworkUsername{
-    string name = 1;
+message PermittedNetworkAddress{
+    string address = 1;
 }
 message response{
     string status = 1;
@@ -27,13 +28,12 @@ message response{
 message MethodInfo{
 //  Exposed Method Info
     string method_name = 1;
-    string method_type = 2;
-    string method_input = 3;
-    string method_output = 4;
-    string method_Id = 5;
-    string channelName = 6;
-    string chaincodeName = 7;
-//User Info
-    OutsiderNetworkId network = 8;
+    string method_input = 2;
+    string method_output = 3;
+    string method_Id = 4;
+    string channelName = 5;
+    string chaincodeName = 6;
+
+
 
 }
