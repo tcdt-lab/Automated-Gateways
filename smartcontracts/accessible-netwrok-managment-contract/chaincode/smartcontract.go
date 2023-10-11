@@ -57,16 +57,16 @@ func (s *SmartContract) GenerateAccessibleNetworkId(ctx contractapi.TransactionC
 	return AccessibleNetworkIdPrefix + newLastIdStr
 }
 
-func (s *SmartContract) CreateAccessibleNetwork(ctx contractapi.TransactionContextInterface, networkName string, ip string, address string, companyName string) error {
+func (s *SmartContract) CreateAccessibleNetwork(ctx contractapi.TransactionContextInterface, networkName string, ip string, address string, companyName string) (*AccessibleNetworkInfo, error) {
 	accessibleNetworkId := s.GenerateAccessibleNetworkId(ctx)
 	accessibleNetworkInfo := accessibleNetworkInfoGenerator(networkName, ip, address, companyName, accessibleNetworkId)
 	accessibleNetworkInfoJSON, err := json.Marshal(accessibleNetworkInfo)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	fmt.Printf("Creation Result %s \n", accessibleNetworkInfoJSON)
-	return ctx.GetStub().PutState(accessibleNetworkId, accessibleNetworkInfoJSON)
+	return &accessibleNetworkInfo, ctx.GetStub().PutState(accessibleNetworkId, accessibleNetworkInfoJSON)
 }
 
 func (s *SmartContract) AccessibleNetworkExists(ctx contractapi.TransactionContextInterface, id string) (bool, error) {
