@@ -166,7 +166,7 @@ func InvokeMethod(methodInfo *scripts.MethodInfo, gw *client.Gateway) (*scripts.
 func QueryMethods(network *scripts.PermittedNetworkId) ([]*scripts.MethodInfo, error) {
 	fmt.Println("The methods from network %s has been queried", network.GetNetworkId())
 
-	return mockList, nil
+	return nil, nil
 }
 func formatJSON(data []byte) string {
 	var prettyJSON bytes.Buffer
