@@ -53,22 +53,27 @@ func (s *SmartContract) GeneratePermittedNetworkId(ctx contractapi.TransactionCo
 	LastIdInt, err := strconv.Atoi(lastIDStr)
 	newLastIdStr := strconv.Itoa(LastIdInt + 1)
 	ctx.GetStub().PutState(lastPermittedNetworkId, []byte(newLastIdStr))
-	newPermittedID := PermittedNetworkIdPrefix + address + newLastIdStr
+	newPermittedID := PermittedNetworkIdPrefix + newLastIdStr
 	logger(false, "GeneratePermittedNetworkId", "METHOD END WITH new Permitted ID: "+newPermittedID+"...")
 	return newPermittedID
 }
 
-func (s *SmartContract) CreatePermittedNetwork(ctx contractapi.TransactionContextInterface, networkName string, ip string, address string, companyName string) error {
+func (s *SmartContract) CreatePermittedNetwork(ctx contractapi.TransactionContextInterface, networkName string, ip string, address string, companyName string) (*PermittedNetworkInfo, error) {
 	logger(false, "CreatePermittedNetwork", "METHOD START...")
 	permittedNetworkId := s.GeneratePermittedNetworkId(ctx, address)
 	permittedNetworkInfo := permittedNetworkInfoGenerator(networkName, ip, address, companyName, permittedNetworkId)
 	permittedNetworkInfoAsBytes, err := json.Marshal(permittedNetworkInfo)
 	if err != nil {
 		logger(true, "CreatePermittedNetwork", err.Error())
-		return err
+		return nil, err
 	}
 	logger(false, "CreatePermittedNetwork", "METHOD END with permittedNetworkInfo: "+string(permittedNetworkInfoAsBytes)+"...")
-	return ctx.GetStub().PutState(permittedNetworkId, permittedNetworkInfoAsBytes)
+	err = ctx.GetStub().PutState(permittedNetworkId, permittedNetworkInfoAsBytes)
+	if err != nil {
+		logger(true, "CreatePermittedNetwork", err.Error())
+		return nil, err
+	}
+	return &permittedNetworkInfo, nil
 }
 
 func (s *SmartContract) GetPermittedNetwork(ctx contractapi.TransactionContextInterface, permittedNetworkId string) (*PermittedNetworkInfo, error) {
@@ -88,7 +93,7 @@ func (s *SmartContract) GetPermittedNetwork(ctx contractapi.TransactionContextIn
 	return permittedNetworkInfo, nil
 }
 
-func (s *SmartContract) GetPermittedNetworks(ctx contractapi.TransactionContextInterface, startIndex string, endIndex string) ([]*PermittedNetworkInfo, error) {
+func (s *SmartContract) GetPermittedNetworksByIndex(ctx contractapi.TransactionContextInterface, startIndex string, endIndex string) ([]*PermittedNetworkInfo, error) {
 	logger(false, "GetPermittedNetworks", "METHOD START with startIndex "+startIndex+" and endIndex "+endIndex+" as input ...")
 	startKey := PermittedNetworkIdPrefix + startIndex
 	endKey := PermittedNetworkIdPrefix + endIndex
@@ -167,13 +172,13 @@ func logger(isError bool, methodName string, txt string) {
 	fmt.Println("METHOD_NAME: ", methodName, " TEXT: ", txt)
 }
 
-func (s *SmartContract) GetPermittedNetworkByAddress(ctx contractapi.TransactionContextInterface, address string) ([]*PermittedNetworkInfo, error) {
-	logger(false, "GetPermittedNetworkByCompanyName", "METHOD START with address "+address+" as input ...")
-	startKey := PermittedNetworkIdPrefix + address + "0"
-	endKey := PermittedNetworkIdPrefix + address + "9999999999999999999"
+func (s *SmartContract) GetPermittedNetworks(ctx contractapi.TransactionContextInterface) ([]*PermittedNetworkInfo, error) {
+	logger(false, "GetPermittedNetworks", "METHOD STARTS ...")
+	startKey := PermittedNetworkIdPrefix + "0"
+	endKey := PermittedNetworkIdPrefix + "999999"
 	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
 	if err != nil {
-		logger(true, "GetPermittedNetworkByAddress", "METHOD END with error: "+err.Error())
+		logger(true, "GetPermittedNetworks", "METHOD END with error: "+err.Error())
 		return nil, err
 	}
 	defer resultsIterator.Close()
@@ -181,13 +186,13 @@ func (s *SmartContract) GetPermittedNetworkByAddress(ctx contractapi.Transaction
 	for resultsIterator.HasNext() {
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
-			logger(true, "GetPermittedNetworkByAddress", "METHOD END with error in loop : "+err.Error())
+			logger(true, "GetPermittedNetworks", "METHOD END with error in loop : "+err.Error())
 			return nil, err
 		}
 		permittedNetworkInfo := new(PermittedNetworkInfo)
 		_ = json.Unmarshal(queryResponse.Value, permittedNetworkInfo)
 		results = append(results, permittedNetworkInfo)
 	}
-	logger(false, "GetPermittedNetworkByAddress", "METHOD END with successful results")
+	logger(false, "GetPermittedNetworks", "METHOD END with successful results")
 	return results, nil
 }

@@ -1,7 +1,6 @@
-package accessible_netwrok_handler
+package permitted_network_handler
 
 import (
-	"bytes"
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
@@ -15,21 +14,21 @@ import (
 	"time"
 )
 
-type AccessibleNetworkInfo struct {
-	NetworkName         string `json:"NetworkName"`
-	IP                  string `json:"IP"`
-	ADDRESS             string `json:"ADDRESS"`
-	CompanyName         string `json:"CompanyName"`
-	AccessibleNetworkId string `json:"AccessibleNetworkId"`
+type PermittedNetworkInfo struct {
+	NetworkName        string `json:"NetworkName"`
+	IP                 string `json:"IP"`
+	ADDRESS            string `json:"ADDRESS"`
+	CompanyName        string `json:"CompanyName"`
+	PermittedNetworkId string `json:"PermittedNetworkId"`
 }
 
 var channelName = "mychannel"
-var chaincodeName = "accessible_net"
+var chaincodeName = "permitted_net"
 
-type HlfAccessibleNetwork struct {
+type HlfPermittedNetwork struct {
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) OpenConnection() (*grpc.ClientConn, *client.Gateway, error) {
+func (hlfPermittedNetwork *HlfPermittedNetwork) OpenConnection() (*grpc.ClientConn, *client.Gateway, error) {
 	clientConnection := newGrpcConnection()
 	id := newIdentity()
 	sign := newSign()
@@ -111,7 +110,7 @@ func loadCertificate(filename string) (*x509.Certificate, error) {
 	return identity.CertificateFromPEM(certificatePEM)
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) CloseConnection(clientConnection *grpc.ClientConn, gw *client.Gateway) error {
+func (hlfPermittedNetwork *HlfPermittedNetwork) CloseConnection(clientConnection *grpc.ClientConn, gw *client.Gateway) error {
 	err := gw.Close()
 	if err != nil {
 		return err
@@ -123,10 +122,9 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) CloseConnection(clientConnecti
 	}
 	return nil
 }
-
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) CreateAccessibleNetwork(gw *client.Gateway, networkName string, ip string, address string, companyName string) (*AccessibleNetworkInfo, error) {
-	log.Printf("Creating Accessible Network: %s\n", networkName)
-	methodName := "CreateAccessibleNetwork"
+func (hlfPermittedNetwork *HlfPermittedNetwork) CreatePermittedNetwork(gateway *client.Gateway, networkName string, ip string, address string, companyName string) (*PermittedNetworkInfo, error) {
+	log.Printf("Creating Permitted Network: %s\n", networkName)
+	methodName := "CreatePermittedNetwork"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -135,24 +133,24 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) CreateAccessibleNetwork(gw *cl
 	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
 		channelName = cname
 	}
-	network := gw.GetNetwork(channelName)
+	network := gateway.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
 	submitRes, err := contract.SubmitTransaction(methodName, networkName, ip, address, companyName)
-	var accessibleNetworkInfo AccessibleNetworkInfo
-	err = json.Unmarshal(submitRes, &accessibleNetworkInfo)
+	var permittedNetworkInfo PermittedNetworkInfo
+	err = json.Unmarshal(submitRes, &permittedNetworkInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
 		return nil, err
 	}
 
 	log.Printf("Result:%s\n", string(submitRes))
-	return &accessibleNetworkInfo, nil
+	return &permittedNetworkInfo, nil
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) AccessibleNetworkExists(gw *client.Gateway, id string) (bool, error) {
-	log.Printf("Check If AccessibleNetwork Exists: %s\n", id)
-	methodName := "AccessibleNetworkExists"
+func (hlfPermittedNetwork *HlfPermittedNetwork) PermittedNetworkExists(gateway *client.Gateway, id string) (bool, error) {
+	log.Printf("PermittedNetworkExists: %s\n", id)
+	methodName := "PermittedNetworkExists"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -161,24 +159,24 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) AccessibleNetworkExists(gw *cl
 	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
 		channelName = cname
 	}
-	network := gw.GetNetwork(channelName)
+	network := gateway.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
-	evalRes, err := contract.EvaluateTransaction(methodName, id)
+	queryResponse, err := contract.EvaluateTransaction(methodName, id)
 	var resBoolean bool
-	err = json.Unmarshal(evalRes, &resBoolean)
+	err = json.Unmarshal(queryResponse, &resBoolean)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
 		return false, err
 	}
 
-	log.Printf("Result:%s\n", string(evalRes))
+	log.Printf("Result:%s\n", string(queryResponse))
 	return resBoolean, nil
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) RemoveAccessibleNetwork(gw *client.Gateway, id string) error {
-	log.Printf("Removing AccessibleNetwork: %s\n", id)
-	methodName := "RemoveAccessibleNetwork"
+func (hlfPermittedNetwork *HlfPermittedNetwork) RemovePermittedNetwork(gateway *client.Gateway, id string) error {
+	log.Printf("Removing PermittedNetwork: %s\n", id)
+	methodName := "RemovePermittedNetwork"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -187,7 +185,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) RemoveAccessibleNetwork(gw *cl
 	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
 		channelName = cname
 	}
-	network := gw.GetNetwork(channelName)
+	network := gateway.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
 	submitRes, err := contract.SubmitTransaction(methodName, id)
@@ -198,12 +196,11 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) RemoveAccessibleNetwork(gw *cl
 
 	log.Printf("Result:%s\n", string(submitRes))
 	return nil
-
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) UpdateAccessibleNetwork(gw *client.Gateway, id string, networkName string, ip string, address string, companyName string) error {
-	log.Printf("Update AccessibleNetwork: %s\n", id)
-	methodName := "UpdateAccessibleNetwork"
+func (hlfPermittedNetwork *HlfPermittedNetwork) UpdatePermittedNetwork(gateway *client.Gateway, id string, networkName string, ip string, address string, companyName string) error {
+	log.Printf("Update PermittedNetwork: %s\n", id)
+	methodName := "UpdatePermittedNetwork"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -212,7 +209,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) UpdateAccessibleNetwork(gw *cl
 	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
 		channelName = cname
 	}
-	network := gw.GetNetwork(channelName)
+	network := gateway.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
 	submitRes, err := contract.SubmitTransaction(methodName, id, networkName, ip, address, companyName)
@@ -224,41 +221,9 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) UpdateAccessibleNetwork(gw *cl
 	log.Printf("Result:%s\n", string(submitRes))
 	return nil
 }
-
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAccessibleNetwork(gw *client.Gateway, id string) (*AccessibleNetworkInfo, error) {
-	log.Printf("Get AccessibleNetwork: %s\n", id)
-	methodName := "GetAccessibleNetwork"
-
-	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
-		chaincodeName = ccname
-	}
-
-	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
-		channelName = cname
-	}
-	network := gw.GetNetwork(channelName)
-	contract := network.GetContract(chaincodeName)
-
-	evalRes, err := contract.EvaluateTransaction(methodName, id)
-
-	if evalRes == nil {
-		return nil, fmt.Errorf("the accessible network %s does not exist", id)
-	}
-	log.Printf("The result of Get AccessibleNetwork: %s\n", string(evalRes))
-	var accessibleNetworkInfo AccessibleNetworkInfo
-	err = json.Unmarshal(evalRes, &accessibleNetworkInfo)
-	if err != nil {
-		log.Printf("failed to submit transaction: %s", err)
-		return nil, err
-	}
-
-	log.Printf("Result:%s\n", string(evalRes))
-	return &accessibleNetworkInfo, nil
-}
-
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) QueryAllAccessibleNetworks(gw *client.Gateway) ([]*AccessibleNetworkInfo, error) {
-	log.Printf("Query All AccessibleNetworks\n")
-	methodName := "QueryAllAccessibleNetworks"
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetwork(gateway *client.Gateway, id string) (*PermittedNetworkInfo, error) {
+	log.Printf("Get PermittedNetwork: %s\n", id)
+	methodName := "GetPermittedNetwork"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -267,30 +232,43 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) QueryAllAccessibleNetworks(gw 
 	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
 		channelName = cname
 	}
-	network := gw.GetNetwork(channelName)
+	network := gateway.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
-	evalRes, err := contract.EvaluateTransaction(methodName)
+	queryResponse, err := contract.EvaluateTransaction(methodName, id)
+	var permittedNetworkInfo PermittedNetworkInfo
+	err = json.Unmarshal(queryResponse, &permittedNetworkInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
 		return nil, err
 	}
 
-	var accessibleNetworkInfo []*AccessibleNetworkInfo
-	err = json.Unmarshal(evalRes, &accessibleNetworkInfo)
-	if err != nil {
-		log.Printf("failed to submit transaction: %s", err)
-		return nil, err
-	}
-
-	log.Printf("Result:%s\n", string(evalRes))
-	return accessibleNetworkInfo, nil
+	log.Printf("Result:%s\n", string(queryResponse))
+	return &permittedNetworkInfo, nil
 }
 
-func formatJSON(data []byte) string {
-	var prettyJSON bytes.Buffer
-	if err := json.Indent(&prettyJSON, data, "", "  "); err != nil {
-		fmt.Errorf("failed to parse JSON: %w", err)
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworks(gateway *client.Gateway) ([]*PermittedNetworkInfo, error) {
+	log.Printf("Get PermittedNetworks: \n")
+	methodName := "GetPermittedNetworks"
+
+	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
+		chaincodeName = ccname
 	}
-	return prettyJSON.String()
+
+	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
+		channelName = cname
+	}
+	network := gateway.GetNetwork(channelName)
+	contract := network.GetContract(chaincodeName)
+
+	queryResponse, err := contract.EvaluateTransaction(methodName)
+	var results []*PermittedNetworkInfo
+	err = json.Unmarshal(queryResponse, &results)
+	if err != nil {
+		log.Printf("failed to submit transaction: %s", err)
+		return nil, err
+	}
+
+	log.Printf("Result:%s\n", string(queryResponse))
+	return results, nil
 }
