@@ -247,7 +247,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetwork(gateway *cli
 	return &permittedNetworkInfo, nil
 }
 
-func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworks(gateway *client.Gateway) ([]*PermittedNetworkInfo, error) {
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworksByAddress(gateway *client.Gateway, address string) ([]*PermittedNetworkInfo, error) {
 	log.Printf("Get PermittedNetworks: \n")
 	methodName := "GetPermittedNetworks"
 
@@ -261,7 +261,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworks(gateway *cl
 	network := gateway.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
-	queryResponse, err := contract.EvaluateTransaction(methodName)
+	queryResponse, err := contract.EvaluateTransaction(methodName, address)
 	var results []*PermittedNetworkInfo
 	err = json.Unmarshal(queryResponse, &results)
 	if err != nil {
@@ -271,4 +271,30 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworks(gateway *cl
 
 	log.Printf("Result:%s\n", string(queryResponse))
 	return results, nil
+}
+
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworkByIndexAndAddress(gateway *client.Gateway, startIndex string, endIndex string, address string) (*PermittedNetworkInfo, error) {
+	log.Printf("Get PermittedNetworks: \n")
+	methodName := "GetPermittedNetwrokByIndexAndAddress "
+
+	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
+		chaincodeName = ccname
+	}
+
+	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
+		channelName = cname
+	}
+	network := gateway.GetNetwork(channelName)
+	contract := network.GetContract(chaincodeName)
+
+	queryResponse, err := contract.EvaluateTransaction(methodName, startIndex, endIndex, address)
+	var permittedNetworkInfo PermittedNetworkInfo
+	err = json.Unmarshal(queryResponse, &permittedNetworkInfo)
+	if err != nil {
+		log.Printf("failed to submit transaction: %s", err)
+		return nil, err
+	}
+
+	log.Printf("Result:%s\n", string(queryResponse))
+	return &permittedNetworkInfo, nil
 }

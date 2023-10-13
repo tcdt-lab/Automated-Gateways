@@ -41,14 +41,14 @@ func TestAccessibleNetworkExists(t *testing.T) {
 	}
 	defer hlfAccessibleNetwork.CloseConnection(clientConn, gateway)
 
-	res, err := hlfAccessibleNetwork.AccessibleNetworkExists(gateway, "AccessibleNetwork1")
+	res, err := hlfAccessibleNetwork.AccessibleNetworkExists(gateway, "AccessibleNetwork_localhost_7")
 	if err != nil {
 		t.Errorf(" Accessible Netwrok Exists : %v", err)
 	}
 	if res != true {
 		t.Errorf(" Accessible Netwrok Exists : %v", res)
 	}
-	wrongRes, err := hlfAccessibleNetwork.AccessibleNetworkExists(gateway, "AccessibleNetwork1999")
+	wrongRes, err := hlfAccessibleNetwork.AccessibleNetworkExists(gateway, "AccessibleNetwork_localhost_7888")
 	if wrongRes != false {
 		t.Errorf(" Accessible Netwrok Exists : %v", wrongRes)
 	}
@@ -65,12 +65,12 @@ func TestRemoveAccessibleNetwork(t *testing.T) {
 	}
 	defer hlfAccessibleNetwork.CloseConnection(clientConn, gateway)
 
-	err = hlfAccessibleNetwork.RemoveAccessibleNetwork(gateway, "AccessibleNetwork2")
+	err = hlfAccessibleNetwork.RemoveAccessibleNetwork(gateway, "AccessibleNetwork_localhost_6")
 	if err != nil {
 		t.Errorf(" Accessible Netwrok Exists : %v", err)
 	}
 
-	err = hlfAccessibleNetwork.RemoveAccessibleNetwork(gateway, "AccessibleNetwork1000")
+	err = hlfAccessibleNetwork.RemoveAccessibleNetwork(gateway, "AccessibleNetwork_localhost_71124")
 	if err == nil {
 		fmt.Printf(" Accessible Netwrok Exists : %v", err)
 	}
@@ -85,11 +85,11 @@ func TestUpdateAccessibleNetwork(t *testing.T) {
 	}
 	defer hlfAccessibleNetwork.CloseConnection(clientConn, gateway)
 
-	err = hlfAccessibleNetwork.UpdateAccessibleNetwork(gateway, "AccessibleNetwork3", "NetworkName3", "127.0.0.1", "localhost", "KooshaComp3")
+	err = hlfAccessibleNetwork.UpdateAccessibleNetwork(gateway, "AccessibleNetwork_localhost_7", "NetworkName3", "127.0.0.1", "localhost", "KooshaComp3")
 	if err != nil {
 		t.Errorf(" Accessible Netwrok Exists : %v", err)
 	}
-	err = hlfAccessibleNetwork.UpdateAccessibleNetwork(gateway, "AccessibleNetwork3000", "NetworkName3", "127.0.0.1", "localhost", "KooshaComp3")
+	err = hlfAccessibleNetwork.UpdateAccessibleNetwork(gateway, "AccessibleNetwork_localhost_7324", "NetworkName3", "127.0.0.1", "localhost", "KooshaComp3")
 	if err == nil {
 		fmt.Printf(" Cannot Detect fake ID : %v", err)
 	}
@@ -103,14 +103,14 @@ func TestGetAccessibleNetwork(t *testing.T) {
 	}
 	defer hlfAccessibleNetwork.CloseConnection(clientConn, gateway)
 
-	res, err := hlfAccessibleNetwork.GetAccessibleNetwork(gateway, "AccessibleNetwork3")
+	res, err := hlfAccessibleNetwork.GetAccessibleNetwork(gateway, "AccessibleNetwork_localhost_7")
 	if err != nil {
 		t.Errorf("Error while Getting  Accessible Netwrok   : %v", err)
 	}
-	if res.AccessibleNetworkId != "AccessibleNetwork3" {
+	if res.AccessibleNetworkId != "AccessibleNetwork_localhost_7" {
 		t.Errorf("Error in getting data : %v", res)
 	}
-	wrongRes, err := hlfAccessibleNetwork.GetAccessibleNetwork(gateway, "AccessibleNetwork1999")
+	wrongRes, err := hlfAccessibleNetwork.GetAccessibleNetwork(gateway, "AccessibleNetwork_localhost_72325")
 	if wrongRes != nil {
 		t.Errorf(
 			" Cannot get data based on Id : %v", wrongRes)
@@ -126,7 +126,7 @@ func TestQueryAllAccessibleNetworks(t *testing.T) {
 	}
 	defer hlfAccessibleNetwork.CloseConnection(clientConn, gateway)
 
-	res, err := hlfAccessibleNetwork.QueryAllAccessibleNetworks(gateway)
+	res, err := hlfAccessibleNetwork.GetAllAccessibleNetworksByAddress(gateway, "localhost")
 	if err != nil {
 		t.Errorf("Error while Getting  Accessible Netwrok   : %v", err)
 	}

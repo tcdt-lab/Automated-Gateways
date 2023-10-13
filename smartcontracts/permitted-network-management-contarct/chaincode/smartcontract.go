@@ -53,7 +53,7 @@ func (s *SmartContract) GeneratePermittedNetworkId(ctx contractapi.TransactionCo
 	LastIdInt, err := strconv.Atoi(lastIDStr)
 	newLastIdStr := strconv.Itoa(LastIdInt + 1)
 	ctx.GetStub().PutState(lastPermittedNetworkId, []byte(newLastIdStr))
-	newPermittedID := PermittedNetworkIdPrefix + newLastIdStr
+	newPermittedID := PermittedNetworkIdPrefix + "_" + address + "_" + newLastIdStr
 	logger(false, "GeneratePermittedNetworkId", "METHOD END WITH new Permitted ID: "+newPermittedID+"...")
 	return newPermittedID
 }
@@ -93,10 +93,10 @@ func (s *SmartContract) GetPermittedNetwork(ctx contractapi.TransactionContextIn
 	return permittedNetworkInfo, nil
 }
 
-func (s *SmartContract) GetPermittedNetworksByIndex(ctx contractapi.TransactionContextInterface, startIndex string, endIndex string) ([]*PermittedNetworkInfo, error) {
+func (s *SmartContract) GetPermittedNetworksByIndex(ctx contractapi.TransactionContextInterface, startIndex string, endIndex string, address string) ([]*PermittedNetworkInfo, error) {
 	logger(false, "GetPermittedNetworks", "METHOD START with startIndex "+startIndex+" and endIndex "+endIndex+" as input ...")
-	startKey := PermittedNetworkIdPrefix + startIndex
-	endKey := PermittedNetworkIdPrefix + endIndex
+	startKey := PermittedNetworkIdPrefix + "_" + address + "_" + startIndex
+	endKey := PermittedNetworkIdPrefix + "_" + address + "_" + endIndex
 	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
 	if err != nil {
 		logger(true, "GetPermittedNetworks", "METHOD END with error: "+err.Error())
@@ -172,10 +172,10 @@ func logger(isError bool, methodName string, txt string) {
 	fmt.Println("METHOD_NAME: ", methodName, " TEXT: ", txt)
 }
 
-func (s *SmartContract) GetPermittedNetworks(ctx contractapi.TransactionContextInterface) ([]*PermittedNetworkInfo, error) {
+func (s *SmartContract) GetPermittedNetworks(ctx contractapi.TransactionContextInterface, address string) ([]*PermittedNetworkInfo, error) {
 	logger(false, "GetPermittedNetworks", "METHOD STARTS ...")
-	startKey := PermittedNetworkIdPrefix + "0"
-	endKey := PermittedNetworkIdPrefix + "999999"
+	startKey := PermittedNetworkIdPrefix + "_" + address + "_" + "0"
+	endKey := PermittedNetworkIdPrefix + "_" + address + "_" + "999999"
 	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
 	if err != nil {
 		logger(true, "GetPermittedNetworks", "METHOD END with error: "+err.Error())

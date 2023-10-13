@@ -44,7 +44,7 @@ func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) 
 	return nil
 }
 
-func (s *SmartContract) GenerateAccessibleNetworkId(ctx contractapi.TransactionContextInterface) string {
+func (s *SmartContract) GenerateAccessibleNetworkId(ctx contractapi.TransactionContextInterface, address string) string {
 	lastID, err := ctx.GetStub().GetState(lastAccessibleNetworkId)
 	if err != nil {
 		fmt.Errorf("the error occured when trying to generate Accessible Network Id %s ", err)
@@ -54,11 +54,11 @@ func (s *SmartContract) GenerateAccessibleNetworkId(ctx contractapi.TransactionC
 	LastIdInt, err := strconv.Atoi(lastIDStr)
 	newLastIdStr := strconv.Itoa(LastIdInt + 1)
 	ctx.GetStub().PutState(lastAccessibleNetworkId, []byte(newLastIdStr))
-	return AccessibleNetworkIdPrefix + newLastIdStr
+	return AccessibleNetworkIdPrefix + "_" + address + "_" + newLastIdStr
 }
 
 func (s *SmartContract) CreateAccessibleNetwork(ctx contractapi.TransactionContextInterface, networkName string, ip string, address string, companyName string) (*AccessibleNetworkInfo, error) {
-	accessibleNetworkId := s.GenerateAccessibleNetworkId(ctx)
+	accessibleNetworkId := s.GenerateAccessibleNetworkId(ctx, address)
 	accessibleNetworkInfo := accessibleNetworkInfoGenerator(networkName, ip, address, companyName, accessibleNetworkId)
 	accessibleNetworkInfoJSON, err := json.Marshal(accessibleNetworkInfo)
 	if err != nil {
@@ -125,9 +125,9 @@ func (s *SmartContract) GetAccessibleNetwork(ctx contractapi.TransactionContextI
 	return &accessibleNetworkInfo, nil
 }
 
-func (s *SmartContract) QueryAllAccessibleNetworks(ctx contractapi.TransactionContextInterface) ([]*AccessibleNetworkInfo, error) {
-	startKey := AccessibleNetworkIdPrefix + "0"
-	endKey := AccessibleNetworkIdPrefix + "999"
+func (s *SmartContract) GetAllAccessibleNetworksByAddress(ctx contractapi.TransactionContextInterface, address string) ([]*AccessibleNetworkInfo, error) {
+	startKey := AccessibleNetworkIdPrefix + "_" + address + "_" + "0"
+	endKey := AccessibleNetworkIdPrefix + "_" + address + "_" + "999"
 	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
 	if err != nil {
 		return nil, err

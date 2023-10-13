@@ -256,9 +256,9 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAccessibleNetwork(gw *clien
 	return &accessibleNetworkInfo, nil
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) QueryAllAccessibleNetworks(gw *client.Gateway) ([]*AccessibleNetworkInfo, error) {
+func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAllAccessibleNetworksByAddress(gw *client.Gateway, address string) ([]*AccessibleNetworkInfo, error) {
 	log.Printf("Query All AccessibleNetworks\n")
-	methodName := "QueryAllAccessibleNetworks"
+	methodName := "GetAllAccessibleNetworksByAddress"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -270,7 +270,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) QueryAllAccessibleNetworks(gw 
 	network := gw.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
-	evalRes, err := contract.EvaluateTransaction(methodName)
+	evalRes, err := contract.EvaluateTransaction(methodName, address)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
 		return nil, err
