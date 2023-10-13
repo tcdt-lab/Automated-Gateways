@@ -42,14 +42,14 @@ func TestPermittedNetworkExists(t *testing.T) {
 	}
 	defer hlfPermittedNetwork.CloseConnection(clientConn, gateway)
 
-	res, err := hlfPermittedNetwork.PermittedNetworkExists(gateway, "PermittedNetwork2")
+	res, err := hlfPermittedNetwork.PermittedNetworkExists(gateway, "PermittedNetwork_localhost_7")
 	if err != nil {
 		t.Errorf(" Accessible Netwrok Exists : %v", err)
 	}
 	if res != true {
 		t.Errorf(" Accessible Netwrok Exists : %v", res)
 	}
-	wrongRes, err := hlfPermittedNetwork.PermittedNetworkExists(gateway, "PermittedNetwork1999")
+	wrongRes, err := hlfPermittedNetwork.PermittedNetworkExists(gateway, "PermittedNetwork_localhost_1999")
 	if wrongRes != false {
 		t.Errorf(" Accessible Netwrok Exists does not work properly : %v", wrongRes)
 	}
@@ -64,7 +64,7 @@ func TestRemovePermittedNetwork(t *testing.T) {
 	}
 	defer hlfPermittedNetwork.CloseConnection(clientConn, gateway)
 
-	err = hlfPermittedNetwork.RemovePermittedNetwork(gateway, "PermittedNetwork2")
+	err = hlfPermittedNetwork.RemovePermittedNetwork(gateway, "PermittedNetwork_localhost_6")
 	if err != nil {
 		t.Errorf(" Accessible Netwrok Exists : %v", err)
 	}
@@ -79,20 +79,20 @@ func TestGetPermittedNetwork(t *testing.T) {
 	}
 	defer hlfPermittedNetwork.CloseConnection(clientConn, gateway)
 
-	res, err := hlfPermittedNetwork.GetPermittedNetwork(gateway, "PermittedNetwork5")
+	res, err := hlfPermittedNetwork.GetPermittedNetwork(gateway, "PermittedNetwork_localhost_7")
 	if err != nil {
 		t.Errorf(" Error in Getting Permitted Netwrok : %v", err)
 	}
 	log.Println("Permitted Network:", res.PermittedNetworkId)
 
-	res, err = hlfPermittedNetwork.GetPermittedNetwork(gateway, "PermittedNetwork3777")
+	res, err = hlfPermittedNetwork.GetPermittedNetwork(gateway, "PermittedNetwork_localhost_3777")
 	if err == nil {
 		t.Errorf(" Problem in Error detection : %v", err)
 	}
 
 }
 
-func TestGetPermittedNetworks(t *testing.T) {
+func TestGetPermittedNetworksByAddress(t *testing.T) {
 	var hlfPermittedNetwork HlfPermittedNetwork
 	clientConn, gateway, err := hlfPermittedNetwork.OpenConnection()
 	if err != nil {
@@ -100,7 +100,7 @@ func TestGetPermittedNetworks(t *testing.T) {
 	}
 	defer hlfPermittedNetwork.CloseConnection(clientConn, gateway)
 
-	res, err := hlfPermittedNetwork.GetPermittedNetworks(gateway)
+	res, err := hlfPermittedNetwork.GetPermittedNetworksByAddress(gateway, "localhost")
 	if err != nil {
 		t.Errorf(" Error in Getting All permitted Netwroks : %v", err)
 	}
@@ -116,7 +116,7 @@ func TestUpdatePermittedNetwork(t *testing.T) {
 	}
 	defer hlfPermittedNetwork.CloseConnection(clientConn, gateway)
 
-	err = hlfPermittedNetwork.UpdatePermittedNetwork(gateway, "PermittedNetwork5", "TestPermittedNetupdated", "127.0.0.1", "localhost", "KooshaComp")
+	err = hlfPermittedNetwork.UpdatePermittedNetwork(gateway, "PermittedNetwork_localhost_7", "TestPermittedNetupdated", "127.0.0.1", "localhost", "KooshaComp")
 	if err != nil {
 		t.Errorf(" Error in Updating Permitted Netwrok : %v", err)
 	}
