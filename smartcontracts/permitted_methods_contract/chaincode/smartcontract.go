@@ -16,7 +16,7 @@ type SmartContract struct {
 }
 
 type PermittedMethodInfo struct {
-	Id         string `json:"Id"`
+	Id         string `json:"PermittedMethodId"`
 	Name       string `json:"Name"`
 	Chaincode  string `json:"Chaincode"`
 	Channel    string `json:"Channel"`
@@ -52,29 +52,30 @@ func (s *SmartContract) GeneratePermittedMethodId(ctx contractapi.TransactionCon
 		return ""
 	}
 	lastIDStr := string(lastID)
-	newLastIdStr := fmt.Sprintf("%d", lastIDStr)
+	LastIdInt, err := strconv.Atoi(lastIDStr)
+	newLastIdStr := strconv.Itoa(LastIdInt + 1)
 	ctx.GetStub().PutState(lastPermittedMethodId, []byte(newLastIdStr))
-	newPermittedID := PermittedMethodIdPrefix + permittedNetworkId + "_" + newLastIdStr
+	newPermittedID := PermittedMethodIdPrefix + "_" + permittedNetworkId + "_" + newLastIdStr
 	logger(false, "GeneratePermittedMethodId", "METHOD END WITH new Permitted ID: "+newPermittedID+"...")
 	return newPermittedID
 }
 
-func (s *SmartContract) AddPermittedMethod(ctx contractapi.TransactionContextInterface, permittedNetworkId string, name string, chaincode string, channel string, inputArgs string, outputArgs string) error {
+func (s *SmartContract) AddPermittedMethod(ctx contractapi.TransactionContextInterface, permittedNetworkId string, name string, chaincode string, channel string, inputArgs string, outputArgs string) (*PermittedMethodInfo, error) {
 	logger(false, "AddPermittedMethod", "METHOD START...")
 	permittedMethodId := s.GeneratePermittedMethodId(ctx, permittedNetworkId)
 	permittedMethodInfo := permittedMethodInfoGenerator(permittedMethodId, name, chaincode, channel, inputArgs, outputArgs)
 	permittedMethodInfoAsBytes, err := json.Marshal(permittedMethodInfo)
 	if err != nil {
 		logger(true, "AddPermittedMethod", err.Error())
-		return err
+		return nil, err
 	}
 	err = ctx.GetStub().PutState(permittedMethodId, permittedMethodInfoAsBytes)
 	if err != nil {
 		logger(true, "AddPermittedMethod", err.Error())
-		return err
+		return nil, err
 	}
 	logger(false, "AddPermittedMethod", "METHOD END...")
-	return nil
+	return &permittedMethodInfo, nil
 }
 
 func (s *SmartContract) GetPermittedMethod(ctx contractapi.TransactionContextInterface, permittedMethodId string) (*PermittedMethodInfo, error) {
@@ -94,13 +95,13 @@ func (s *SmartContract) GetPermittedMethod(ctx contractapi.TransactionContextInt
 	return permittedMethodInfo, nil
 }
 
-func (s *SmartContract) GetPermittedMethods(ctx contractapi.TransactionContextInterface, permittedNetworkId string, startIndex string, endIndex string) ([]*PermittedMethodInfo, error) {
+func (s *SmartContract) GetPermittedMethodsByIndex(ctx contractapi.TransactionContextInterface, permittedNetworkId string, startIndex string, endIndex string) ([]*PermittedMethodInfo, error) {
 	logger(false, "GetPermittedMethods", "METHOD START with startIndex "+startIndex+" and endIndex "+endIndex+" as input ...")
-	startKey := PermittedMethodIdPrefix + permittedNetworkId + "_" + startIndex
-	endKey := PermittedMethodIdPrefix + permittedNetworkId + "_" + endIndex
+	startKey := PermittedMethodIdPrefix + "_" + permittedNetworkId + "_" + startIndex
+	endKey := PermittedMethodIdPrefix + "_" + permittedNetworkId + "_" + endIndex
 	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
 	if err != nil {
-		logger(true, "GetPermittedMethods", "METHOD END with error: "+err.Error())
+		logger(true, "GetPermittedMethodsByIndex", "METHOD END with error: "+err.Error())
 		return nil, err
 	}
 	defer resultsIterator.Close()
@@ -108,14 +109,14 @@ func (s *SmartContract) GetPermittedMethods(ctx contractapi.TransactionContextIn
 	for resultsIterator.HasNext() {
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
-			logger(true, "GetPermittedMethods", "METHOD END with error in loop : "+err.Error())
+			logger(true, "GetPermittedMethodsByIndex", "METHOD END with error in loop : "+err.Error())
 			return nil, err
 		}
 		permittedMethodInfo := new(PermittedMethodInfo)
 		_ = json.Unmarshal(queryResponse.Value, permittedMethodInfo)
 		results = append(results, permittedMethodInfo)
 	}
-	logger(false, "GetPermittedMethods", "METHOD END with successful results")
+	logger(false, "GetPermittedMethodsByIndex", "METHOD END with successful results")
 	return results, nil
 }
 
@@ -186,8 +187,8 @@ func logger(isError bool, methodName string, txt string) {
 
 func (s *SmartContract) GetPermittedMethodsByNetworkId(ctx contractapi.TransactionContextInterface, permittedNetworkId string) ([]*PermittedMethodInfo, error) {
 	logger(false, "GetPermittedMethodsByNetworkId", "METHOD START with permittedNetworkId "+permittedNetworkId+" as input ...")
-	startKey := PermittedMethodIdPrefix + permittedNetworkId + "_0"
-	endKey := PermittedMethodIdPrefix + permittedNetworkId + "_9999999999999999999"
+	startKey := PermittedMethodIdPrefix + "_" + permittedNetworkId + "_0"
+	endKey := PermittedMethodIdPrefix + "_" + permittedNetworkId + "_999999999"
 	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
 	if err != nil {
 		logger(true, "GetPermittedMethodsByNetworkId", "METHOD END with error: "+err.Error())
