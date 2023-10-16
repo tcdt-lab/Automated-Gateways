@@ -9,7 +9,9 @@ require (
 )
 
 require (
+	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/hyperledger/fabric-protos-go-apiv2 v0.2.1 // indirect
 	github.com/miekg/pkcs11 v1.1.1 // indirect
 	golang.org/x/crypto v0.12.0 // indirect

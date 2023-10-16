@@ -314,3 +314,25 @@ func (hlfPermittedMethod *HlfPermittedMethod) UpdatePermittedMethod(gw *client.G
 	log.Printf("Result:%s\n", string(submitRes))
 	return nil
 }
+func (hlfPermittedMethod *HlfPermittedMethod) InvokePermittedMethod(gw *client.Gateway, name string, chaincode string, channel string, inputArgs []string) (*string, error) {
+
+	methodName := name
+
+	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
+		chaincodeName = ccname
+	}
+
+	if cname := os.Getenv("CHANNEL_NAME"); cname != "" {
+		channelName = cname
+	}
+	network := gw.GetNetwork(channel)
+	contract := network.GetContract(chaincode)
+	submitRes, err := contract.SubmitTransaction(methodName, inputArgs...)
+	if err != nil {
+		log.Printf("failed to submit transaction: %s", err)
+		return nil, err
+	}
+	strRes := string(submitRes)
+	log.Printf("Result:%s\n", string(strRes))
+	return &strRes, nil
+}
