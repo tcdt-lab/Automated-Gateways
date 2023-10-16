@@ -5,6 +5,7 @@ import (
 	"crypto/x509"
 	"flag"
 	"fmt"
+	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
@@ -12,6 +13,7 @@ import (
 	"os"
 	"relay/scripts"
 	"relay/src/offchain"
+	auth "relay/src/offchain/authentication"
 )
 
 var (
@@ -79,7 +81,9 @@ func startServer() {
 	//	if err != nil {
 	//		log.Fatalf("Failed to generate credentials: %v", err)
 	//	}
-	opts = []grpc.ServerOption{grpc.Creds(tlsCredentials)}
+	opts = []grpc.ServerOption{grpc.Creds(tlsCredentials),
+		grpc.StreamInterceptor(grpc_auth.StreamServerInterceptor(auth.TlsAuth)),
+		grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(auth.TlsAuth))}
 
 	grpcServer := grpc.NewServer(opts...)
 	s := offchain.IOPserver{}

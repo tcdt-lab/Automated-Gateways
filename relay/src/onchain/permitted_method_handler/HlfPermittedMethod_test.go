@@ -136,3 +136,21 @@ func TestUpdatePermittedMethod(t *testing.T) {
 	}
 
 }
+
+func TestInvokePermittedNetwork(t *testing.T) {
+	var hlfPermittedMethod HlfPermittedMethod
+	clientConn, gateway, err := hlfPermittedMethod.OpenConnection()
+	if err != nil {
+		t.Errorf("Error opening connection: %v", err)
+	}
+	defer hlfPermittedMethod.CloseConnection(clientConn, gateway)
+	srtArray := []string{"9", "2"}
+	res, err := hlfPermittedMethod.InvokePermittedMethod(gateway, "AddTwoNumbers", "addition", "mychannel", srtArray)
+	if err != nil {
+		t.Errorf(" Invoke addition Method error : %v", err)
+	}
+	println(*res)
+	if *res != "11" {
+		t.Errorf(" Invoke addition Method error : %v", res)
+	}
+}
