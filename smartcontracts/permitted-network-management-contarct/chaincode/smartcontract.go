@@ -94,27 +94,30 @@ func (s *SmartContract) GetPermittedNetwork(ctx contractapi.TransactionContextIn
 }
 
 func (s *SmartContract) GetPermittedNetworksByIndex(ctx contractapi.TransactionContextInterface, startIndex string, endIndex string, address string) ([]*PermittedNetworkInfo, error) {
-	logger(false, "GetPermittedNetworks", "METHOD START with startIndex "+startIndex+" and endIndex "+endIndex+" as input ...")
+	logger(false, "GetPermittedNetworksByIndex", "METHOD STARTS ...")
 	startKey := PermittedNetworkIdPrefix + "_" + address + "_" + startIndex
 	endKey := PermittedNetworkIdPrefix + "_" + address + "_" + endIndex
 	resultsIterator, err := ctx.GetStub().GetStateByRange(startKey, endKey)
+	logger(false, "GetPermittedNetworksByIndex", "METHOD END with startKey: "+startKey+" and endKey: "+endKey+" ...")
 	if err != nil {
-		logger(true, "GetPermittedNetworks", "METHOD END with error: "+err.Error())
+		logger(true, "GetPermittedNetworksByIndex", "METHOD END with error: "+err.Error())
 		return nil, err
 	}
 	defer resultsIterator.Close()
 	results := []*PermittedNetworkInfo{}
+
 	for resultsIterator.HasNext() {
+		logger(false, "GetPermittedNetworksByIndex", "METHOD END with resultsIterator.HasNext() ...")
 		queryResponse, err := resultsIterator.Next()
 		if err != nil {
-			logger(true, "GetPermittedNetworks", "METHOD END with error in loop : "+err.Error())
+			logger(true, "GetPermittedNetworksByIndex", "METHOD END with error in loop : "+err.Error())
 			return nil, err
 		}
 		permittedNetworkInfo := new(PermittedNetworkInfo)
 		_ = json.Unmarshal(queryResponse.Value, permittedNetworkInfo)
 		results = append(results, permittedNetworkInfo)
 	}
-	logger(false, "GetPermittedNetworks", "METHOD END with successful results")
+	logger(false, "GetPermittedNetworksByIndex", "METHOD END with successful results")
 	return results, nil
 }
 

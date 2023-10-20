@@ -273,9 +273,9 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworksByAddress(ga
 	return results, nil
 }
 
-func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworkByIndexAndAddress(gateway *client.Gateway, startIndex string, endIndex string, address string) (*PermittedNetworkInfo, error) {
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworkByIndexAndAddress(gateway *client.Gateway, startIndex string, endIndex string, address string) ([]*PermittedNetworkInfo, error) {
 	log.Printf("Get PermittedNetworks: \n")
-	methodName := "GetPermittedNetwrokByIndexAndAddress "
+	methodName := "GetPermittedNetworksByIndex"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
@@ -288,13 +288,17 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworkByIndexAndAdd
 	contract := network.GetContract(chaincodeName)
 
 	queryResponse, err := contract.EvaluateTransaction(methodName, startIndex, endIndex, address)
-	var permittedNetworkInfo PermittedNetworkInfo
-	err = json.Unmarshal(queryResponse, &permittedNetworkInfo)
+	if err != nil {
+		log.Printf("failed to submit transaction: %s", err)
+		return nil, err
+	}
+	var results []*PermittedNetworkInfo
+	err = json.Unmarshal(queryResponse, &results)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
 		return nil, err
 	}
 
 	log.Printf("Result:%s\n", string(queryResponse))
-	return &permittedNetworkInfo, nil
+	return results, nil
 }
