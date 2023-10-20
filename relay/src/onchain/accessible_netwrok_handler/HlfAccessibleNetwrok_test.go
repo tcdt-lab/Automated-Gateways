@@ -108,12 +108,12 @@ func TestGetAccessibleNetwork(t *testing.T) {
 		t.Errorf("Error while Getting  Accessible Netwrok   : %v", err)
 	}
 	if res.AccessibleNetworkId != "AccessibleNetwork_localhost_7" {
-		t.Errorf("Error in getting data : %v", res)
+		t.Errorf("Error in getting data_types : %v", res)
 	}
 	wrongRes, err := hlfAccessibleNetwork.GetAccessibleNetwork(gateway, "AccessibleNetwork_localhost_72325")
 	if wrongRes != nil {
 		t.Errorf(
-			" Cannot get data based on Id : %v", wrongRes)
+			" Cannot get data_types based on Id : %v", wrongRes)
 	}
 	fmt.Println("Test Res:", res)
 }

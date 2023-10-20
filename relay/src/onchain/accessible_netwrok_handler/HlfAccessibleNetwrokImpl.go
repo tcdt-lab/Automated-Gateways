@@ -14,13 +14,7 @@ import (
 	"time"
 )
 
-type AccessibleNetworkInfo struct {
-	NetworkName         string `json:"NetworkName"`
-	IP                  string `json:"IP"`
-	ADDRESS             string `json:"ADDRESS"`
-	CompanyName         string `json:"CompanyName"`
-	AccessibleNetworkId string `json:"AccessibleNetworkId"`
-}
+import dataTypes "relay/src/data_types"
 
 var channelName = "mychannel"
 var chaincodeName = "accessible_net"
@@ -123,7 +117,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) CloseConnection(clientConnecti
 	return nil
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) CreateAccessibleNetwork(gw *client.Gateway, networkName string, ip string, address string, companyName string) (*AccessibleNetworkInfo, error) {
+func (hlfAccessibleNetwork *HlfAccessibleNetwork) CreateAccessibleNetwork(gw *client.Gateway, networkName string, ip string, address string, companyName string) (*dataTypes.AccessibleNetworkInfo, error) {
 	log.Printf("Creating Accessible Network: %s\n", networkName)
 	methodName := "CreateAccessibleNetwork"
 
@@ -138,7 +132,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) CreateAccessibleNetwork(gw *cl
 	contract := network.GetContract(chaincodeName)
 
 	submitRes, err := contract.SubmitTransaction(methodName, networkName, ip, address, companyName)
-	var accessibleNetworkInfo AccessibleNetworkInfo
+	var accessibleNetworkInfo dataTypes.AccessibleNetworkInfo
 	err = json.Unmarshal(submitRes, &accessibleNetworkInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -224,7 +218,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) UpdateAccessibleNetwork(gw *cl
 	return nil
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAccessibleNetwork(gw *client.Gateway, id string) (*AccessibleNetworkInfo, error) {
+func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAccessibleNetwork(gw *client.Gateway, id string) (*dataTypes.AccessibleNetworkInfo, error) {
 	log.Printf("Get AccessibleNetwork: %s\n", id)
 	methodName := "GetAccessibleNetwork"
 
@@ -244,7 +238,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAccessibleNetwork(gw *clien
 		return nil, fmt.Errorf("the accessible network %s does not exist", id)
 	}
 	log.Printf("The result of Get AccessibleNetwork: %s\n", string(evalRes))
-	var accessibleNetworkInfo AccessibleNetworkInfo
+	var accessibleNetworkInfo dataTypes.AccessibleNetworkInfo
 	err = json.Unmarshal(evalRes, &accessibleNetworkInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -255,7 +249,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAccessibleNetwork(gw *clien
 	return &accessibleNetworkInfo, nil
 }
 
-func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAllAccessibleNetworksByAddress(gw *client.Gateway, address string) ([]*AccessibleNetworkInfo, error) {
+func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAllAccessibleNetworksByAddress(gw *client.Gateway, address string) ([]*dataTypes.AccessibleNetworkInfo, error) {
 	log.Printf("Query All AccessibleNetworks\n")
 	methodName := "GetAllAccessibleNetworksByAddress"
 
@@ -275,7 +269,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAllAccessibleNetworksByAddr
 		return nil, err
 	}
 
-	var accessibleNetworkInfo []*AccessibleNetworkInfo
+	var accessibleNetworkInfo []*dataTypes.AccessibleNetworkInfo
 	err = json.Unmarshal(evalRes, &accessibleNetworkInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)

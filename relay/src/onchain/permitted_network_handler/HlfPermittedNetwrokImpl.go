@@ -10,17 +10,10 @@ import (
 	"google.golang.org/grpc/credentials"
 	"log"
 	"os"
+	datatypes "relay/src/data_types"
 	hlfConfig "relay/src/onchain/configs"
 	"time"
 )
-
-type PermittedNetworkInfo struct {
-	NetworkName        string `json:"NetworkName"`
-	IP                 string `json:"IP"`
-	ADDRESS            string `json:"ADDRESS"`
-	CompanyName        string `json:"CompanyName"`
-	PermittedNetworkId string `json:"PermittedNetworkId"`
-}
 
 var channelName = "mychannel"
 var chaincodeName = "permitted_net"
@@ -122,7 +115,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) CloseConnection(clientConnection
 	}
 	return nil
 }
-func (hlfPermittedNetwork *HlfPermittedNetwork) CreatePermittedNetwork(gateway *client.Gateway, networkName string, ip string, address string, companyName string) (*PermittedNetworkInfo, error) {
+func (hlfPermittedNetwork *HlfPermittedNetwork) CreatePermittedNetwork(gateway *client.Gateway, networkName string, ip string, address string, companyName string) (*datatypes.PermittedNetworkInfo, error) {
 	log.Printf("Creating Permitted Network: %s\n", networkName)
 	methodName := "CreatePermittedNetwork"
 
@@ -137,7 +130,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) CreatePermittedNetwork(gateway *
 	contract := network.GetContract(chaincodeName)
 
 	submitRes, err := contract.SubmitTransaction(methodName, networkName, ip, address, companyName)
-	var permittedNetworkInfo PermittedNetworkInfo
+	var permittedNetworkInfo datatypes.PermittedNetworkInfo
 	err = json.Unmarshal(submitRes, &permittedNetworkInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -221,7 +214,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) UpdatePermittedNetwork(gateway *
 	log.Printf("Result:%s\n", string(submitRes))
 	return nil
 }
-func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetwork(gateway *client.Gateway, id string) (*PermittedNetworkInfo, error) {
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetwork(gateway *client.Gateway, id string) (*datatypes.PermittedNetworkInfo, error) {
 	log.Printf("Get PermittedNetwork: %s\n", id)
 	methodName := "GetPermittedNetwork"
 
@@ -236,7 +229,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetwork(gateway *cli
 	contract := network.GetContract(chaincodeName)
 
 	queryResponse, err := contract.EvaluateTransaction(methodName, id)
-	var permittedNetworkInfo PermittedNetworkInfo
+	var permittedNetworkInfo datatypes.PermittedNetworkInfo
 	err = json.Unmarshal(queryResponse, &permittedNetworkInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -247,7 +240,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetwork(gateway *cli
 	return &permittedNetworkInfo, nil
 }
 
-func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworksByAddress(gateway *client.Gateway, address string) ([]*PermittedNetworkInfo, error) {
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworksByAddress(gateway *client.Gateway, address string) ([]*datatypes.PermittedNetworkInfo, error) {
 	log.Printf("Get PermittedNetworks: \n")
 	methodName := "GetPermittedNetworks"
 
@@ -262,7 +255,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworksByAddress(ga
 	contract := network.GetContract(chaincodeName)
 
 	queryResponse, err := contract.EvaluateTransaction(methodName, address)
-	var results []*PermittedNetworkInfo
+	var results []*datatypes.PermittedNetworkInfo
 	err = json.Unmarshal(queryResponse, &results)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -273,7 +266,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworksByAddress(ga
 	return results, nil
 }
 
-func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworkByIndexAndAddress(gateway *client.Gateway, startIndex string, endIndex string, address string) ([]*PermittedNetworkInfo, error) {
+func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworkByIndexAndAddress(gateway *client.Gateway, startIndex string, endIndex string, address string) ([]*datatypes.PermittedNetworkInfo, error) {
 	log.Printf("Get PermittedNetworks: \n")
 	methodName := "GetPermittedNetworksByIndex"
 
@@ -292,7 +285,7 @@ func (hlfPermittedNetwork *HlfPermittedNetwork) GetPermittedNetworkByIndexAndAdd
 		log.Printf("failed to submit transaction: %s", err)
 		return nil, err
 	}
-	var results []*PermittedNetworkInfo
+	var results []*datatypes.PermittedNetworkInfo
 	err = json.Unmarshal(queryResponse, &results)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)

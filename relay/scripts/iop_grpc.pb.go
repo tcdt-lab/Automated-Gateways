@@ -22,9 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type IOPClient interface {
-	GetPermittedNetworkInfo(ctx context.Context, in *PermittedNetworkAddress, opts ...grpc.CallOption) (*PermittedNetworkInfo, error)
-	Invoke(ctx context.Context, in *MethodInfo, opts ...grpc.CallOption) (*Response, error)
-	QueryMethods(ctx context.Context, in *PermittedNetworkId, opts ...grpc.CallOption) (IOP_QueryMethodsClient, error)
+	GetPermittedNetworkInfo(ctx context.Context, in *PermittedNetworkAddress, opts ...grpc.CallOption) (IOP_GetPermittedNetworkInfoClient, error)
 }
 
 type iOPClient struct {
@@ -35,30 +33,12 @@ func NewIOPClient(cc grpc.ClientConnInterface) IOPClient {
 	return &iOPClient{cc}
 }
 
-func (c *iOPClient) GetPermittedNetworkInfo(ctx context.Context, in *PermittedNetworkAddress, opts ...grpc.CallOption) (*PermittedNetworkInfo, error) {
-	out := new(PermittedNetworkInfo)
-	err := c.cc.Invoke(ctx, "/IOP/getPermittedNetworkInfo", in, out, opts...)
+func (c *iOPClient) GetPermittedNetworkInfo(ctx context.Context, in *PermittedNetworkAddress, opts ...grpc.CallOption) (IOP_GetPermittedNetworkInfoClient, error) {
+	stream, err := c.cc.NewStream(ctx, &IOP_ServiceDesc.Streams[0], "/IOP/getPermittedNetworkInfo", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
-}
-
-func (c *iOPClient) Invoke(ctx context.Context, in *MethodInfo, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
-	err := c.cc.Invoke(ctx, "/IOP/invoke", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *iOPClient) QueryMethods(ctx context.Context, in *PermittedNetworkId, opts ...grpc.CallOption) (IOP_QueryMethodsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &IOP_ServiceDesc.Streams[0], "/IOP/queryMethods", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &iOPQueryMethodsClient{stream}
+	x := &iOPGetPermittedNetworkInfoClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -68,17 +48,17 @@ func (c *iOPClient) QueryMethods(ctx context.Context, in *PermittedNetworkId, op
 	return x, nil
 }
 
-type IOP_QueryMethodsClient interface {
-	Recv() (*MethodInfo, error)
+type IOP_GetPermittedNetworkInfoClient interface {
+	Recv() (*PermittedNetworkInfo, error)
 	grpc.ClientStream
 }
 
-type iOPQueryMethodsClient struct {
+type iOPGetPermittedNetworkInfoClient struct {
 	grpc.ClientStream
 }
 
-func (x *iOPQueryMethodsClient) Recv() (*MethodInfo, error) {
-	m := new(MethodInfo)
+func (x *iOPGetPermittedNetworkInfoClient) Recv() (*PermittedNetworkInfo, error) {
+	m := new(PermittedNetworkInfo)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -89,9 +69,7 @@ func (x *iOPQueryMethodsClient) Recv() (*MethodInfo, error) {
 // All implementations must embed UnimplementedIOPServer
 // for forward compatibility
 type IOPServer interface {
-	GetPermittedNetworkInfo(context.Context, *PermittedNetworkAddress) (*PermittedNetworkInfo, error)
-	Invoke(context.Context, *MethodInfo) (*Response, error)
-	QueryMethods(*PermittedNetworkId, IOP_QueryMethodsServer) error
+	GetPermittedNetworkInfo(*PermittedNetworkAddress, IOP_GetPermittedNetworkInfoServer) error
 	mustEmbedUnimplementedIOPServer()
 }
 
@@ -99,14 +77,8 @@ type IOPServer interface {
 type UnimplementedIOPServer struct {
 }
 
-func (UnimplementedIOPServer) GetPermittedNetworkInfo(context.Context, *PermittedNetworkAddress) (*PermittedNetworkInfo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPermittedNetworkInfo not implemented")
-}
-func (UnimplementedIOPServer) Invoke(context.Context, *MethodInfo) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Invoke not implemented")
-}
-func (UnimplementedIOPServer) QueryMethods(*PermittedNetworkId, IOP_QueryMethodsServer) error {
-	return status.Errorf(codes.Unimplemented, "method QueryMethods not implemented")
+func (UnimplementedIOPServer) GetPermittedNetworkInfo(*PermittedNetworkAddress, IOP_GetPermittedNetworkInfoServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetPermittedNetworkInfo not implemented")
 }
 func (UnimplementedIOPServer) mustEmbedUnimplementedIOPServer() {}
 
@@ -121,60 +93,24 @@ func RegisterIOPServer(s grpc.ServiceRegistrar, srv IOPServer) {
 	s.RegisterService(&IOP_ServiceDesc, srv)
 }
 
-func _IOP_GetPermittedNetworkInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PermittedNetworkAddress)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(IOPServer).GetPermittedNetworkInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/IOP/getPermittedNetworkInfo",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IOPServer).GetPermittedNetworkInfo(ctx, req.(*PermittedNetworkAddress))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _IOP_Invoke_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MethodInfo)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(IOPServer).Invoke(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/IOP/invoke",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IOPServer).Invoke(ctx, req.(*MethodInfo))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _IOP_QueryMethods_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(PermittedNetworkId)
+func _IOP_GetPermittedNetworkInfo_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(PermittedNetworkAddress)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(IOPServer).QueryMethods(m, &iOPQueryMethodsServer{stream})
+	return srv.(IOPServer).GetPermittedNetworkInfo(m, &iOPGetPermittedNetworkInfoServer{stream})
 }
 
-type IOP_QueryMethodsServer interface {
-	Send(*MethodInfo) error
+type IOP_GetPermittedNetworkInfoServer interface {
+	Send(*PermittedNetworkInfo) error
 	grpc.ServerStream
 }
 
-type iOPQueryMethodsServer struct {
+type iOPGetPermittedNetworkInfoServer struct {
 	grpc.ServerStream
 }
 
-func (x *iOPQueryMethodsServer) Send(m *MethodInfo) error {
+func (x *iOPGetPermittedNetworkInfoServer) Send(m *PermittedNetworkInfo) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -184,20 +120,11 @@ func (x *iOPQueryMethodsServer) Send(m *MethodInfo) error {
 var IOP_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "IOP",
 	HandlerType: (*IOPServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "getPermittedNetworkInfo",
-			Handler:    _IOP_GetPermittedNetworkInfo_Handler,
-		},
-		{
-			MethodName: "invoke",
-			Handler:    _IOP_Invoke_Handler,
-		},
-	},
+	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "queryMethods",
-			Handler:       _IOP_QueryMethods_Handler,
+			StreamName:    "getPermittedNetworkInfo",
+			Handler:       _IOP_GetPermittedNetworkInfo_Handler,
 			ServerStreams: true,
 		},
 	},
