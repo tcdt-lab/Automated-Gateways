@@ -85,6 +85,8 @@ func startServer() {
 		grpc.StreamInterceptor(grpc_auth.StreamServerInterceptor(auth.TlsAuth)),
 		grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(auth.TlsAuth))}
 
+	//opts = []grpc.ServerOption{grpc.Creds(tlsCredentials)}
+
 	grpcServer := grpc.NewServer(opts...)
 	s := offchain.IOPserver{}
 	scripts.RegisterIOPServer(grpcServer, &s)
