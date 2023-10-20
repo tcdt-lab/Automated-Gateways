@@ -72,10 +72,10 @@ func startServer() {
 	var opts []grpc.ServerOption
 	//if *tls {
 	//	if *certFile == "" {
-	//		//*certFile = data.Path("x509/server_cert.pem")
+	//		//*certFile = data_types.Path("x509/server_cert.pem")
 	//	}
 	//	if *keyFile == "" {
-	//		//*keyFile = data.Path("x509/server_key.pem")
+	//		//*keyFile = data_types.Path("x509/server_key.pem")
 	//	}
 	//	creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
 	//	if err != nil {

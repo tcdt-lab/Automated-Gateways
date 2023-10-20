@@ -1,11 +1,12 @@
 package hlf_mediator
 
 import permittedHandler "relay/src/onchain/permitted_network_handler"
+import dataTypes "relay/src/data_types"
 
 type HlfPermittedNetworkMediator struct {
 }
 
-func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) CreatePermittedNetwork(networkName string, ip string, address string, companyName string) (*permittedHandler.PermittedNetworkInfo, error) {
+func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) CreatePermittedNetwork(networkName string, ip string, address string, companyName string) (*dataTypes.PermittedNetworkInfo, error) {
 	var permittedNetwork permittedHandler.HlfPermittedNetwork
 	connection, gateway, err := permittedNetwork.OpenConnection()
 	if err != nil {
@@ -33,7 +34,7 @@ func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) UpdatePermittedN
 	defer permittedNetwork.CloseConnection(connection, gateway)
 	return permittedNetwork.UpdatePermittedNetwork(gateway, id, networkName, ip, address, companyName)
 }
-func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetPermittedNetwork(id string) (*permittedHandler.PermittedNetworkInfo, error) {
+func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetPermittedNetwork(id string) (*dataTypes.PermittedNetworkInfo, error) {
 	var permittedNetwork permittedHandler.HlfPermittedNetwork
 	connection, gateway, err := permittedNetwork.OpenConnection()
 	if err != nil {
@@ -42,7 +43,7 @@ func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetPermittedNetw
 	defer permittedNetwork.CloseConnection(connection, gateway)
 	return permittedNetwork.GetPermittedNetwork(gateway, id)
 }
-func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetPermittedNetworkByIndexAndAddress(startIndex string, endIndex string, address string) ([]*permittedHandler.PermittedNetworkInfo, error) {
+func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetPermittedNetworkByIndexAndAddress(startIndex string, endIndex string, address string) ([]*dataTypes.PermittedNetworkInfo, error) {
 	var permittedNetwork permittedHandler.HlfPermittedNetwork
 	connection, gateway, err := permittedNetwork.OpenConnection()
 	if err != nil {
@@ -51,7 +52,7 @@ func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetPermittedNetw
 	defer permittedNetwork.CloseConnection(connection, gateway)
 	return permittedNetwork.GetPermittedNetworkByIndexAndAddress(gateway, startIndex, endIndex, address)
 }
-func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetAllPermittedNetworksByAddress(address string) ([]*permittedHandler.PermittedNetworkInfo, error) {
+func (hlfPermittedNetworkMediator *HlfPermittedNetworkMediator) GetAllPermittedNetworksByAddress(address string) ([]*dataTypes.PermittedNetworkInfo, error) {
 	var permittedNetwork permittedHandler.HlfPermittedNetwork
 	connection, gateway, err := permittedNetwork.OpenConnection()
 	if err != nil {

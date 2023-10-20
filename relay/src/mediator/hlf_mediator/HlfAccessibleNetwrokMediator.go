@@ -1,6 +1,7 @@
 package hlf_mediator
 
 import (
+	dataTypes "relay/src/data_types"
 	acessibleNetworkHandler "relay/src/onchain/accessible_netwrok_handler"
 )
 
@@ -9,7 +10,7 @@ type HlfAccessibleNetworkMediator struct {
 
 var hlfAccessibleNetwork = acessibleNetworkHandler.HlfAccessibleNetwork{}
 
-func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) CreateAccessibleNetwork(networkName string, ip string, address string, companyName string) (*acessibleNetworkHandler.AccessibleNetworkInfo, error) {
+func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) CreateAccessibleNetwork(networkName string, ip string, address string, companyName string) (*dataTypes.AccessibleNetworkInfo, error) {
 	clientConnection, gateway, err := hlfAccessibleNetwork.OpenConnection()
 	if err != nil {
 		return nil, err
@@ -34,7 +35,7 @@ func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) UpdateAccessib
 	defer hlfAccessibleNetwork.CloseConnection(clientConnection, gateway)
 	return hlfAccessibleNetwork.UpdateAccessibleNetwork(gateway, id, networkName, ip, address, companyName)
 }
-func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) GetAccessibleNetwork(id string) (*acessibleNetworkHandler.AccessibleNetworkInfo, error) {
+func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) GetAccessibleNetwork(id string) (*dataTypes.AccessibleNetworkInfo, error) {
 	clientConnection, gateway, err := hlfAccessibleNetwork.OpenConnection()
 	if err != nil {
 		return nil, err
@@ -43,7 +44,7 @@ func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) GetAccessibleN
 	return hlfAccessibleNetwork.GetAccessibleNetwork(gateway, id)
 
 }
-func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) GetAllAccessibleNetworksByAddress(address string) ([]*acessibleNetworkHandler.AccessibleNetworkInfo, error) {
+func (hlfAccessibleNetworkMediator *HlfAccessibleNetworkMediator) GetAllAccessibleNetworksByAddress(address string) ([]*dataTypes.AccessibleNetworkInfo, error) {
 	clientConnection, gateway, err := hlfAccessibleNetwork.OpenConnection()
 	if err != nil {
 		return nil, err
