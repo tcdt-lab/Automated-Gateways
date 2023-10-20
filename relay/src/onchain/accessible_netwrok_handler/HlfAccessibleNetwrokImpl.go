@@ -1,7 +1,6 @@
 package accessible_netwrok_handler
 
 import (
-	"bytes"
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
@@ -285,12 +284,4 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAllAccessibleNetworksByAddr
 
 	log.Printf("Result:%s\n", string(evalRes))
 	return accessibleNetworkInfo, nil
-}
-
-func formatJSON(data []byte) string {
-	var prettyJSON bytes.Buffer
-	if err := json.Indent(&prettyJSON, data, "", "  "); err != nil {
-		fmt.Errorf("failed to parse JSON: %w", err)
-	}
-	return prettyJSON.String()
 }
