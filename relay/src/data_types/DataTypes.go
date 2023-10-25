@@ -6,7 +6,7 @@ type PermittedMethodInfo struct {
 	Chaincode         string `json:"Chaincode"`
 	Channel           string `json:"Channel"`
 	InputArgs         string `json:"inputArgs"`
-	OutputType        string `json:"outputArgs"`
+	OutputArgs        string `json:"outputArgs"`
 }
 
 type PermittedNetworkInfo struct {

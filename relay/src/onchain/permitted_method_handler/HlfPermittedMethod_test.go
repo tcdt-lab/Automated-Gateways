@@ -24,7 +24,7 @@ func TestAddPermittedMethod(t *testing.T) {
 	}
 	defer hlfPermittedMethod.CloseConnection(clientConn, gateway)
 
-	submitRes, err := hlfPermittedMethod.AddPermittedMethod(gateway, "PermittedNetwork3", "PermittedNetwork3", "PermittedMethod1", "mychannel", "add", "add")
+	submitRes, err := hlfPermittedMethod.AddPermittedMethod(gateway, "PermittedNetwork_localhost_7", "AddTwoNumbers", "addition", "mychannel", "{'int','int'}", "{'int'}")
 	if err != nil {
 		t.Errorf("Creating Accessible Netwrok: %v", err)
 	}
