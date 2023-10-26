@@ -8,7 +8,7 @@ import (
 type HlfPermittedMethodsMediator struct {
 }
 
-func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) AddPermittedMethod(permittedNetworkId string, permittedNetworkName string, chaincode string, channel string, inputArgs string, outputArgs string) (*dataTypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) AddPermittedMethod(permittedNetworkId string, permittedNetworkName string, chaincode string, channel string, inputArgs string, outputArgs string) (*dataTypes.MethodInfo, error) {
 	var permittedMethods permittedHandler.HlfPermittedMethod
 	connection, gateway, err := permittedMethods.OpenConnection()
 	if err != nil {
@@ -39,7 +39,7 @@ func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) UpdatePermittedM
 
 }
 
-func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethodsByNetworkId(permittedNetworkId string) ([]*dataTypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethodsByNetworkId(permittedNetworkId string) ([]*dataTypes.MethodInfo, error) {
 	var permittedMethods permittedHandler.HlfPermittedMethod
 	connection, gateway, err := permittedMethods.OpenConnection()
 	if err != nil {
@@ -49,7 +49,7 @@ func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMeth
 	return permittedMethods.GetPermittedMethodsByNetworkId(gateway, permittedNetworkId)
 }
 
-func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethod(id string) (*dataTypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethod(id string) (*dataTypes.MethodInfo, error) {
 	var permittedMethods permittedHandler.HlfPermittedMethod
 	connection, gateway, err := permittedMethods.OpenConnection()
 	if err != nil {
@@ -59,7 +59,7 @@ func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMeth
 	return permittedMethods.GetPermittedMethod(gateway, id)
 }
 
-func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethodsByIndexAndAddress(startIndex string, endIndex string, address string) ([]*dataTypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethodsByIndexAndAddress(startIndex string, endIndex string, address string) ([]*dataTypes.MethodInfo, error) {
 	var permittedMethods permittedHandler.HlfPermittedMethod
 	connection, gateway, err := permittedMethods.OpenConnection()
 	if err != nil {

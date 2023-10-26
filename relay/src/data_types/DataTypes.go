@@ -1,6 +1,6 @@
 package data_types
 
-type PermittedMethodInfo struct {
+type MethodInfo struct {
 	PermittedMethodId string `json:"PermittedMethodId"`
 	Name              string `json:"Name"`
 	Chaincode         string `json:"Chaincode"`

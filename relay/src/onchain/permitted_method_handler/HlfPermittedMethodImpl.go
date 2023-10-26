@@ -116,7 +116,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) CloseConnection(clientConnection *
 	return nil
 }
 
-func (hlfPermittedMethod *HlfPermittedMethod) AddPermittedMethod(gw *client.Gateway, permittedNetworkId string, permittedMrthodName string, chaincode string, channel string, inputArgs string, outputArgs string) (*datatypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethod *HlfPermittedMethod) AddPermittedMethod(gw *client.Gateway, permittedNetworkId string, permittedMrthodName string, chaincode string, channel string, inputArgs string, outputArgs string) (*datatypes.MethodInfo, error) {
 
 	log.Printf("add method %s to  permitted Network with Id: %s\n", permittedMrthodName, permittedNetworkId)
 	methodName := "AddPermittedMethod"
@@ -132,7 +132,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) AddPermittedMethod(gw *client.Gate
 	contract := network.GetContract(chaincodeName)
 
 	submitRes, err := contract.SubmitTransaction(methodName, permittedNetworkId, permittedMrthodName, chaincode, channel, inputArgs, outputArgs)
-	var permittedMethodInfo datatypes.PermittedMethodInfo
+	var permittedMethodInfo datatypes.MethodInfo
 	err = json.Unmarshal(submitRes, &permittedMethodInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -170,7 +170,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) PermittedMethodExists(gw *client.G
 	return resBoolean, nil
 }
 
-func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethod(gw *client.Gateway, permittedMethodId string) (*datatypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethod(gw *client.Gateway, permittedMethodId string) (*datatypes.MethodInfo, error) {
 	log.Printf("Get PermittedMethod: %s\n", permittedMethodId)
 	methodName := "GetPermittedMethod"
 
@@ -190,7 +190,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethod(gw *client.Gate
 		return nil, fmt.Errorf("the accessible network %s does not exist", permittedMethodId)
 	}
 	log.Printf("The result of Get PermittedNetwork: %s\n", string(evalRes))
-	var permittedMethodInfo datatypes.PermittedMethodInfo
+	var permittedMethodInfo datatypes.MethodInfo
 	err = json.Unmarshal(evalRes, &permittedMethodInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -201,7 +201,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethod(gw *client.Gate
 	return &permittedMethodInfo, nil
 }
 
-func (hlfPermittedMethod HlfPermittedMethod) GetPermittedMethodsByIndex(gw *client.Gateway, permittedNetworkId string, startIndex string, endIndex string) ([]*datatypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethod HlfPermittedMethod) GetPermittedMethodsByIndex(gw *client.Gateway, permittedNetworkId string, startIndex string, endIndex string) ([]*datatypes.MethodInfo, error) {
 	log.Printf("Get PermittedMethods by index: %s\n", permittedNetworkId)
 	methodName := "GetPermittedMethodsByIndex"
 
@@ -221,7 +221,7 @@ func (hlfPermittedMethod HlfPermittedMethod) GetPermittedMethodsByIndex(gw *clie
 		return nil, err
 	}
 
-	var permittedMethodInfo []*datatypes.PermittedMethodInfo
+	var permittedMethodInfo []*datatypes.MethodInfo
 	err = json.Unmarshal(evalRes, &permittedMethodInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)
@@ -231,7 +231,7 @@ func (hlfPermittedMethod HlfPermittedMethod) GetPermittedMethodsByIndex(gw *clie
 	log.Printf("Result:%s\n", string(evalRes))
 	return permittedMethodInfo, nil
 }
-func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethodsByNetworkId(gw *client.Gateway, permittedNetworkId string) ([]*datatypes.PermittedMethodInfo, error) {
+func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethodsByNetworkId(gw *client.Gateway, permittedNetworkId string) ([]*datatypes.MethodInfo, error) {
 	log.Printf("Get PermittedMethods: %s\n", permittedNetworkId)
 	methodName := "GetPermittedMethodsByNetworkId"
 
@@ -251,7 +251,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethodsByNetworkId(gw 
 		return nil, err
 	}
 
-	var permittedMethodInfo []*datatypes.PermittedMethodInfo
+	var permittedMethodInfo []*datatypes.MethodInfo
 	err = json.Unmarshal(evalRes, &permittedMethodInfo)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)

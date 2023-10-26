@@ -19,7 +19,7 @@ func (iopMediator *IopMediator) ReturnPermittedNetworkInfo(address string, netwo
 	return permittedNetwork, nil
 }
 
-func (iopMediator *IopMediator) ReturnPermittedMethodList(networkId string, networkType string) ([]*dataType.PermittedMethodInfo, error) {
+func (iopMediator *IopMediator) ReturnPermittedMethodList(networkId string, networkType string) ([]*dataType.MethodInfo, error) {
 	var mediatorFactory MediatorFactory
 	permittedMethodMediator, err := mediatorFactory.CreatePermittedMethodsMediator(networkType)
 	if err != nil {
