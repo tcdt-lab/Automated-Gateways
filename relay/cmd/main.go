@@ -13,6 +13,7 @@ import (
 	"os"
 	"relay/scripts"
 	"relay/src/offchain"
+	client "relay/src/offchain"
 	auth "relay/src/offchain/authentication"
 )
 
@@ -27,9 +28,11 @@ var (
 func main() {
 
 	//onchain.CloseConnection()
-	startServer()
+	go startServer()
+	client.GetAccessibleMethodsList("PermittedNetwork_localhost_7")
 
-	//offchain.RunClient()
+	client.InvokeAccessibleMethod("AddTwoNumbers", "addition", "mychannel", `["9","5"]`, "{'string'}")
+	client.GetNetworkInformation("localhost")
 }
 func startOnchainProcess() {
 
