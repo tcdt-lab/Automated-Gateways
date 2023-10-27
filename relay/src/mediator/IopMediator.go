@@ -1,6 +1,6 @@
 package mediator
 
-import dataType "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
+import dataType "github.com/tcdt-lab/Automated-Gateways/relay/src/data_types"
 
 type IopMediator struct {
 }

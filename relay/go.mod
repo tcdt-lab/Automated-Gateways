@@ -1,4 +1,4 @@
-module github.com/tcdt-lab/Automated-Gateways/tree/main/relay
+module github.com/tcdt-lab/Automated-Gateways/relay
 
 go 1.20
 

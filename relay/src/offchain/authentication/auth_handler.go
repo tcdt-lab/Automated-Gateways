@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	permittedHAndler "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/onchain/permitted_network_handler"
+	permittedHAndler "github.com/tcdt-lab/Automated-Gateways/relay/src/onchain/permitted_network_handler"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/peer"

@@ -1,6 +1,6 @@
 package interfaces
 
-import dataType "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
+import dataType "github.com/tcdt-lab/Automated-Gateways/relay/src/data_types"
 
 type IPermittedNetworkMediator interface {
 	CreatePermittedNetwork(networkName string, ip string, address string, companyName string) (*dataType.PermittedNetworkInfo, error)
