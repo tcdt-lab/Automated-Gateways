@@ -5,8 +5,8 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"flag"
-	pb "github.com/tcdt-lab/Automated-Gateways/relay/scripts"
-	"github.com/tcdt-lab/Automated-Gateways/relay/src/data_types"
+	"github.com/tcdt-lab/Automated-Gateways/relay/data_types"
+	"github.com/tcdt-lab/Automated-Gateways/relay/internal/scripts"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"io"
@@ -16,7 +16,6 @@ import (
 )
 
 var (
-	//tls                = flag.Bool("tls", false, "Connection uses TLS if true, else plain TCP")
 	caFile             = flag.String("ca_file", "", "The file containing the CA root cert file")
 	serverAddr         = flag.String("addr", "localhost:50051", "The server address in the format of host:port")
 	serverHostOverride = flag.String("server_host_override", "x.test.example.com", "The server name used to verify the hostname returned by the TLS handshake")
@@ -64,8 +63,8 @@ func InvokeAccessibleMethod(accessibleMethodName string, chaincodeName string, c
 	}
 	log.Println("invokeMethod method is invoked")
 	defer closeConnection(conn)
-	client := pb.NewIOPClient(conn)
-	methodInfo := pb.MethodInfo{
+	client := scripts.NewIOPClient(conn)
+	methodInfo := scripts.MethodInfo{
 		Name:          accessibleMethodName,
 		ChaincodeName: chaincodeName,
 		ChannelName:   channelName,
@@ -91,9 +90,9 @@ func GetAccessibleMethodsList(accessibleNetworkId string) ([]*data_types.MethodI
 	}
 	log.Println("getMethodsList method is invoked")
 	defer closeConnection(conn)
-	client := pb.NewIOPClient(conn)
+	client := scripts.NewIOPClient(conn)
 
-	networkId := pb.PermittedNetworkId{
+	networkId := scripts.PermittedNetworkId{
 		NetworkId: accessibleNetworkId,
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -136,10 +135,10 @@ func GetNetworkInformation(selfAddress string) ([]*data_types.AccessibleNetworkI
 	}
 	log.Println("getMethodsList method is invoked")
 	defer closeConnection(conn)
-	client := pb.NewIOPClient(conn)
+	client := scripts.NewIOPClient(conn)
 
 	log.Println("getInfo method is invoked")
-	loginInfo := pb.PermittedNetworkAddress{
+	loginInfo := scripts.PermittedNetworkAddress{
 
 		Address: selfAddress,
 	}

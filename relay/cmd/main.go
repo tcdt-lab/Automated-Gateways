@@ -6,10 +6,9 @@ import (
 	"flag"
 	"fmt"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
-	"github.com/tcdt-lab/Automated-Gateways/relay/scripts"
-	"github.com/tcdt-lab/Automated-Gateways/relay/src/offchain"
-	client "github.com/tcdt-lab/Automated-Gateways/relay/src/offchain"
-	auth "github.com/tcdt-lab/Automated-Gateways/relay/src/offchain/authentication"
+	offchain "github.com/tcdt-lab/Automated-Gateways/relay/internal/offchain"
+	auth "github.com/tcdt-lab/Automated-Gateways/relay/internal/offchain/authentication"
+	"github.com/tcdt-lab/Automated-Gateways/relay/internal/scripts"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
@@ -29,10 +28,10 @@ func main() {
 
 	//onchain.CloseConnection()
 	go startServer()
-	client.GetAccessibleMethodsList("PermittedNetwork_localhost_7")
+	offchain.GetAccessibleMethodsList("PermittedNetwork_localhost_7")
 
-	client.InvokeAccessibleMethod("AddTwoNumbers", "addition", "mychannel", `["9","5"]`, "{'string'}")
-	client.GetNetworkInformation("localhost")
+	offchain.InvokeAccessibleMethod("AddTwoNumbers", "addition", "mychannel", `["9","5"]`, "{'string'}")
+	offchain.GetNetworkInformation("localhost")
 }
 func startOnchainProcess() {
 
@@ -69,26 +68,13 @@ func startServer() {
 		ClientCAs:    certPool,
 	}
 
-	//create tls certificate
 	tlsCredentials := credentials.NewTLS(conf)
-	//
+
 	var opts []grpc.ServerOption
-	//if *tls {
-	//	if *certFile == "" {
-	//		//*certFile = data_types.Path("x509/server_cert.pem")
-	//	}
-	//	if *keyFile == "" {
-	//		//*keyFile = data_types.Path("x509/server_key.pem")
-	//	}
-	//	creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
-	//	if err != nil {
-	//		log.Fatalf("Failed to generate credentials: %v", err)
-	//	}
+
 	opts = []grpc.ServerOption{grpc.Creds(tlsCredentials),
 		grpc.StreamInterceptor(grpc_auth.StreamServerInterceptor(auth.TlsAuth)),
 		grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(auth.TlsAuth))}
-
-	//opts = []grpc.ServerOption{grpc.Creds(tlsCredentials)}
 
 	grpcServer := grpc.NewServer(opts...)
 	s := offchain.IOPserver{}

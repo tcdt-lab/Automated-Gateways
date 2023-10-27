@@ -6,15 +6,14 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-gateway/pkg/client"
 	"github.com/hyperledger/fabric-gateway/pkg/identity"
-	hlfConfig "github.com/tcdt-lab/Automated-Gateways/relay/src/onchain/configs"
+	dataTypes "github.com/tcdt-lab/Automated-Gateways/relay/data_types"
+	hlfConfig "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/configs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
 	"os"
 	"time"
 )
-
-import dataTypes "github.com/tcdt-lab/Automated-Gateways/relay/src/data_types"
 
 var channelName = "mychannel"
 var chaincodeName = "accessible_net"
