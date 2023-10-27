@@ -1,8 +1,8 @@
 package mediator
 
 import (
-	hlfMediator "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/mediator/hlf_mediator"
-	"github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/mediator/interfaces"
+	hlfMediator "github.com/tcdt-lab/Automated-Gateways/relay/src/mediator/hlf_mediator"
+	"github.com/tcdt-lab/Automated-Gateways/relay/src/mediator/interfaces"
 )
 
 const (

@@ -1,7 +1,7 @@
 package hlf_mediator
 
-import permittedHandler "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/onchain/permitted_network_handler"
-import dataTypes "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
+import permittedHandler "github.com/tcdt-lab/Automated-Gateways/relay/src/onchain/permitted_network_handler"
+import dataTypes "github.com/tcdt-lab/Automated-Gateways/relay/src/data_types"
 
 type HlfPermittedNetworkMediator struct {
 }

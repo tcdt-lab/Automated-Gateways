@@ -1,8 +1,8 @@
 package hlf_mediator
 
 import (
-	dataTypes "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
-	acessibleNetworkHandler "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/onchain/accessible_netwrok_handler"
+	dataTypes "github.com/tcdt-lab/Automated-Gateways/relay/src/data_types"
+	acessibleNetworkHandler "github.com/tcdt-lab/Automated-Gateways/relay/src/onchain/accessible_netwrok_handler"
 )
 
 type HlfAccessibleNetworkMediator struct {
