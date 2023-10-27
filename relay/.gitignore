@@ -146,4 +146,4 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 certs/*
-src/onchain/chain_certs/*
+internal/onchain/chain_certs/*

@@ -1,6 +1,9 @@
 package mediator
 
-import dataType "github.com/tcdt-lab/Automated-Gateways/relay/src/data_types"
+import (
+	dataType "github.com/tcdt-lab/Automated-Gateways/relay/data_types"
+	offchain "github.com/tcdt-lab/Automated-Gateways/relay/internal/offchain"
+)
 
 type IopMediator struct {
 }
@@ -43,4 +46,25 @@ func (iopMediator *IopMediator) InvokePermittedMethod(name string, chaincode str
 		return nil, getAddErr
 	}
 	return result, nil
+}
+
+func (iopMediator *IopMediator) GetAccessibleNetworkInfo(address string) ([]*dataType.AccessibleNetworkInfo, error) {
+	res, err := offchain.GetNetworkInformation(address)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (iopMediator *IopMediator) InvokeAccessibleMethod(name string, chaincode string, channel string, inputArgs string, output string) (string, string) {
+	result, err := offchain.InvokeAccessibleMethod(name, chaincode, channel, inputArgs, output)
+	return result, err
+}
+
+func (iopMediator *IopMediator) GetAccessibleMethodsList(networkId string) ([]*dataType.MethodInfo, error) {
+	res, err := offchain.GetAccessibleMethodsList(networkId)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }
