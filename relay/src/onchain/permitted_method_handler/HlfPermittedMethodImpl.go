@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-gateway/pkg/client"
 	"github.com/hyperledger/fabric-gateway/pkg/identity"
+	datatypes "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
+	hlfConfig "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/onchain/configs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
 	"os"
-	datatypes "relay/src/data_types"
-	hlfConfig "relay/src/onchain/configs"
 	"time"
 )
 
