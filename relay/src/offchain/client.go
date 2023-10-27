@@ -5,13 +5,13 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"flag"
+	pb "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/scripts"
+	"github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"io"
 	"log"
 	"os"
-	pb "relay/scripts"
-	"relay/src/data_types"
 	"time"
 )
 

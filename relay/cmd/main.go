@@ -6,15 +6,15 @@ import (
 	"flag"
 	"fmt"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	"github.com/tcdt-lab/Automated-Gateways/tree/main/relay/scripts"
+	"github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/offchain"
+	client "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/offchain"
+	auth "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/offchain/authentication"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
 	"os"
-	"relay/scripts"
-	"relay/src/offchain"
-	client "relay/src/offchain"
-	auth "relay/src/offchain/authentication"
 )
 
 var (

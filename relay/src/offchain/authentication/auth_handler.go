@@ -4,11 +4,11 @@ import (
 	"context"
 	"log"
 
+	permittedHAndler "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/onchain/permitted_network_handler"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/status"
-	permittedHAndler "relay/src/onchain/permitted_network_handler"
 )
 
 func TlsAuth(ctx context.Context) (newCtx context.Context, err error) {

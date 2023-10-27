@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	dataTypes "relay/src/data_types"
+	dataTypes "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
 )
 
 type IAccessibleNetworkMediator interface {

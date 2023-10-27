@@ -3,8 +3,8 @@ package offchain
 import (
 	"context"
 	"encoding/json"
-	pb "relay/scripts"
-	"relay/src/mediator"
+	pb "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/scripts"
+	"github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/mediator"
 )
 
 type IOPserver struct {

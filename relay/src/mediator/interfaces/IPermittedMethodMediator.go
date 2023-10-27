@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	dataType "relay/src/data_types"
+	dataType "github.com/tcdt-lab/Automated-Gateways/tree/main/relay/src/data_types"
 )
 
 type IPermittedMethodMediator interface {
