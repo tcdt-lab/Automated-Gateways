@@ -2,7 +2,7 @@ package mediator
 
 import (
 	dataType "github.com/tcdt-lab/Automated-Gateways/relay/data_types"
-	offchain "github.com/tcdt-lab/Automated-Gateways/relay/internal/offchain"
+	offchain "github.com/tcdt-lab/Automated-Gateways/relay/internal/offchain/client"
 )
 
 type IopMediator struct {
