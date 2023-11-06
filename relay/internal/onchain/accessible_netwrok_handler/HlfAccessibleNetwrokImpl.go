@@ -249,7 +249,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAccessibleNetwork(gw *clien
 }
 
 func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAllAccessibleNetworksByAddress(gw *client.Gateway, address string) ([]*dataTypes.AccessibleNetworkInfo, error) {
-	log.Printf("Query All AccessibleNetworks\n")
+	log.Printf("Query All AccessibleNetworks By Address\n")
 	methodName := "GetAllAccessibleNetworksByAddress"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
