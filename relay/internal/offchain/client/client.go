@@ -17,7 +17,7 @@ import (
 
 var (
 	caFile             = flag.String("ca_file", "", "The file containing the CA root cert file")
-	serverAddr         = flag.String("addr", "localhost:50051", "The server address in the format of host:port")
+	serverAddr         = flag.String("addr", "192.168.100.125:50051", "The server address in the format of host:port")
 	serverHostOverride = flag.String("server_host_override", "x.test.example.com", "The server name used to verify the hostname returned by the TLS handshake")
 )
 
@@ -133,7 +133,7 @@ func GetNetworkInformation(selfAddress string) ([]*data_types.AccessibleNetworkI
 		log.Fatalf("openConnection failed: %v", err)
 		return nil, err
 	}
-	log.Println("getMethodsList method is invoked")
+	log.Println("GetNetworkInformation method is invoked")
 	defer closeConnection(conn)
 	client := scripts.NewIOPClient(conn)
 
@@ -146,7 +146,7 @@ func GetNetworkInformation(selfAddress string) ([]*data_types.AccessibleNetworkI
 	defer cancel()
 	var network, errInovke = client.GetPermittedNetworkInfo(ctx, &loginInfo)
 	if errInovke != nil {
-		log.Fatalf("getInfo failed: %v", err)
+		log.Fatalf("getInfo failed: %v", errInovke)
 		return nil, errInovke
 	}
 	var netInfos []*data_types.AccessibleNetworkInfo
