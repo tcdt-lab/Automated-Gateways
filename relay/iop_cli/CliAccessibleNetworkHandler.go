@@ -133,6 +133,7 @@ func ShowUpdateAccessibleNetworkInfo(fsm *StateMachine) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	println("Result: ", "Updated Successfully")
 
 }
 
@@ -160,6 +161,7 @@ func ShowRemoveAccessibleNetworkOptions(fsm *StateMachine) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	println("Result: ", "Removed Successfully")
 }
 
 func ShowGetAccessibleNetworkInfoByIdOptions(fsm *StateMachine) {
@@ -252,7 +254,6 @@ func ShowIfAccessibleNetworkExists(fsm *StateMachine) {
 	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
 	if err != nil {
 		fmt.Println(err)
-		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
 		return
 	}
 }

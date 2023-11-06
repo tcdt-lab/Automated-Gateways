@@ -65,7 +65,7 @@ func TestHlfInvokePermittedMethod(t *testing.T) {
 
 func TestHlfGetPermittedMethodsByIndex(t *testing.T) {
 	var hlfPermittedMethod HlfPermittedMethodsMediator
-	res, err := hlfPermittedMethod.GetPermittedMethodsByIndexAndAddress("PermittedNetwork2", "0", "10")
+	res, err := hlfPermittedMethod.GetPermittedMethodsByIndexAndNetworkId("PermittedNetwork2", "0", "10")
 	if err != nil {
 		t.Errorf("Creating Accessible Netwrok: %v", err)
 	}

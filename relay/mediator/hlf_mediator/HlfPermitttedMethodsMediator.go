@@ -59,14 +59,14 @@ func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMeth
 	return permittedMethods.GetPermittedMethod(gateway, id)
 }
 
-func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethodsByIndexAndAddress(startIndex string, endIndex string, address string) ([]*dataTypes.MethodInfo, error) {
+func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) GetPermittedMethodsByIndexAndNetworkId(startIndex string, endIndex string, networkID string) ([]*dataTypes.MethodInfo, error) {
 	var permittedMethods permittedHandler.HlfPermittedMethod
 	connection, gateway, err := permittedMethods.OpenConnection()
 	if err != nil {
 		return nil, err
 	}
 	defer permittedMethods.CloseConnection(connection, gateway)
-	return permittedMethods.GetPermittedMethodsByIndex(gateway, startIndex, endIndex, address)
+	return permittedMethods.GetPermittedMethodsByIndex(gateway, startIndex, endIndex, networkID)
 }
 
 func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) InvokePermittedMethod(name string, chaincode string, channel string, inputArgs []string) (*string, error) {
