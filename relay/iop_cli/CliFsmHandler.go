@@ -2,6 +2,7 @@ package iop_cli
 
 import (
 	"fmt"
+	"time"
 )
 
 type State string
@@ -28,21 +29,24 @@ const (
 	EVENT_GET_ALL_ACCESSIBLE_NETWORKS_BY_ADDRESS = "GET_ALL_ACCESSIBLE_NETWORKS_BY_ADDRESS_EVENT"
 	EVENT_ACCESSIBLE_NETWORK_EXISTS              = "ACCESSIBLE_NETWORK_EXISTS_EVENT"
 
-	EVENT_SELECTING_PERMITTED_NETWORK_OPTIONS   = "SELECTING_PERMITTED_NETWORK_OPTIONS_EVENT"
-	EVENT_CREATE_PERMITTED_NETWORK              = "CREATE_PERMITTED_NETWORK_EVENT"
-	EVENT_REMOVE_PERMITTED_NETWORK              = "REMOVE_PERMITTED_NETWORK_EVENT"
-	EVENT_UPDATE_PERMITTED_NETWORK              = "UPDATE_PERMITTED_NETWORK_EVENT"
-	EVENT_GET_PERMITTED_NETWORK                 = "GET_PERMITTED_NETWORK_EVENT"
-	EVENT_GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS = "GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS_EVENT"
-	EVENT_PERMITTED_NETWORK_EXISTS              = "PERMITTED_NETWORK_EXISTS_EVENT"
+	EVENT_SELECTING_PERMITTED_NETWORK_OPTIONS        = "SELECTING_PERMITTED_NETWORK_OPTIONS_EVENT"
+	EVENT_CREATE_PERMITTED_NETWORK                   = "CREATE_PERMITTED_NETWORK_EVENT"
+	EVENT_REMOVE_PERMITTED_NETWORK                   = "REMOVE_PERMITTED_NETWORK_EVENT"
+	EVENT_UPDATE_PERMITTED_NETWORK                   = "UPDATE_PERMITTED_NETWORK_EVENT"
+	EVENT_GET_PERMITTED_NETWORK_BY_ID                = "GET_PERMITTED_NETWORK_EVENT"
+	EVENT_GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS      = "GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS_EVENT"
+	EVENT_GET_PERMITTED_NETWORK_BY_INDEX_AND_ADDRESS = "GET_PERMITTED_NETWORK_BY_INDEX_AND_ADDRESS_EVENT"
+	EVENT_PERMITTED_NETWORK_EXISTS                   = "PERMITTED_NETWORK_EXISTS_EVENT"
 
-	EVENT_SELECTING_PERMITTED_METHOD_OPTIONS   = "SELECTING_PERMITTED_METHOD_OPTIONS_EVENT"
-	EVENT_CREATE_PERMITTED_METHOD              = "CREATE_PERMITTED_METHOD_EVENT"
-	EVENT_REMOVE_PERMITTED_METHOD              = "REMOVE_PERMITTED_METHOD_EVENT"
-	EVENT_UPDATE_PERMITTED_METHOD              = "UPDATE_PERMITTED_METHOD_EVENT"
-	EVENT_GET_PERMITTED_METHOD                 = "GET_PERMITTED_METHOD_EVENT"
-	EVENT_GET_ALL_PERMITTED_METHODS_BY_ADDRESS = "GET_ALL_PERMITTED_METHODS_BY_ADDRESS_EVENT"
-	EVENT_PERMITTED_METHOD_EXISTS              = "PERMITTED_METHOD_EXISTS_EVENT"
+	EVENT_SELECTING_PERMITTED_METHOD_OPTIONS        = "SELECTING_PERMITTED_METHOD_OPTIONS_EVENT"
+	EVENT_CREATE_PERMITTED_METHOD                   = "CREATE_PERMITTED_METHOD_EVENT"
+	EVENT_REMOVE_PERMITTED_METHOD                   = "REMOVE_PERMITTED_METHOD_EVENT"
+	EVENT_UPDATE_PERMITTED_METHOD                   = "UPDATE_PERMITTED_METHOD_EVENT"
+	EVENT_GET_PERMITTED_METHOD_BY_ID                = "GET_PERMITTED_METHOD_BY_ID_EVENT"
+	EVENT_GET_ALL_PERMITTED_METHODS_BY_ADDRESS      = "GET_ALL_PERMITTED_METHODS_BY_ADDRESS_EVENT"
+	EVENT_GET_ALL_PERMITTED_METHODS_BY_ID_AND_INDEX = "GET_ALL_PERMITTED_METHODS_BY_ID_AND_INDEX_EVENT"
+	EVENT_PERMITTED_METHOD_EXISTS                   = "PERMITTED_METHOD_EXISTS_EVENT"
+	EVENT_PERMITTED_METHOD_INVOKE                   = "PERMITTED_METHOD_INVOKE_EVENT"
 )
 
 const (
@@ -50,12 +54,13 @@ const (
 	STATE_SELECTING_INSIDE_DATA  = "SELECTING_INSIDE_DATA_STATE"
 	STATE_SELECTING_OUTSIDE_DATA = "SELECTING_OUTSIDE_DATA_STATE"
 
-	//*********************** Outside DATA STATES *************************
+	//*********************** OUTSIDE DATA STATES ***********************************
 	STATE_SELECTING_INVOKE_METHOD               = "SELECTING_INVOKE_METHOD_STATE"
 	STATE_SELECTING_GET_ACCESSIBLE_NETWORK_INFO = "SELECTING_GET_ACCESSIBLE_NETWORK_INFO_STATE"
 	STATE_SELECTING_GET_ACCESSIBLE_METHOD_LIST  = "SELECTING_GET_ACESSIBLE_METHOD_LIST_STATE"
 
-	//*********************** Inside DATA STATES *************************
+	//*********************** INSIDE DATA STATES ************************************
+	//*********************** ACCESSIBLE NETWORK STATES **********************
 	STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS        = "SELECTING_ACCESSIBLE_NETWORK_OPTIONS_STATE"
 	STATE_SELECTING_GET_ACCESSIBLE_NETWORK_BY_ADDRESS = "SELECTING_GET_ACCESSIBLE_NETWORK_BY_ADDRESS_STATE"
 	STATE_SELECTING_GET_ALL_ACCESSIBLE_NETWORKS       = "SELECTING_GET_ALL_ACCESSIBLE_NETWORKS_STATE"
@@ -63,9 +68,25 @@ const (
 	STATE_SELECTING_REMOVE_ACCESSIBLE_NETWORK         = "SELECTING_REMOVE_ACCESSIBLE_NETWORK_STATE"
 	STATE_SELECTING_UPDATE_ACCESSIBLE_NETWORK         = "SELECTING_UPDATE_ACCESSIBLE_NETWORK_STATE"
 	STATE_SELECTING_ACCESSIBLE_NETWORK_EXISTS         = "SELECTING_ACCESSIBLE_NETWORK_EXISTS_STATE"
-
-	STATE_SELECTING_PERMITTED_NETWORK_OPTIONS = "SELECTING_PERMITTED_NETWORK_OPTIONS_STATE"
-	STATE_SELECTING_PERMITTED_METHOD_OPTIONS  = "SELECTING_PERMITTED_METHOD_OPTIONS_STATE"
+	//*********************** PERMITTED NETWORK STATES **********************
+	STATE_SELECTING_PERMITTED_NETWORK_OPTIONS                  = "SELECTING_PERMITTED_NETWORK_OPTIONS_STATE"
+	STATE_SELECTING_CREATE_PERMITTED_NETWORK                   = "SELECTING_CREATE_PERMITTED_NETWORK_STATE"
+	STATE_SELECTING_REMOVE_PERMITTED_NETWORK                   = "SELECTING_REMOVE_PERMITTED_NETWORK_STATE"
+	STATE_SELECTING_UPDATE_PERMITTED_NETWORK                   = "SELECTING_UPDATE_PERMITTED_NETWORK_STATE"
+	STATE_SELECTING_GET_PERMITTED_NETWORK                      = "SELECTING_GET_PERMITTED_NETWORK_STATE"
+	STATE_SELECTING_GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS      = "SELECTING_GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS_STATE"
+	STATE_SELECTING_GET_PERMITTED_NETWORK_BY_INDEX_AND_ADDRESS = "SELECTING_GET_PERMITTED_NETWORK_BY_INDEX_AND_ADDRESS_STATE"
+	STATE_SELECTING_PERMITTED_NETWORK_EXISTS                   = "SELECTING_PERMITTED_NETWORK_EXISTS_STATE"
+	//*********************** PERMITTED METHODS STATES **********************
+	STATE_SELECTING_PERMITTED_METHOD_OPTIONS                  = "SELECTING_PERMITTED_METHOD_OPTIONS_STATE"
+	STATE_SELECTING_CREATE_PERMITTED_METHOD                   = "SELECTING_CREATE_PERMITTED_METHOD_STATE"
+	STATE_SELECTING_REMOVE_PERMITTED_METHOD                   = "SELECTING_REMOVE_PERMITTED_METHOD_STATE"
+	STATE_SELECTING_UPDATE_PERMITTED_METHOD                   = "SELECTING_UPDATE_PERMITTED_METHOD_STATE"
+	STATE_SELECTING_GET_PERMITTED_METHOD_BY_ID                = "SELECTING_GET_PERMITTED_METHOD_BY_ID_STATE"
+	STATE_SELECTING_GET_ALL_PERMITTED_METHODS_BY_ADDRESS      = "SELECTING_GET_ALL_PERMITTED_METHODS_BY_ADDRESS_STATE"
+	STATE_SELECTING_GET_ALL_PERMITTED_METHODS_BY_ID_AND_INDEX = "SELECTING_GET_ALL_PERMITTED_METHODS_BY_ID_AND_INDEX_STATE"
+	STATE_SELECTING_PERMITTED_METHOD_EXISTS                   = "SELECTING_PERMITTED_METHOD_EXISTS_STATE"
+	STATE_SELECTING_INVOKE_PERMITTED_METHOD_BY_ID             = "STATE_SELECTING_INVOKE_PERMITTED_METHOD_BY_ID_STATE"
 )
 
 type Action struct {
@@ -118,7 +139,6 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 					destination:    STATE_INITIAL,
 				},
 			},
-
 			//*********************** OUTSIDE DATA STATES *************************
 			STATE_SELECTING_OUTSIDE_DATA: {
 				EVENT_SELECTING_INVOKE_METHOD: {
@@ -138,7 +158,6 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 					destination:    STATE_INITIAL,
 				},
 			},
-
 			//*********************** IOP STATES *************************
 			STATE_SELECTING_INVOKE_METHOD: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
@@ -158,7 +177,6 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 					destination:    STATE_SELECTING_OUTSIDE_DATA,
 				},
 			},
-
 			//*********************** INSIDE DATA STATES *************************
 			STATE_SELECTING_INSIDE_DATA: {
 				EVENT_SELECTING_ACCESSIBLE_NETWORK_OPTIONS: {
@@ -178,7 +196,6 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 					destination:    STATE_INITIAL,
 				},
 			},
-
 			//*********************** Accessible Network STATES *************************
 			STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS: {
 				EVENT_CREATE_ACCESSIBLE_NETWORK: {
@@ -247,6 +264,169 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 			},
 			//*********************** Permitted Network STATES *************************
+			STATE_SELECTING_PERMITTED_NETWORK_OPTIONS: {
+				EVENT_CREATE_PERMITTED_NETWORK: {
+					actionFunction: ShowCreatePermittedNetworkOptions,
+					destination:    STATE_SELECTING_CREATE_PERMITTED_NETWORK,
+				},
+				EVENT_REMOVE_PERMITTED_NETWORK: {
+					actionFunction: ShowRemovePermittedNetworkOptions,
+					destination:    STATE_SELECTING_REMOVE_PERMITTED_NETWORK,
+				},
+				EVENT_UPDATE_PERMITTED_NETWORK: {
+					actionFunction: ShowUpdatePermittedNetworkOptions,
+					destination:    STATE_SELECTING_UPDATE_PERMITTED_NETWORK,
+				},
+				EVENT_GET_PERMITTED_NETWORK_BY_ID: {
+					actionFunction: ShowGetPermittedNetworkByIdOptions,
+					destination:    STATE_SELECTING_GET_PERMITTED_NETWORK,
+				},
+				EVENT_GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS: {
+					actionFunction: ShowGetAllPermittedNetworksByAddressOptions,
+					destination:    STATE_SELECTING_GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS,
+				},
+				EVENT_GET_PERMITTED_NETWORK_BY_INDEX_AND_ADDRESS: {
+					actionFunction: ShowGetPermittedNetworkByIndexAndAddressOptions,
+					destination:    STATE_SELECTING_GET_PERMITTED_NETWORK_BY_INDEX_AND_ADDRESS,
+				},
+				EVENT_PERMITTED_NETWORK_EXISTS: {
+					actionFunction: ShowPermittedNetworkExistsOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_EXISTS,
+				},
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: showInsideDataOption,
+					destination:    STATE_SELECTING_INSIDE_DATA,
+				},
+			},
+			STATE_SELECTING_CREATE_PERMITTED_NETWORK: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedNetworkInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_REMOVE_PERMITTED_NETWORK: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedNetworkInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_UPDATE_PERMITTED_NETWORK: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedNetworkInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_PERMITTED_NETWORK: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedNetworkInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_ALL_PERMITTED_NETWORKS_BY_ADDRESS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedNetworkInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_PERMITTED_NETWORK_BY_INDEX_AND_ADDRESS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedNetworkInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_PERMITTED_NETWORK_EXISTS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedNetworkInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_NETWORK_OPTIONS,
+				},
+			},
+			//*********************** Permitted Methods STATES *************************
+			STATE_SELECTING_PERMITTED_METHOD_OPTIONS: {
+				EVENT_CREATE_PERMITTED_METHOD: {
+					actionFunction: ShowCreatePermittedMethodOptions,
+					destination:    STATE_SELECTING_CREATE_PERMITTED_METHOD,
+				},
+				EVENT_REMOVE_PERMITTED_METHOD: {
+					actionFunction: ShowRemovePermittedMethodOptions,
+					destination:    STATE_SELECTING_REMOVE_PERMITTED_METHOD,
+				},
+				EVENT_UPDATE_PERMITTED_METHOD: {
+					actionFunction: ShowUpdatePermittedMethodOptions,
+					destination:    STATE_SELECTING_UPDATE_PERMITTED_METHOD,
+				},
+				EVENT_GET_PERMITTED_METHOD_BY_ID: {
+					actionFunction: ShowGetPermittedMethodByIdOptions,
+					destination:    STATE_SELECTING_GET_PERMITTED_METHOD_BY_ID,
+				},
+				EVENT_GET_ALL_PERMITTED_METHODS_BY_ADDRESS: {
+					actionFunction: ShowGetPermittedMethodsByNetworkIdOptions,
+					destination:    STATE_SELECTING_GET_ALL_PERMITTED_METHODS_BY_ADDRESS,
+				},
+				EVENT_GET_ALL_PERMITTED_METHODS_BY_ID_AND_INDEX: {
+					actionFunction: ShowGetPermittedMethodsByNetworkIdAndIndexOptions,
+					destination:    STATE_SELECTING_GET_ALL_PERMITTED_METHODS_BY_ID_AND_INDEX,
+				},
+				EVENT_PERMITTED_METHOD_EXISTS: {
+					actionFunction: ShowPermittedMethodExistsOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_EXISTS,
+				},
+				EVENT_PERMITTED_METHOD_INVOKE: {
+					actionFunction: ShowInvokePermittedMethodOptions,
+					destination:    STATE_SELECTING_INVOKE_PERMITTED_METHOD_BY_ID,
+				},
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: showInsideDataOption,
+					destination:    STATE_SELECTING_INSIDE_DATA,
+				},
+			},
+			STATE_SELECTING_CREATE_PERMITTED_METHOD: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
+			STATE_SELECTING_REMOVE_PERMITTED_METHOD: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
+			STATE_SELECTING_UPDATE_PERMITTED_METHOD: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_PERMITTED_METHOD_BY_ID: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_ALL_PERMITTED_METHODS_BY_ADDRESS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_ALL_PERMITTED_METHODS_BY_ID_AND_INDEX: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
+			STATE_SELECTING_PERMITTED_METHOD_EXISTS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
+			STATE_SELECTING_INVOKE_PERMITTED_METHOD_BY_ID: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerPermittedMethodInfoOptions,
+					destination:    STATE_SELECTING_PERMITTED_METHOD_OPTIONS,
+				},
+			},
 		},
 	}
 }
@@ -278,37 +458,30 @@ func showInitialOption(fsm *StateMachine) {
 
 func showOutsideDataOption(fsm *StateMachine) {
 	fmt.Println("Please Select One Of The Following Options: ")
-
 	fmt.Println("1. Get Accessible Network Information")
 	fmt.Println("2. Get Accessible Method List")
 	fmt.Println("3. Invoke Method")
 	fmt.Println("4. Return To Previous Menu")
-
 	var answer string
 	fmt.Scanln(&answer)
+
 	switch answer {
-
 	case "1":
-
 		err := fsm.doTransition(EVENT_SELECTING_GET_ACCESSIBLE_NETWORK_INFO)
 		if err != nil {
 			fmt.Println(err)
 		}
 	case "2":
-
 		err := fsm.doTransition(EVENT_SELECTING_GET_ACCESSIBLE_METHOD_LIST)
 		if err != nil {
 			fmt.Println(err)
 		}
-
 	case "3":
-
 		err := fsm.doTransition(EVENT_SELECTING_INVOKE_METHOD)
 		if err != nil {
 			fmt.Println(err)
 		}
 	case "4":
-
 		err := fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
 		if err != nil {
 			fmt.Println(err)
@@ -322,9 +495,9 @@ func showInsideDataOption(fsm *StateMachine) {
 	fmt.Println("2. Permitted Network Handler")
 	fmt.Println("3. Permitted Method Handler")
 	fmt.Println("4. Return To Previous Menu")
-
 	var answer string
 	fmt.Scanln(&answer)
+
 	switch answer {
 	case "1":
 		err := fsm.doTransition(EVENT_SELECTING_ACCESSIBLE_NETWORK_OPTIONS)
@@ -350,6 +523,7 @@ func showInsideDataOption(fsm *StateMachine) {
 }
 
 func StartCli() {
+	time.Sleep(time.Second / 4)
 	var fsm = new(StateMachine)
 	fsm = fsm.FsmCreator()
 	err := fsm.doTransition(EVENT_INITIAL)
