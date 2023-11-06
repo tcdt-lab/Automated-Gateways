@@ -13,6 +13,7 @@ const (
 	EVENT_SELECTING_OUTSIDE_DATA  = "SELECTING_OUTSIDE_DATA_EVENT"
 	EVENT_SELECTING_INSIDE_DATA   = "SELECTING_INSIDE_DATA_EVENT"
 	EVENT_RETURN_TO_PREVIOUS_MENU = "RETURN_TO_PREVIOUS_MENU_EVENT"
+
 	//*********************** OUTSIDE DATA EVENTS *************************
 	EVENT_SELECTING_INVOKE_METHOD               = "SELECTING_INVOKE_METHOD_EVENT"
 	EVENT_SELECTING_GET_ACCESSIBLE_NETWORK_INFO = "SELECTING_GET_ACCESSIBLE_NETWORK_INFO_EVENT"
@@ -108,11 +109,17 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 					actionFunction: showOutsideDataOption,
 					destination:    STATE_SELECTING_OUTSIDE_DATA,
 				},
+				EVENT_SELECTING_INSIDE_DATA: {
+					actionFunction: showInsideDataOption,
+					destination:    STATE_SELECTING_INSIDE_DATA,
+				},
 				EVENT_INITIAL: {
 					actionFunction: showInitialOption,
 					destination:    STATE_INITIAL,
 				},
 			},
+
+			//*********************** OUTSIDE DATA STATES *************************
 			STATE_SELECTING_OUTSIDE_DATA: {
 				EVENT_SELECTING_INVOKE_METHOD: {
 					actionFunction: showInvokeMethodOption,
@@ -132,6 +139,27 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 			},
 
+			//*********************** IOP STATES *************************
+			STATE_SELECTING_INVOKE_METHOD: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: showOutsideDataOption,
+					destination:    STATE_SELECTING_OUTSIDE_DATA,
+				},
+			},
+			STATE_SELECTING_GET_ACCESSIBLE_NETWORK_INFO: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: showOutsideDataOption,
+					destination:    STATE_SELECTING_OUTSIDE_DATA,
+				},
+			},
+			STATE_SELECTING_GET_ACCESSIBLE_METHOD_LIST: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: showOutsideDataOption,
+					destination:    STATE_SELECTING_OUTSIDE_DATA,
+				},
+			},
+
+			//*********************** INSIDE DATA STATES *************************
 			STATE_SELECTING_INSIDE_DATA: {
 				EVENT_SELECTING_ACCESSIBLE_NETWORK_OPTIONS: {
 					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
@@ -151,24 +179,74 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 			},
 
-			STATE_SELECTING_INVOKE_METHOD: {
+			//*********************** Accessible Network STATES *************************
+			STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS: {
+				EVENT_CREATE_ACCESSIBLE_NETWORK: {
+					actionFunction: ShowCreateAccessibleNetworkOptions,
+					destination:    STATE_SELECTING_CREATE_ACCESSIBLE_NETWORK,
+				},
+				EVENT_REMOVE_ACCESSIBLE_NETWORK: {
+					actionFunction: ShowRemoveAccessibleNetworkOptions,
+					destination:    STATE_SELECTING_REMOVE_ACCESSIBLE_NETWORK,
+				},
+				EVENT_UPDATE_ACCESSIBLE_NETWORK: {
+					actionFunction: ShowUpdateAccessibleNetworkInfo,
+					destination:    STATE_SELECTING_UPDATE_ACCESSIBLE_NETWORK,
+				},
+				EVENT_GET_ACCESSIBLE_NETWORK_BY_ID: {
+					actionFunction: ShowGetAccessibleNetworkInfoByIdOptions,
+					destination:    STATE_SELECTING_GET_ACCESSIBLE_NETWORK_BY_ADDRESS,
+				},
+				EVENT_GET_ALL_ACCESSIBLE_NETWORKS_BY_ADDRESS: {
+					actionFunction: ShowGetAllAccessibleNetworksByAddressOptions,
+					destination:    STATE_SELECTING_GET_ALL_ACCESSIBLE_NETWORKS,
+				},
+				EVENT_ACCESSIBLE_NETWORK_EXISTS: {
+					actionFunction: ShowIfAccessibleNetworkExists,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_EXISTS,
+				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
-					actionFunction: showOutsideDataOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					actionFunction: showInsideDataOption,
+					destination:    STATE_SELECTING_INSIDE_DATA,
 				},
 			},
-			STATE_SELECTING_GET_ACCESSIBLE_NETWORK_INFO: {
+			STATE_SELECTING_CREATE_ACCESSIBLE_NETWORK: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
-					actionFunction: showOutsideDataOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
 				},
 			},
-			STATE_SELECTING_GET_ACCESSIBLE_METHOD_LIST: {
+			STATE_SELECTING_REMOVE_ACCESSIBLE_NETWORK: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
-					actionFunction: showOutsideDataOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
 				},
 			},
+			STATE_SELECTING_UPDATE_ACCESSIBLE_NETWORK: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_ACCESSIBLE_NETWORK_BY_ADDRESS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_GET_ALL_ACCESSIBLE_NETWORKS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
+				},
+			},
+			STATE_SELECTING_ACCESSIBLE_NETWORK_EXISTS: {
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
+				},
+			},
+			//*********************** Permitted Network STATES *************************
 		},
 	}
 }
