@@ -94,7 +94,7 @@ func ShowCreatePermittedMethodOptions(fsm *StateMachine) {
 
 	fmt.Println("Please Enter Permitted Network Id:")
 	fmt.Scanln(&permittedNetworkId)
-	fmt.Println("Please Enter Permitted Network Name:")
+	fmt.Println("Please Enter Permitted Method Name:")
 	fmt.Scanln(&permittedNetworkName)
 	fmt.Println("Please Enter Chaincode Name:")
 	fmt.Scanln(&chaincode)
@@ -112,6 +112,12 @@ func ShowCreatePermittedMethodOptions(fsm *StateMachine) {
 		return
 	}
 	println("Result: ", res)
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
 }
 
 func ShowUpdatePermittedMethodOptions(fsm *StateMachine) {
@@ -149,6 +155,12 @@ func ShowUpdatePermittedMethodOptions(fsm *StateMachine) {
 		return
 	}
 	println("Result: ", "Permitted Method Updated Successfully")
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
 }
 
 func ShowRemovePermittedMethodOptions(fsm *StateMachine) {
@@ -171,6 +183,12 @@ func ShowRemovePermittedMethodOptions(fsm *StateMachine) {
 		return
 	}
 	println("Result: ", "Permitted Method Removed Successfully")
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
 }
 
 func ShowGetPermittedMethodByIdOptions(fsm *StateMachine) {
@@ -199,6 +217,12 @@ func ShowGetPermittedMethodByIdOptions(fsm *StateMachine) {
 	fmt.Println("Channel Name: ", res.Channel)
 	fmt.Println("Input Arguments: ", res.InputArgs)
 	fmt.Println("Output Arguments: ", res.OutputArgs)
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
 }
 
 func ShowGetPermittedMethodsByNetworkIdOptions(fsm *StateMachine) {
@@ -229,6 +253,12 @@ func ShowGetPermittedMethodsByNetworkIdOptions(fsm *StateMachine) {
 		fmt.Println("Input Arguments: ", method.InputArgs)
 		fmt.Println("Output Arguments: ", method.OutputArgs)
 	}
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
 }
 
 func ShowGetPermittedMethodsByNetworkIdAndIndexOptions(fsm *StateMachine) {
@@ -250,7 +280,7 @@ func ShowGetPermittedMethodsByNetworkIdAndIndexOptions(fsm *StateMachine) {
 	fmt.Println("Please Enter End Index:")
 	fmt.Scanln(&endIndex)
 
-	res, err := permittedMethod.GetPermittedMethodsByIndexAndNetworkId(permittedNetworkId, startIndex, endIndex)
+	res, err := permittedMethod.GetPermittedMethodsByIndexAndNetworkId(startIndex, endIndex, permittedNetworkId)
 	if err != nil {
 		fmt.Println(err)
 		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
@@ -264,6 +294,12 @@ func ShowGetPermittedMethodsByNetworkIdAndIndexOptions(fsm *StateMachine) {
 		fmt.Println("Channel Name: ", method.Channel)
 		fmt.Println("Input Arguments: ", method.InputArgs)
 		fmt.Println("Output Arguments: ", method.OutputArgs)
+	}
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
 	}
 }
 
@@ -288,6 +324,12 @@ func ShowPermittedMethodExistsOptions(fsm *StateMachine) {
 	}
 
 	fmt.Println("Result: ", res)
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
 }
 
 func ShowInvokePermittedMethodOptions(fsm *StateMachine) {
@@ -317,4 +359,11 @@ func ShowInvokePermittedMethodOptions(fsm *StateMachine) {
 		return
 	}
 	fmt.Println("Result: ", res)
+
+	err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+	if err != nil {
+		fmt.Println(err)
+		err = fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
 }

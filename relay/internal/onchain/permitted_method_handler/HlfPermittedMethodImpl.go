@@ -116,9 +116,9 @@ func (hlfPermittedMethod *HlfPermittedMethod) CloseConnection(clientConnection *
 	return nil
 }
 
-func (hlfPermittedMethod *HlfPermittedMethod) AddPermittedMethod(gw *client.Gateway, permittedNetworkId string, permittedMrthodName string, chaincode string, channel string, inputArgs string, outputArgs string) (*datatypes.MethodInfo, error) {
+func (hlfPermittedMethod *HlfPermittedMethod) AddPermittedMethod(gw *client.Gateway, permittedNetworkId string, permittedMethodName string, chaincode string, channel string, inputArgs string, outputArgs string) (*datatypes.MethodInfo, error) {
 
-	log.Printf("add method %s to  permitted Network with Id: %s\n", permittedMrthodName, permittedNetworkId)
+	log.Printf("add method %s to  permitted Network with Id: %s\n", permittedMethodName, permittedNetworkId)
 	methodName := "AddPermittedMethod"
 
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
@@ -131,7 +131,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) AddPermittedMethod(gw *client.Gate
 	network := gw.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
 
-	submitRes, err := contract.SubmitTransaction(methodName, permittedNetworkId, permittedMrthodName, chaincode, channel, inputArgs, outputArgs)
+	submitRes, err := contract.SubmitTransaction(methodName, permittedNetworkId, permittedMethodName, chaincode, channel, inputArgs, outputArgs)
 	var permittedMethodInfo datatypes.MethodInfo
 	err = json.Unmarshal(submitRes, &permittedMethodInfo)
 	if err != nil {
@@ -201,7 +201,7 @@ func (hlfPermittedMethod *HlfPermittedMethod) GetPermittedMethod(gw *client.Gate
 	return &permittedMethodInfo, nil
 }
 
-func (hlfPermittedMethod HlfPermittedMethod) GetPermittedMethodsByIndex(gw *client.Gateway, permittedNetworkId string, startIndex string, endIndex string) ([]*datatypes.MethodInfo, error) {
+func (hlfPermittedMethod HlfPermittedMethod) GetPermittedMethodsByIndex(gw *client.Gateway, startIndex string, endIndex string, permittedNetworkId string) ([]*datatypes.MethodInfo, error) {
 	log.Printf("Get PermittedMethods by index: %s\n", permittedNetworkId)
 	methodName := "GetPermittedMethodsByIndex"
 
