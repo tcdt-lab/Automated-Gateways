@@ -8,14 +8,14 @@ import (
 type HlfPermittedMethodsMediator struct {
 }
 
-func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) AddPermittedMethod(permittedNetworkId string, permittedNetworkName string, chaincode string, channel string, inputArgs string, outputArgs string) (*dataTypes.MethodInfo, error) {
+func (hlfPermittedMethodsMediator *HlfPermittedMethodsMediator) AddPermittedMethod(permittedNetworkId string, permittedMethodName string, chaincode string, channel string, inputArgs string, outputArgs string) (*dataTypes.MethodInfo, error) {
 	var permittedMethods permittedHandler.HlfPermittedMethod
 	connection, gateway, err := permittedMethods.OpenConnection()
 	if err != nil {
 		return nil, err
 	}
 	defer permittedMethods.CloseConnection(connection, gateway)
-	return permittedMethods.AddPermittedMethod(gateway, permittedNetworkId, permittedNetworkName, chaincode, channel, inputArgs, outputArgs)
+	return permittedMethods.AddPermittedMethod(gateway, permittedNetworkId, permittedMethodName, chaincode, channel, inputArgs, outputArgs)
 
 }
 
