@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-gateway/pkg/client"
 	"github.com/hyperledger/fabric-gateway/pkg/identity"
+	configs "github.com/tcdt-lab/Automated-Gateways/relay/configs"
 	dataTypes "github.com/tcdt-lab/Automated-Gateways/relay/data_types"
 	hlfConfig "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/configs"
 	"google.golang.org/grpc"
@@ -261,7 +262,7 @@ func (hlfAccessibleNetwork *HlfAccessibleNetwork) GetAllAccessibleNetworksByAddr
 	}
 	network := gw.GetNetwork(channelName)
 	contract := network.GetContract(chaincodeName)
-
+	fmt.Println(configs.ReadConfigYAMLFile())
 	evalRes, err := contract.EvaluateTransaction(methodName, address)
 	if err != nil {
 		log.Printf("failed to submit transaction: %s", err)

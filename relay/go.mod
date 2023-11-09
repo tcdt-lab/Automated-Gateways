@@ -7,6 +7,7 @@ require (
 	github.com/hyperledger/fabric-gateway v1.3.2
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
+	gopkg.in/yaml.v2 v2.2.8
 )
 
 require (
