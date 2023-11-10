@@ -137,4 +137,9 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 
+org0/**
 org1/**
+org2/**
+config/**
+tls-ca/**
+
