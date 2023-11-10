@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"flag"
+	"github.com/tcdt-lab/Automated-Gateways/relay/configs"
 	"github.com/tcdt-lab/Automated-Gateways/relay/data_types"
 	"github.com/tcdt-lab/Automated-Gateways/relay/internal/scripts"
 	"google.golang.org/grpc"
@@ -15,16 +16,16 @@ import (
 	"time"
 )
 
-var (
-	caFile             = flag.String("ca_file", "", "The file containing the CA root cert file")
-	serverAddr         = flag.String("addr", "192.168.100.125:50051", "The server address in the format of host:port")
-	serverHostOverride = flag.String("server_host_override", "x.test.example.com", "The server name used to verify the hostname returned by the TLS handshake")
-)
-
-func openConnection() (*grpc.ClientConn, error) {
-
+func openConnection(outsiderNetworkId string) (*grpc.ClientConn, error) {
+	cnf, err := configs.ReadConfigYAMLFile()
+	if err != nil {
+		log.Fatalf("openConnection failed because of error in reading config yaml: %v", err)
+	}
+	targetNetwork := configs.GetClientConfigByClientAccessibleId(outsiderNetworkId, cnf)
+	finalAddress := targetNetwork.Ip + ":" + targetNetwork.Port
+	serverAddr := flag.String("addr", finalAddress, "The server address in the format of host:port")
 	flag.Parse()
-	caCert, err := os.ReadFile("../relay/certs/ca-cert.pem")
+	caCert, err := os.ReadFile(targetNetwork.CaCertPath)
 	if err != nil {
 		log.Fatal(caCert)
 	}
@@ -34,7 +35,7 @@ func openConnection() (*grpc.ClientConn, error) {
 		log.Fatal(err)
 	}
 
-	clientCert, err := tls.LoadX509KeyPair("../relay/certs/client-cert.pem", "../relay/certs/client-key.pem")
+	clientCert, err := tls.LoadX509KeyPair(targetNetwork.CertPath, targetNetwork.CertPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,9 +56,9 @@ func closeConnection(conn *grpc.ClientConn) error {
 	return conn.Close()
 }
 
-func InvokeAccessibleMethod(accessibleMethodName string, chaincodeName string, channelName,
+func InvokeAccessibleMethod(outsiderNetworkId string, accessibleMethodName string, chaincodeName string, channelName,
 	accessibleMethodInput string, accessibleMethodOutput string) (string, string) {
-	conn, err := openConnection()
+	conn, err := openConnection(outsiderNetworkId)
 	if err != nil {
 		log.Fatalf("openConnection failed: %v", err)
 	}
@@ -82,8 +83,8 @@ func InvokeAccessibleMethod(accessibleMethodName string, chaincodeName string, c
 	return res.Response, res.Error
 }
 
-func GetAccessibleMethodsList(accessibleNetworkId string) ([]*data_types.MethodInfo, error) {
-	conn, err := openConnection()
+func GetAccessibleMethodsList(outsiderNetworkId string, accessibleNetworkId string) ([]*data_types.MethodInfo, error) {
+	conn, err := openConnection(outsiderNetworkId)
 	if err != nil {
 		log.Fatalf("openConnection failed: %v", err)
 		return nil, err
@@ -127,8 +128,8 @@ func GetAccessibleMethodsList(accessibleNetworkId string) ([]*data_types.MethodI
 	return methodInfos, nil
 }
 
-func GetNetworkInformation(selfAddress string) ([]*data_types.AccessibleNetworkInfo, error) {
-	conn, err := openConnection()
+func GetNetworkInformation(outsiderNetworkId string, selfAddress string) ([]*data_types.AccessibleNetworkInfo, error) {
+	conn, err := openConnection(outsiderNetworkId)
 	if err != nil {
 		log.Fatalf("openConnection failed: %v", err)
 		return nil, err

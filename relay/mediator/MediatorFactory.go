@@ -2,7 +2,7 @@ package mediator
 
 import (
 	"github.com/tcdt-lab/Automated-Gateways/relay/mediator/hlf_mediator"
-	interfaces2 "github.com/tcdt-lab/Automated-Gateways/relay/mediator/interfaces"
+	interfaces "github.com/tcdt-lab/Automated-Gateways/relay/mediator/interfaces"
 )
 
 const (
@@ -12,21 +12,21 @@ const (
 type MediatorFactory struct {
 }
 
-func (mediatorFactory *MediatorFactory) CreatePermittedNetworkMediator(networkType string) (interfaces2.IPermittedNetworkMediator, error) {
+func (mediatorFactory *MediatorFactory) CreatePermittedNetworkMediator(networkType string) (interfaces.IPermittedNetworkMediator, error) {
 	if networkType == HYPERLEDGER_FABRIC_NETWROK_TYPE {
 		return &hlf_mediator.HlfPermittedNetworkMediator{}, nil
 	}
 	return nil, nil
 }
 
-func (mediatorFactory *MediatorFactory) CreateAccessibleNetworkMediator(networkType string) (interfaces2.IAccessibleNetworkMediator, error) {
+func (mediatorFactory *MediatorFactory) CreateAccessibleNetworkMediator(networkType string) (interfaces.IAccessibleNetworkMediator, error) {
 	if networkType == HYPERLEDGER_FABRIC_NETWROK_TYPE {
 		return &hlf_mediator.HlfAccessibleNetworkMediator{}, nil
 	}
 	return nil, nil
 }
 
-func (mediatorFactory *MediatorFactory) CreatePermittedMethodsMediator(networkType string) (interfaces2.IPermittedMethodMediator, error) {
+func (mediatorFactory *MediatorFactory) CreatePermittedMethodsMediator(networkType string) (interfaces.IPermittedMethodMediator, error) {
 	if networkType == HYPERLEDGER_FABRIC_NETWROK_TYPE {
 		return &hlf_mediator.HlfPermittedMethodsMediator{}, nil
 	}
