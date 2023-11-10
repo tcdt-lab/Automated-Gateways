@@ -24,7 +24,7 @@ func showInvokeMethodOption(fsm *StateMachine) {
 	fmt.Println("5. output")
 	fmt.Scanln(&output)
 
-	iopMediator.InvokeAccessibleMethod(name, chaincode, channel, inputArgs, output)
+	iopMediator.InvokeAccessibleMethod(fsm.selectedAccessibleNetworkId, name, chaincode, channel, inputArgs, output)
 
 	fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
 }
@@ -33,20 +33,20 @@ func showGetAccessibleNetworkInfoOption(fsm *StateMachine) {
 	var address string
 	var iopMediator mediator.IopMediator
 	fmt.Println("Please Insert the Required Information: ")
-	fmt.Println("1. Address")
+	fmt.Println("1. Your Address")
 	fmt.Scanln(&address)
 
-	res, err := iopMediator.GetAccessibleNetworkInfo(address)
+	res, err := iopMediator.GetSelfInformationOnOutsideNetworks(fsm.selectedAccessibleNetworkId, address)
 	if err != nil {
 		fmt.Println(err)
 	}
 	for _, network := range res {
 
-		fmt.Println("Network Id: ", network.AccessibleNetworkId)
-		fmt.Println("Network Name: ", network.NetworkName)
-		fmt.Println("Network IP: ", network.IP)
-		fmt.Println("Network Address: ", network.ADDRESS)
-		fmt.Println("Company Name: ", network.CompanyName)
+		fmt.Println("Your Registered Network Id: ", network.AccessibleNetworkId)
+		fmt.Println("Your Registered Network Name: ", network.NetworkName)
+		fmt.Println("Your Registered Network IP: ", network.IP)
+		fmt.Println("Network Registered Address: ", network.ADDRESS)
+		fmt.Println("Company Registered Name: ", network.CompanyName)
 		fmt.Println("*******************************************************")
 	}
 	fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
@@ -56,9 +56,9 @@ func showGetAccessibleMethodListOption(fsm *StateMachine) {
 	var networkId string
 	var iopMediator mediator.IopMediator
 	fmt.Println("Please Insert the Required Information: ")
-	fmt.Println("1. Network Id")
+	fmt.Println("1. Your Network Id")
 	fmt.Scanln(&networkId)
-	res, err := iopMediator.GetAccessibleMethodsList(networkId)
+	res, err := iopMediator.GetAccessibleMethodsList(fsm.selectedAccessibleNetworkId, networkId)
 
 	if err != nil {
 		fmt.Println(err)
@@ -75,4 +75,37 @@ func showGetAccessibleMethodListOption(fsm *StateMachine) {
 	}
 
 	fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+}
+
+func showOutsideDataOption(fsm *StateMachine) {
+	fmt.Println("Please Select One Of The Following Options: ")
+	fmt.Println("1. Get Your Network Information From Outside Ledger")
+	fmt.Println("2. Get Your Accessible Method List From Outside Ledger")
+	fmt.Println("3. Invoke Method On Outside Ledger")
+	fmt.Println("4. Return To Previous Menu")
+	var answer string
+	fmt.Scanln(&answer)
+
+	switch answer {
+	case "1":
+		err := fsm.doTransition(EVENT_SELECTING_GET_ACCESSIBLE_NETWORK_INFO)
+		if err != nil {
+			fmt.Println(err)
+		}
+	case "2":
+		err := fsm.doTransition(EVENT_SELECTING_GET_ACCESSIBLE_METHOD_LIST)
+		if err != nil {
+			fmt.Println(err)
+		}
+	case "3":
+		err := fsm.doTransition(EVENT_SELECTING_INVOKE_METHOD)
+		if err != nil {
+			fmt.Println(err)
+		}
+	case "4":
+		err := fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 }

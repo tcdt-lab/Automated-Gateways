@@ -1,7 +1,7 @@
 ###########################
-#
-#  CONFIGURATION FILE
-#
+#                         #
+#   CONFIGURATION FILE    #
+#                         #
 ###########################
 
 # This file contains the configuration for the application.
@@ -28,16 +28,14 @@ server:
 #It is an array that contains port, client certificate and client private key for each accessible network, in addition to certificate of the CA of each accessible network.
 client:
     - accessible_network_id:  AccessibleNetwork_koosha-dell.com_10
+      accessible_network_name: koosha-dell
+      company_name: k-dell
       cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client-cert.pem
       port: 50051 #the outsider server port
+      ip: 127.0.0.1 #the outsider server ip
+      address: koosha-dell.com #the outsider server address
       key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client_key.pem
       ca_cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
-#    - accessible_network_id: test_id
-#      port: test_port
-#      cert_path: test_cert_path
-#      key_path: test_key_path
-#      ca_cert_path: test_ca_cert_path
-
 
 #PLATFORMS CONFIGURATION
 platform:

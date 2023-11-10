@@ -48,21 +48,21 @@ func (iopMediator *IopMediator) InvokePermittedMethod(name string, chaincode str
 	return result, nil
 }
 
-func (iopMediator *IopMediator) GetAccessibleNetworkInfo(address string) ([]*dataType.AccessibleNetworkInfo, error) {
-	res, err := offchain.GetNetworkInformation(address)
+func (iopMediator *IopMediator) GetSelfInformationOnOutsideNetworks(outsiderNetworkId string, address string) ([]*dataType.AccessibleNetworkInfo, error) {
+	res, err := offchain.GetNetworkInformation(outsiderNetworkId, address)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
 }
 
-func (iopMediator *IopMediator) InvokeAccessibleMethod(name string, chaincode string, channel string, inputArgs string, output string) (string, string) {
-	result, err := offchain.InvokeAccessibleMethod(name, chaincode, channel, inputArgs, output)
+func (iopMediator *IopMediator) InvokeAccessibleMethod(outsiderNetworkId string, name string, chaincode string, channel string, inputArgs string, output string) (string, string) {
+	result, err := offchain.InvokeAccessibleMethod(outsiderNetworkId, name, chaincode, channel, inputArgs, output)
 	return result, err
 }
 
-func (iopMediator *IopMediator) GetAccessibleMethodsList(networkId string) ([]*dataType.MethodInfo, error) {
-	res, err := offchain.GetAccessibleMethodsList(networkId)
+func (iopMediator *IopMediator) GetAccessibleMethodsList(outsiderNetworkId string, networkId string) ([]*dataType.MethodInfo, error) {
+	res, err := offchain.GetAccessibleMethodsList(outsiderNetworkId, networkId)
 	if err != nil {
 		return nil, err
 	}

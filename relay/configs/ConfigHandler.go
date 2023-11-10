@@ -29,10 +29,15 @@ type Server struct {
 }
 
 type Client struct {
-	AccessibleNetworkId string `yaml:"accessible_network_id"`
-	CertPath            string `yaml:"cert_path"`
-	KeyPath             string `yaml:"key_path"`
-	CaCertPath          string `yaml:"ca_cert_path"`
+	AccessibleNetworkId   string `yaml:"accessible_network_id"`
+	AccessibleNetworkName string `yaml:"accessible_network_name"`
+	CertPath              string `yaml:"cert_path"`
+	KeyPath               string `yaml:"key_path"`
+	CaCertPath            string `yaml:"ca_cert_path"`
+	Ip                    string `yaml:"ip"`
+	Address               string `yaml:"address"`
+	CompanyName           string `yaml:"company_name"`
+	Port                  string `yaml:"port"`
 }
 type Platform struct {
 	Hyperledger Hyperledger `yaml:"hyperledger"`
@@ -69,4 +74,13 @@ func ReadConfigYAMLFile() (Configuration, error) {
 		return configuration, err
 	}
 	return configuration, nil
+}
+
+func GetClientConfigByClientAccessibleId(clientAccessibleId string, configuration Configuration) Client {
+	for _, client := range configuration.Client {
+		if client.AccessibleNetworkId == clientAccessibleId {
+			return client
+		}
+	}
+	return Client{}
 }

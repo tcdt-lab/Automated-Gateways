@@ -2,6 +2,8 @@ package iop_cli
 
 import (
 	"fmt"
+	"github.com/tcdt-lab/Automated-Gateways/relay/configs"
+	"strconv"
 	"time"
 )
 
@@ -10,10 +12,11 @@ type Event string
 type ActionFunction func(*StateMachine)
 
 const (
-	EVENT_INITIAL                 = "INITIAL_EVENT"
-	EVENT_SELECTING_OUTSIDE_DATA  = "SELECTING_OUTSIDE_DATA_EVENT"
-	EVENT_SELECTING_INSIDE_DATA   = "SELECTING_INSIDE_DATA_EVENT"
-	EVENT_RETURN_TO_PREVIOUS_MENU = "RETURN_TO_PREVIOUS_MENU_EVENT"
+	EVENT_INITIAL                        = "INITIAL_EVENT"
+	EVENT_SELECTING_OUTSIDE_DATA         = "SELECTING_OUTSIDE_DATA_EVENT"
+	EVENT_SELECTING_OUTSIDE_DATA_OPTIONS = "SELECTING_OUTSIDE_DATA_OPTIONS_EVENT"
+	EVENT_SELECTING_INSIDE_DATA_OPTIONS  = "SELECTING_INSIDE_DATA_EVENT"
+	EVENT_RETURN_TO_PREVIOUS_MENU        = "RETURN_TO_PREVIOUS_MENU_EVENT"
 
 	//*********************** OUTSIDE DATA EVENTS *************************
 	EVENT_SELECTING_INVOKE_METHOD               = "SELECTING_INVOKE_METHOD_EVENT"
@@ -50,16 +53,17 @@ const (
 )
 
 const (
-	STATE_INITIAL                = "INITIAL_STATE"
-	STATE_SELECTING_INSIDE_DATA  = "SELECTING_INSIDE_DATA_STATE"
-	STATE_SELECTING_OUTSIDE_DATA = "SELECTING_OUTSIDE_DATA_STATE"
-
+	STATE_INITIAL                        = "INITIAL_STATE"
+	STATE_SELECTING_INSIDE_DATA_OPTIONS  = "SELECTING_INSIDE_DATA_STATE"
+	STATE_SELECTING_OUTSIDE_DATA         = "SELECTING_OUTSIDE_DATA_STATE"
+	STATE_SELECTING_OUTSIDE_DATA_OPTIONS = "SELECTING_OUTSIDE_DATA_OPTIONS_STATE"
 	//*********************** OUTSIDE DATA STATES ***********************************
 	STATE_SELECTING_INVOKE_METHOD               = "SELECTING_INVOKE_METHOD_STATE"
 	STATE_SELECTING_GET_ACCESSIBLE_NETWORK_INFO = "SELECTING_GET_ACCESSIBLE_NETWORK_INFO_STATE"
 	STATE_SELECTING_GET_ACCESSIBLE_METHOD_LIST  = "SELECTING_GET_ACESSIBLE_METHOD_LIST_STATE"
 
 	//*********************** INSIDE DATA STATES ************************************
+
 	//*********************** ACCESSIBLE NETWORK STATES **********************
 	STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS        = "SELECTING_ACCESSIBLE_NETWORK_OPTIONS_STATE"
 	STATE_SELECTING_GET_ACCESSIBLE_NETWORK_BY_ADDRESS = "SELECTING_GET_ACCESSIBLE_NETWORK_BY_ADDRESS_STATE"
@@ -98,9 +102,10 @@ type Transition map[Event]Action
 type StateMap map[State]Transition
 
 type StateMachine struct {
-	initial  State
-	current  State
-	stateMap StateMap
+	initial                     State
+	current                     State
+	stateMap                    StateMap
+	selectedAccessibleNetworkId string
 }
 
 func (fsm *StateMachine) getCurrentState() State {
@@ -127,12 +132,12 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 		stateMap: StateMap{
 			STATE_INITIAL: {
 				EVENT_SELECTING_OUTSIDE_DATA: {
-					actionFunction: showOutsideDataOption,
+					actionFunction: showSelectAccessibleNetworksOption,
 					destination:    STATE_SELECTING_OUTSIDE_DATA,
 				},
-				EVENT_SELECTING_INSIDE_DATA: {
+				EVENT_SELECTING_INSIDE_DATA_OPTIONS: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA,
+					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
 				},
 				EVENT_INITIAL: {
 					actionFunction: showInitialOption,
@@ -141,6 +146,16 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 			},
 			//*********************** OUTSIDE DATA STATES *************************
 			STATE_SELECTING_OUTSIDE_DATA: {
+				EVENT_SELECTING_OUTSIDE_DATA_OPTIONS: {
+					actionFunction: showOutsideDataOption,
+					destination:    STATE_SELECTING_OUTSIDE_DATA_OPTIONS,
+				},
+				EVENT_RETURN_TO_PREVIOUS_MENU: {
+					actionFunction: showInitialOption,
+					destination:    STATE_INITIAL,
+				},
+			},
+			STATE_SELECTING_OUTSIDE_DATA_OPTIONS: {
 				EVENT_SELECTING_INVOKE_METHOD: {
 					actionFunction: showInvokeMethodOption,
 					destination:    STATE_SELECTING_INVOKE_METHOD,
@@ -154,8 +169,8 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 					destination:    STATE_SELECTING_GET_ACCESSIBLE_METHOD_LIST,
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
-					actionFunction: showInitialOption,
-					destination:    STATE_INITIAL,
+					actionFunction: showSelectAccessibleNetworksOption,
+					destination:    STATE_SELECTING_OUTSIDE_DATA,
 				},
 			},
 			//*********************** IOP STATES *************************
@@ -178,7 +193,7 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 			},
 			//*********************** INSIDE DATA STATES *************************
-			STATE_SELECTING_INSIDE_DATA: {
+			STATE_SELECTING_INSIDE_DATA_OPTIONS: {
 				EVENT_SELECTING_ACCESSIBLE_NETWORK_OPTIONS: {
 					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
 					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
@@ -224,7 +239,7 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA,
+					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
 				},
 			},
 			STATE_SELECTING_CREATE_ACCESSIBLE_NETWORK: {
@@ -295,7 +310,7 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA,
+					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
 				},
 			},
 			STATE_SELECTING_CREATE_PERMITTED_NETWORK: {
@@ -376,7 +391,7 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA,
+					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
 				},
 			},
 			STATE_SELECTING_CREATE_PERMITTED_METHOD: {
@@ -447,7 +462,7 @@ func showInitialOption(fsm *StateMachine) {
 			fmt.Println(err)
 		}
 	case "2":
-		err := fsm.doTransition(EVENT_SELECTING_INSIDE_DATA)
+		err := fsm.doTransition(EVENT_SELECTING_INSIDE_DATA_OPTIONS)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -456,37 +471,28 @@ func showInitialOption(fsm *StateMachine) {
 
 }
 
-func showOutsideDataOption(fsm *StateMachine) {
-	fmt.Println("Please Select One Of The Following Options: ")
-	fmt.Println("1. Get Accessible Network Information")
-	fmt.Println("2. Get Accessible Method List")
-	fmt.Println("3. Invoke Method")
-	fmt.Println("4. Return To Previous Menu")
-	var answer string
-	fmt.Scanln(&answer)
-
-	switch answer {
-	case "1":
-		err := fsm.doTransition(EVENT_SELECTING_GET_ACCESSIBLE_NETWORK_INFO)
-		if err != nil {
-			fmt.Println(err)
-		}
-	case "2":
-		err := fsm.doTransition(EVENT_SELECTING_GET_ACCESSIBLE_METHOD_LIST)
-		if err != nil {
-			fmt.Println(err)
-		}
-	case "3":
-		err := fsm.doTransition(EVENT_SELECTING_INVOKE_METHOD)
-		if err != nil {
-			fmt.Println(err)
-		}
-	case "4":
-		err := fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
-		if err != nil {
-			fmt.Println(err)
-		}
+func showSelectAccessibleNetworksOption(fsm *StateMachine) {
+	configuration, err := configs.ReadConfigYAMLFile()
+	if err != nil {
+		fmt.Println(err)
 	}
+	fmt.Println("Please Select the Accessible Network You Want to Connect: ")
+	fmt.Println("0. Return to Previous Menu")
+	counter := 1
+	for _, network := range configuration.Client {
+		fmt.Println(strconv.Itoa(counter)+".Network Name: ", network.AccessibleNetworkName)
+	}
+	var index string
+	fmt.Scanln(&index)
+	if index == "0" {
+		fsm.doTransition(EVENT_RETURN_TO_PREVIOUS_MENU)
+		return
+	}
+	intIndex, err := strconv.Atoi(index)
+	intIndex -= 1
+	fsm.selectedAccessibleNetworkId = configuration.Client[intIndex].AccessibleNetworkId
+	fsm.doTransition(EVENT_SELECTING_OUTSIDE_DATA_OPTIONS)
+
 }
 
 func showInsideDataOption(fsm *StateMachine) {
