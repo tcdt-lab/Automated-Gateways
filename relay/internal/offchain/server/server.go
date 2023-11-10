@@ -8,30 +8,25 @@ import (
 	"flag"
 	"fmt"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	config "github.com/tcdt-lab/Automated-Gateways/relay/configs"
 	auth "github.com/tcdt-lab/Automated-Gateways/relay/internal/offchain/authentication"
 	"github.com/tcdt-lab/Automated-Gateways/relay/internal/scripts"
-	mediator2 "github.com/tcdt-lab/Automated-Gateways/relay/mediator"
+	mediator "github.com/tcdt-lab/Automated-Gateways/relay/mediator"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
 	"os"
+	"strconv"
 )
 
 type IOPserver struct {
 	scripts.UnimplementedIOPServer
 }
 
-var (
-	certFile   = flag.String("cert_file", "", "The TLS cert file")
-	keyFile    = flag.String("key_file", "", "The TLS key file")
-	jsonDBFile = flag.String("json_db_file", "", "A json file containing a list of features")
-	port       = flag.Int("port", 50051, "The server port")
-)
-
 func (s *IOPserver) GetPermittedNetworkInfo(address *scripts.PermittedNetworkAddress, stream scripts.IOP_GetPermittedNetworkInfoServer) error {
-	var iopMediator mediator2.IopMediator
-	res, err := iopMediator.ReturnPermittedNetworkInfo(address.Address, mediator2.HYPERLEDGER_FABRIC_NETWROK_TYPE)
+	var iopMediator mediator.IopMediator
+	res, err := iopMediator.ReturnPermittedNetworkInfo(address.Address, mediator.HYPERLEDGER_FABRIC_NETWROK_TYPE)
 	if err != nil {
 		return err
 	}
@@ -49,7 +44,7 @@ func (s *IOPserver) GetPermittedNetworkInfo(address *scripts.PermittedNetworkAdd
 }
 
 func (s *IOPserver) InvokePermittedMethod(ctx context.Context, info *scripts.MethodInfo) (*scripts.MethodResponse, error) {
-	var iopMediator mediator2.IopMediator
+	var iopMediator mediator.IopMediator
 	var response *scripts.MethodResponse
 	response = &scripts.MethodResponse{}
 	inputArgs, errStr := convertStringArrayToArrayOfStrings(info.MethodInput)
@@ -58,7 +53,7 @@ func (s *IOPserver) InvokePermittedMethod(ctx context.Context, info *scripts.Met
 		response.Error = errStr.Error()
 		return response, errStr
 	}
-	res, err := iopMediator.InvokePermittedMethod(info.Name, info.ChaincodeName, info.ChannelName, inputArgs, mediator2.HYPERLEDGER_FABRIC_NETWROK_TYPE)
+	res, err := iopMediator.InvokePermittedMethod(info.Name, info.ChaincodeName, info.ChannelName, inputArgs, mediator.HYPERLEDGER_FABRIC_NETWROK_TYPE)
 	if err != nil {
 		response.Response = "error"
 		response.Error = err.Error()
@@ -70,8 +65,8 @@ func (s *IOPserver) InvokePermittedMethod(ctx context.Context, info *scripts.Met
 }
 
 func (s *IOPserver) GetPermittedMethodsList(networkId *scripts.PermittedNetworkId, stream scripts.IOP_GetPermittedMethodsListServer) error {
-	var iopMediator mediator2.IopMediator
-	res, err := iopMediator.ReturnPermittedMethodList(networkId.NetworkId, mediator2.HYPERLEDGER_FABRIC_NETWROK_TYPE)
+	var iopMediator mediator.IopMediator
+	res, err := iopMediator.ReturnPermittedMethodList(networkId.NetworkId, mediator.HYPERLEDGER_FABRIC_NETWROK_TYPE)
 	if err != nil {
 		return err
 	}
@@ -100,7 +95,12 @@ func convertStringArrayToArrayOfStrings(arrayStr string) ([]string, error) {
 }
 
 func StartServer() {
-
+	configurations, err := config.ReadConfigYAMLFile()
+	portNumber, err := strconv.Atoi(configurations.Server.Port)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var port = flag.Int("port", portNumber, "The server port")
 	log.Println("gRPC server is starting...")
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", *port))
@@ -108,7 +108,7 @@ func StartServer() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	caPem, err := os.ReadFile("../relay/certs/ca-cert.pem")
+	caPem, err := os.ReadFile(configurations.Ca.CertPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -120,7 +120,7 @@ func StartServer() {
 	}
 
 	// read server cert & key
-	serverCert, err := tlsInterface.LoadX509KeyPair("../relay/certs/server-cert.pem", "../relay/certs/server-key.pem")
+	serverCert, err := tlsInterface.LoadX509KeyPair(configurations.Server.CertPath, configurations.Server.KeyPath)
 	if err != nil {
 		log.Fatal(err)
 	}
