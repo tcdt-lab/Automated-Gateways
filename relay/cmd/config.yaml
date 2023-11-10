@@ -7,31 +7,31 @@
 # This file contains the configuration for the application.
 # In this file the configuration for IOP server, IOP client and the Blockchain platforms , which are connected to this program, are defined.
 
-#CERTIFICATE AUTHORITY (FOR GRPC SERVER)
+#CERTIFICATE AUTHORITY (FOR gRPC SERVER)
 ca:
   # The path to the certificate authority
-  cert_path: /home/koosha//Desktop/Automated-Gateways/relay/certs/ca-cert.pem
+  cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
   # The password for the certificate authority
-  key_path: /home/koosha//Desktop/Automated-Gateways/relay/certs/ca-key.pem
+  key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-key.pem
 #SERVER CONFIGURATION
 server:
   # The port on which the server is listening
-  port: 5001
+  port: 50051
   # Server certificate
-  cert_path: /home/koosha//Desktop/Automated-Gateways/relay/certs/server-cert.pem
+  cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/server-cert.pem
   # Server private key
-  key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/server-cert.pem
+  key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/server-key.pem
 
 #CLIENT CONFIGURATION
 #Here are the configuration for the client gRPC server which is supposed to connect to accessible networks
 #This information contains the path to the specific  certificate and the key that each accessible network has provided.
 #It is an array that contains port, client certificate and client private key for each accessible network, in addition to certificate of the CA of each accessible network.
 client:
-    - accessible_network_id: none
-      cert_path: none
-      port: 5001
-      key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/server-cert.pem
-      ca_cert_path: none
+    - accessible_network_id:  AccessibleNetwork_koosha-dell.com_10
+      cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client-cert.pem
+      port: 50051 #the outsider server port
+      key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client_key.pem
+      ca_cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
 #    - accessible_network_id: test_id
 #      port: test_port
 #      cert_path: test_cert_path
@@ -42,10 +42,16 @@ client:
 #PLATFORMS CONFIGURATION
 platform:
   hyperledger:
-    name: salamHyper
-    msp_id: salam
-    cert_path: none
-    key_path: none
-    tls_cert_path: none
-    peer_endpoint: none
-    gateway_peer: none
+    name: Local_HyperledgerFabric_2.5.3
+    msp_id: Org1MSP
+    cert_path: /home/koosha/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/user_cert.pem
+    key_path: /home/koosha/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/user_key.pem
+    tls_cert_path: /home/koosha/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/ca.crt
+    peer_endpoint: localhost:7051
+    gateway_peer: peer0.org1.example.com
+    accessible_network_channel_name : mychannel
+    accessible_network_chaincode_name : accessible_net
+    permitted_network_channel_name : mychannel
+    permitted_network_chaincode_name : permitted_net
+    permitted_method_channel_name : mychannel
+    permitted_method_chaincode_name : permitted_method

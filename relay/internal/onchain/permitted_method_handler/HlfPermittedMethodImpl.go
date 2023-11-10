@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric-gateway/pkg/client"
 	"github.com/hyperledger/fabric-gateway/pkg/identity"
+	"github.com/tcdt-lab/Automated-Gateways/relay/configs"
 	datatypes "github.com/tcdt-lab/Automated-Gateways/relay/data_types"
-	hlfConfig "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/configs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
@@ -15,13 +15,21 @@ import (
 	"time"
 )
 
-var channelName = "mychannel"
-var chaincodeName = "permitted_method"
+var channelName string
+var chaincodeName string
+var cnf configs.Configuration
 
 type HlfPermittedMethod struct {
 }
 
 func (hlfPermittedMethod *HlfPermittedMethod) OpenConnection() (*grpc.ClientConn, *client.Gateway, error) {
+	configYaml, errYaml := configs.ReadConfigYAMLFile()
+	cnf = configYaml
+	if errYaml != nil {
+		return nil, nil, errYaml
+	}
+	chaincodeName = cnf.Platform.Hyperledger.PermittedMethodChaincodeName
+	channelName = cnf.Platform.Hyperledger.PermittedNetworkChannelName
 	clientConnection := newGrpcConnection()
 	id := newIdentity()
 	sign := newSign()
@@ -45,16 +53,16 @@ func (hlfPermittedMethod *HlfPermittedMethod) OpenConnection() (*grpc.ClientConn
 }
 
 func newGrpcConnection() *grpc.ClientConn {
-	certificate, err := loadCertificate(hlfConfig.TlsCertPath)
+	certificate, err := loadCertificate(cnf.Platform.Hyperledger.TlsCertPath)
 	if err != nil {
 		panic(err)
 	}
 
 	certPool := x509.NewCertPool()
 	certPool.AddCert(certificate)
-	transportCredentials := credentials.NewClientTLSFromCert(certPool, hlfConfig.GatewayPeer)
+	transportCredentials := credentials.NewClientTLSFromCert(certPool, cnf.Platform.Hyperledger.GatewayPeer)
 
-	connection, err := grpc.Dial(hlfConfig.PeerEndpoint, grpc.WithTransportCredentials(transportCredentials))
+	connection, err := grpc.Dial(cnf.Platform.Hyperledger.PeerEndpoint, grpc.WithTransportCredentials(transportCredentials))
 	if err != nil {
 		panic(fmt.Errorf("failed to create gRPC connection: %w", err))
 	}
@@ -63,7 +71,7 @@ func newGrpcConnection() *grpc.ClientConn {
 }
 func newSign() identity.Sign {
 
-	privateKeyPEM, err := os.ReadFile(hlfConfig.KeyPath)
+	privateKeyPEM, err := os.ReadFile(cnf.Platform.Hyperledger.KeyPath)
 
 	if err != nil {
 		panic(fmt.Errorf("failed to read private key file: %w", err))
@@ -83,12 +91,12 @@ func newSign() identity.Sign {
 }
 
 func newIdentity() *identity.X509Identity {
-	certificate, err := loadCertificate(hlfConfig.CertPath)
+	certificate, err := loadCertificate(cnf.Platform.Hyperledger.CertPath)
 	if err != nil {
 		panic(err)
 	}
 
-	id, err := identity.NewX509Identity(hlfConfig.MspID, certificate)
+	id, err := identity.NewX509Identity(cnf.Platform.Hyperledger.MspID, certificate)
 	if err != nil {
 		panic(err)
 	}

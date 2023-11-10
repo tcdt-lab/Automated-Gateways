@@ -37,14 +37,21 @@ type Client struct {
 type Platform struct {
 	Hyperledger Hyperledger `yaml:"hyperledger"`
 }
+
 type Hyperledger struct {
-	Name         string `yaml:"name"`
-	MspID        string `yaml:"msp_id"`
-	CertPath     string `yaml:"cert_path"`
-	KeyPath      string `yaml:"key_path"`
-	TlsCertPath  string `yaml:"tls_cert_path"`
-	PeerEndpoint string `yaml:"peer_endpoint"`
-	GatewayPeer  string `yaml:"gateway_peer"`
+	Name                           string `yaml:"name"`
+	MspID                          string `yaml:"msp_id"`
+	CertPath                       string `yaml:"cert_path"`
+	KeyPath                        string `yaml:"key_path"`
+	TlsCertPath                    string `yaml:"tls_cert_path"`
+	PeerEndpoint                   string `yaml:"peer_endpoint"`
+	GatewayPeer                    string `yaml:"gateway_peer"`
+	AccessibleNetworkChannelName   string `yaml:"accessible_network_channel_name"`
+	AccessibleNetworkChaincodeName string `yaml:"accessible_network_chaincode_name"`
+	PermittedNetworkChannelName    string `yaml:"permitted_network_channel_name"`
+	PermittedNetworkChaincodeName  string `yaml:"permitted_network_chaincode_name"`
+	PermittedMethodChaincodeName   string `yaml:"permitted_method_chaincode_name"`
+	PermittedMethodChannelName     string `yaml:"permitted_method_channel_name"`
 }
 
 func ReadConfigYAMLFile() (Configuration, error) {
