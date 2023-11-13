@@ -169,6 +169,7 @@ func (s *SmartContract) UpdatePermittedMethod(ctx contractapi.TransactionContext
 		return err
 	}
 	err = ctx.GetStub().PutState(id, permittedMethodInfoAsBytes)
+	ctx.GetStub().GetTxID()
 	if err != nil {
 		logger(true, "UpdatePermittedMethod", "METHOD END with error: "+err.Error())
 		return err
