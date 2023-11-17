@@ -66,6 +66,7 @@ func (s *IOPserver) InvokePermittedMethod(ctx context.Context, info *scripts.Met
 
 func (s *IOPserver) GetPermittedMethodsList(networkId *scripts.PermittedNetworkId, stream scripts.IOP_GetPermittedMethodsListServer) error {
 	var iopMediator mediator.IopMediator
+
 	res, err := iopMediator.ReturnPermittedMethodList(networkId.NetworkId, mediator.HYPERLEDGER_FABRIC_NETWROK_TYPE)
 	if err != nil {
 		return err
@@ -79,6 +80,7 @@ func (s *IOPserver) GetPermittedMethodsList(networkId *scripts.PermittedNetworkI
 			MethodInput:   method.InputArgs,
 			MethodOutput:  method.OutputArgs,
 		}
+
 		stream.Send(permittedMethodInfo)
 	}
 	return nil
