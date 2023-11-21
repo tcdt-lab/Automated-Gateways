@@ -32,3 +32,10 @@ func (mediatorFactory *MediatorFactory) CreatePermittedMethodsMediator(networkTy
 	}
 	return nil, nil
 }
+
+func (mediatorFactory *MediatorFactory) CreateIopHistoryMediator(networkType string) (interfaces.IIopHistoryMediator, error) {
+	if networkType == HYPERLEDGER_FABRIC_NETWROK_TYPE {
+		return &hlf_mediator.HlfIopHistoryMediator{}, nil
+	}
+	return nil, nil
+}

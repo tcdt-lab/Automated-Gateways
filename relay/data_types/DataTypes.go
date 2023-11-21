@@ -24,3 +24,22 @@ type AccessibleNetworkInfo struct {
 	CompanyName         string `json:"CompanyName"`
 	AccessibleNetworkId string `json:"AccessibleNetworkId"`
 }
+
+const HISTORY_TYPE_INSIDE_INITIATED = "Inside_initiated_call"
+const HISTORY_TYPE_OUTSIDE_INITIATED = "Outside_initiated_call"
+
+type HistoryLog struct {
+	Id            string `json:"id"`
+	CallType      string `json:"callType"`
+	CallerIP      string `json:"callerIP"`
+	CallerAddress string `json:"callerAddress"`
+	MethodName    string `json:"methodName"`
+	InputArgs     string `json:"inputArgs"`
+	OutputArgs    string `json:"outputArgs"`
+	Date          string `json:"date"`
+	Hour          string `json:"hour"`
+	Day           string `json:"day"`
+	Month         string `json:"month"`
+	Year          string `json:"year"`
+	Distinctive   string `json:"distinctive"`
+}

@@ -53,3 +53,5 @@ platform:
     permitted_network_chaincode_name : permitted_net
     permitted_method_channel_name : mychannel
     permitted_method_chaincode_name : permitted_method
+    iop_history_chaincode_name : iop_history
+    iop_history_channel_name : mychannel
