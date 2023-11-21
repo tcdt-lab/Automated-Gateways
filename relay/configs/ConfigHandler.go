@@ -57,6 +57,8 @@ type Hyperledger struct {
 	PermittedNetworkChaincodeName  string `yaml:"permitted_network_chaincode_name"`
 	PermittedMethodChaincodeName   string `yaml:"permitted_method_chaincode_name"`
 	PermittedMethodChannelName     string `yaml:"permitted_method_channel_name"`
+	IopHistoryChannelName          string `yaml:"iop_history_channel_name"`
+	IopHistoryChaincodeName        string `yaml:"iop_history_chaincode_name"`
 }
 
 func ReadConfigYAMLFile() (Configuration, error) {
