@@ -2,15 +2,13 @@ module github.com/tcdt-lab/Automated-Gateways/relay
 
 go 1.20
 
+
 require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/hyperledger/fabric-gateway v1.3.2
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
 	gopkg.in/yaml.v2 v2.2.8
-)
-
-require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/hyperledger/fabric-protos-go-apiv2 v0.2.1 // indirect
 	github.com/miekg/pkcs11 v1.1.1 // indirect
