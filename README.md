@@ -5,7 +5,7 @@ This project aims to improve blockchain interoperability by developing smart con
 In order to get a better insight about the project we highly recommand to read these sections :
 
 *  [Project Architecture](https://github.com/tcdt-lab/Automated-Gateways/wiki/Architecture-and-Scenarios)
-*  [Project Implementation](https://github.com/tcdt-lab/Automated-Gateways/wiki/Implementation)
+
 
 
 **Automated-Gateways project is developed under the mentorship program of Linux foundation. Find more information [here](https://wiki.hyperledger.org/display/INTERN).
