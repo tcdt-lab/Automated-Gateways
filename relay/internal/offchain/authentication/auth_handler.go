@@ -2,7 +2,7 @@ package authentication
 
 import (
 	"context"
-	permittedHAndler "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/permitted_network_handler"
+	"github.com/tcdt-lab/Automated-Gateways/relay/mediator"
 	"log"
 
 	"google.golang.org/grpc/codes"
@@ -38,15 +38,9 @@ func TlsAuth(ctx context.Context) (newCtx context.Context, err error) {
 }
 
 func isHostPermitted(hostName string) (*bool, error) {
-	var hlfPermittedMethod permittedHAndler.HlfPermittedNetwork
+	var iopMediator mediator.IopMediator
+	res, err := iopMediator.ReturnPermittedNetworkInfo(hostName, mediator.HYPERLEDGER_FABRIC_NETWROK_TYPE)
 	var boolValue bool
-	clientConn, gateway, err := hlfPermittedMethod.OpenConnection()
-	if err != nil {
-		log.Println("Error opening connection: %v", err)
-	}
-	defer hlfPermittedMethod.CloseConnection(clientConn, gateway)
-
-	res, err := hlfPermittedMethod.GetPermittedNetworksByAddress(gateway, hostName)
 	if err != nil {
 		log.Println(" Error in Getting All permitted Netwroks : %v", err)
 		return nil, err
