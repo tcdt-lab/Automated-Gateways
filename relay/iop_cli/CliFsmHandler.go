@@ -53,10 +53,10 @@ const (
 )
 
 const (
-	STATE_INITIAL                        = "INITIAL_STATE"
-	STATE_SELECTING_INSIDE_DATA_OPTIONS  = "SELECTING_INSIDE_DATA_STATE"
-	STATE_SELECTING_OUTSIDE_DATA         = "SELECTING_OUTSIDE_DATA_STATE"
-	STATE_SELECTING_OUTSIDE_DATA_OPTIONS = "SELECTING_OUTSIDE_DATA_OPTIONS_STATE"
+	STATE_INITIAL                           = "INITIAL_STATE"
+	STATE_SELECTING_INSIDE_NETWORK_OPTIONS  = "SELECTING_INSIDE_DATA_STATE"
+	STATE_SELECTING_ACCESSIBLE_NETWORK      = "SELECTING_ACCESSIBLE_NETWORK_STATE"
+	STATE_SELECTING_OUTSIDE_NETWORK_OPTIONS = "SELECTING_OUTSIDE_DATA_OPTIONS_STATE"
 	//*********************** OUTSIDE DATA STATES ***********************************
 	STATE_SELECTING_INVOKE_METHOD               = "SELECTING_INVOKE_METHOD_STATE"
 	STATE_SELECTING_GET_ACCESSIBLE_NETWORK_INFO = "SELECTING_GET_ACCESSIBLE_NETWORK_INFO_STATE"
@@ -133,11 +133,11 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 			STATE_INITIAL: {
 				EVENT_SELECTING_OUTSIDE_DATA: {
 					actionFunction: showSelectAccessibleNetworksOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
 				},
 				EVENT_SELECTING_INSIDE_DATA_OPTIONS: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
+					destination:    STATE_SELECTING_INSIDE_NETWORK_OPTIONS,
 				},
 				EVENT_INITIAL: {
 					actionFunction: showInitialOption,
@@ -145,17 +145,17 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 			},
 			//*********************** OUTSIDE DATA STATES *************************
-			STATE_SELECTING_OUTSIDE_DATA: {
+			STATE_SELECTING_ACCESSIBLE_NETWORK: {
 				EVENT_SELECTING_OUTSIDE_DATA_OPTIONS: {
 					actionFunction: showOutsideDataOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA_OPTIONS,
+					destination:    STATE_SELECTING_OUTSIDE_NETWORK_OPTIONS,
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showInitialOption,
 					destination:    STATE_INITIAL,
 				},
 			},
-			STATE_SELECTING_OUTSIDE_DATA_OPTIONS: {
+			STATE_SELECTING_OUTSIDE_NETWORK_OPTIONS: {
 				EVENT_SELECTING_INVOKE_METHOD: {
 					actionFunction: showInvokeMethodOption,
 					destination:    STATE_SELECTING_INVOKE_METHOD,
@@ -170,30 +170,30 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showSelectAccessibleNetworksOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
 				},
 			},
 			//*********************** IOP STATES *************************
 			STATE_SELECTING_INVOKE_METHOD: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showOutsideDataOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
 				},
 			},
 			STATE_SELECTING_GET_ACCESSIBLE_NETWORK_INFO: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showOutsideDataOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
 				},
 			},
 			STATE_SELECTING_GET_ACCESSIBLE_METHOD_LIST: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showOutsideDataOption,
-					destination:    STATE_SELECTING_OUTSIDE_DATA,
+					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
 				},
 			},
 			//*********************** INSIDE DATA STATES *************************
-			STATE_SELECTING_INSIDE_DATA_OPTIONS: {
+			STATE_SELECTING_INSIDE_NETWORK_OPTIONS: {
 				EVENT_SELECTING_ACCESSIBLE_NETWORK_OPTIONS: {
 					actionFunction: ShowInsideLedgerAccessibleNetworkInfoOptions,
 					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK_OPTIONS,
@@ -239,7 +239,7 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
+					destination:    STATE_SELECTING_INSIDE_NETWORK_OPTIONS,
 				},
 			},
 			STATE_SELECTING_CREATE_ACCESSIBLE_NETWORK: {
@@ -310,7 +310,7 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
+					destination:    STATE_SELECTING_INSIDE_NETWORK_OPTIONS,
 				},
 			},
 			STATE_SELECTING_CREATE_PERMITTED_NETWORK: {
@@ -391,7 +391,7 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 				},
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showInsideDataOption,
-					destination:    STATE_SELECTING_INSIDE_DATA_OPTIONS,
+					destination:    STATE_SELECTING_INSIDE_NETWORK_OPTIONS,
 				},
 			},
 			STATE_SELECTING_CREATE_PERMITTED_METHOD: {
