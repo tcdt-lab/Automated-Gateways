@@ -23,6 +23,7 @@ func openConnection(outsiderNetworkId string) (*grpc.ClientConn, error) {
 	}
 	targetNetwork := configs.GetClientConfigByClientAccessibleId(outsiderNetworkId, cnf)
 	finalAddress := targetNetwork.Ip + ":" + targetNetwork.Port
+	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 	serverAddr := flag.String("addr", finalAddress, "The server address in the format of host:port")
 	flag.Parse()
 	caCert, err := os.ReadFile(targetNetwork.CaCertPath)
@@ -35,7 +36,7 @@ func openConnection(outsiderNetworkId string) (*grpc.ClientConn, error) {
 		log.Fatal(err)
 	}
 
-	clientCert, err := tls.LoadX509KeyPair(targetNetwork.CertPath, targetNetwork.CertPath)
+	clientCert, err := tls.LoadX509KeyPair(targetNetwork.CertPath, targetNetwork.KeyPath)
 	if err != nil {
 		log.Fatal(err)
 	}

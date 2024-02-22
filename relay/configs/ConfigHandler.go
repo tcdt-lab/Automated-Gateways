@@ -20,7 +20,6 @@ type Configuration struct {
 
 type CA struct {
 	CertPath string `yaml:"cert_path"`
-	KeyPath  string `yaml:"key_path"`
 }
 type Server struct {
 	Port     string `yaml:"port"`

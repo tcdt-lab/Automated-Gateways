@@ -11,8 +11,6 @@
 ca:
   # The path to the certificate authority
   cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
-  # The password for the certificate authority
-  key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-key.pem
 #SERVER CONFIGURATION
 server:
   # The port on which the server is listening
@@ -32,9 +30,9 @@ client:
       company_name: k-dell
       cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client-cert.pem
       port: 50051 #the outsider server port
-      ip: 127.0.0.1 #the outsider server ip
+      ip: 192.168.100.125 #the outsider server ip
       address: koosha-dell.com #the outsider server address
-      key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client_key.pem
+      key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client-key.pem
       ca_cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
 
 #PLATFORMS CONFIGURATION
