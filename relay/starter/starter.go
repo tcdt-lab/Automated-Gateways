@@ -5,7 +5,11 @@ import (
 	cli "github.com/tcdt-lab/Automated-Gateways/relay/iop_cli"
 )
 
-func StartIop() {
-	go server.StartServer()
+func StartIopServer() {
+	server.StartServer()
+
+}
+
+func StartIopCLI() {
 	cli.StartCli()
 }
