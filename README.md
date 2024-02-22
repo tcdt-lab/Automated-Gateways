@@ -9,7 +9,7 @@ The study also underscores the implementation of fine-grained access control mec
 In order to run the program quickly as an overview you can check:
 *  [Quick Start](https://github.com/tcdt-lab/Automated-Gateways/wiki/Quick-Start)
   
-In order to get a better insight about the project we highly recommand to read these sections  :
+In order to get a better insight about the project we highly recommand to read project's Wiki, especially these sections  :
 
 *  [Project Architecture](https://github.com/tcdt-lab/Automated-Gateways/wiki/Architecture)
 *  [Process Flow](https://github.com/tcdt-lab/Automated-Gateways/wiki/Process-Flow)
