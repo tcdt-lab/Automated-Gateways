@@ -12,6 +12,7 @@ The final objective of this project is to improve the interoperability of differ
 
 Overall, the final project aims to enhance the efficiency, security, and traceability of cross-blockchain transaction submissions, thereby improving the overall functionality of blockchain technology.
 
+# Getting Started
 In order to run the program quickly as an overview you can check:
 *  [Quick Start](https://github.com/tcdt-lab/Automated-Gateways/wiki/Quick-Start)
   
