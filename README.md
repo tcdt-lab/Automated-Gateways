@@ -12,6 +12,10 @@ The final objective of this project is to improve the interoperability of differ
 
 Overall, the final project aims to enhance the efficiency, security, and traceability of cross-blockchain transaction submissions, thereby improving the overall functionality of blockchain technology.
 
+Automated-Gateways project is developed under the mentorship program of Linux foundation. Find more information [here](https://wiki.hyperledger.org/display/INTERN).
+
+This project is developed and maintainded by [TCDT Lab](https://tcdt.ca/).
+
 # Getting Started
 In order to run the program quickly as an overview you can check:
 *  [Quick Start](https://github.com/tcdt-lab/Automated-Gateways/wiki/Quick-Start)
@@ -24,8 +28,6 @@ In order to get a better insight about the project we highly recommand to read p
 
 Also we highly recommend readers and contributers to watch the presentation of the Automated-Gateways in hyperledger meetup. you can watch the video from [here](https://www.youtube.com/live/zVNNh5OCplM?si=9byA615Pfkt49C6i).
 
-Automated-Gateways project is developed under the mentorship program of Linux foundation. Find more information [here](https://wiki.hyperledger.org/display/INTERN).
 
-This project is developed and maintainded by [TCDT Lab](https://tcdt.ca/).
 
 
