@@ -8,6 +8,9 @@ This module offers users both an API and a CLI. With these tools, users can gran
 
  This contract-calls interoperability  can enhance the connectivity of Hyperledger Fabric, reduce the need for extensive documentation and protocols to link different blockchains, and ultimately minimize service redundancy within the Hyperledger Fabric community.
 
+The final objective of this project is to improve the interoperability of different blockchain networks by developing smart contract gateways that can interact with multiple networks. These gateways will automate, trace, and secure the process of calling smart contracts on different blockchains. The initial focus is on developing gateway smart contracts for connecting multiple separate Hyperledger Fabric networks, and the next step will be to create gateways to connect Hyperledger Fabric to other heterogeneous networks, such as Hyperledger Besu.
+
+Overall, the final project aims to enhance the efficiency, security, and traceability of cross-blockchain transaction submissions, thereby improving the overall functionality of blockchain technology.
 
 In order to run the program quickly as an overview you can check:
 *  [Quick Start](https://github.com/tcdt-lab/Automated-Gateways/wiki/Quick-Start)
