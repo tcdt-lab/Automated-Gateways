@@ -177,31 +177,19 @@ func (fsm *StateMachine) FsmCreator() *StateMachine {
 			STATE_SELECTING_INVOKE_METHOD: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showOutsideDataOption,
-<<<<<<< HEAD
 					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
-=======
-					destination:    STATE_SELECTING_OUTSIDE_DATA_OPTIONS,
->>>>>>> 3c2eb0d... Minor changes have been applied
 				},
 			},
 			STATE_SELECTING_GET_ACCESSIBLE_NETWORK_INFO: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showOutsideDataOption,
-<<<<<<< HEAD
 					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
-=======
-					destination:    STATE_SELECTING_OUTSIDE_DATA_OPTIONS,
->>>>>>> 3c2eb0d... Minor changes have been applied
 				},
 			},
 			STATE_SELECTING_GET_ACCESSIBLE_METHOD_LIST: {
 				EVENT_RETURN_TO_PREVIOUS_MENU: {
 					actionFunction: showOutsideDataOption,
-<<<<<<< HEAD
 					destination:    STATE_SELECTING_ACCESSIBLE_NETWORK,
-=======
-					destination:    STATE_SELECTING_OUTSIDE_DATA_OPTIONS,
->>>>>>> 3c2eb0d... Minor changes have been applied
 				},
 			},
 			//*********************** INSIDE DATA STATES *************************
