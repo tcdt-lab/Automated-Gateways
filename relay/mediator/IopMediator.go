@@ -8,6 +8,7 @@ import (
 type IopMediator struct {
 }
 
+// gRPC server Talks to this part
 func (iopMediator *IopMediator) ReturnPermittedNetworkInfo(address string, networkType string) ([]*dataType.PermittedNetworkInfo, error) {
 
 	var mediatorFactory MediatorFactory
@@ -48,6 +49,7 @@ func (iopMediator *IopMediator) InvokePermittedMethod(name string, chaincode str
 	return result, nil
 }
 
+// gRPC client talks to this part
 func (iopMediator *IopMediator) GetSelfInformationOnOutsideNetworks(outsiderNetworkId string, address string) ([]*dataType.AccessibleNetworkInfo, error) {
 	res, err := offchain.GetNetworkInformation(outsiderNetworkId, address)
 	if err != nil {
