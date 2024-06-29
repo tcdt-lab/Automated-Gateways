@@ -10,46 +10,46 @@
 #CERTIFICATE AUTHORITY (FOR gRPC SERVER)
 ca:
   # The path to the certificate authority
-  cert_path: /home/user/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
+  cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
 #SERVER CONFIGURATION
 server:
   # The port on which the server is listening
   port: 50051
   # Server certificate
-  cert_path: /home/user/Desktop/Automated-Gateways/relay/certs/server-cert.pem
+  cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/server-cert.pem
   # Server private key
-  key_path: /home/user/Desktop/Automated-Gateways/relay/certs/server-key.pem
+  key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/server-key.pem
 
 #CLIENT CONFIGURATION
 #Here are the configuration for the client gRPC server which is supposed to connect to accessible networks
 #This information contains the path to the specific  certificate and the key that each accessible network has provided.
 #It is an array that contains port, client certificate and client private key for each accessible network, in addition to certificate of the CA of each accessible network.
 client:
-    - accessible_network_id:  AccessibleNetwork_koosha-dell.com_10
-      accessible_network_name: laptop-dell
-      company_name: k-dell
+    - accessible_network_id:  AccessibleNetwork_koosha.com_1
+      accessible_network_name: koosha.com
+      company_name: koosha.com
       cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client-cert.pem
-      port: 50051 #the outsider server port
-      ip: 192.168.100.125 #the outsider server ip
-      address: hypo-dell.com #the outsider server address
-      key_path: /home/user/Desktop/Automated-Gateways/relay/certs/client-key.pem
-      ca_cert_path: /home/user/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
+      port: 50052 #the outsider server port
+      ip: 127.0.0.1 #the outsider server ip
+      address: koosha.com #the outsider server address
+      key_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/client-key.pem
+      ca_cert_path: /home/koosha/Desktop/Automated-Gateways/relay/certs/ca-cert.pem
 
 #PLATFORMS CONFIGURATION
 platform:
   hyperledger:
     name: Local_HyperledgerFabric_2.5.3
     msp_id: Org1MSP
-    cert_path: /home/user/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/user_cert.pem
-    key_path: /home/user/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/user_key.pem
-    tls_cert_path: /home/user/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/ca.crt
+    cert_path: /home/koosha/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/user_cert.pem
+    key_path: /home/koosha/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/user_key.pem
+    tls_cert_path: /home/koosha/Desktop/Automated-Gateways/relay/internal/onchain/chain_certs/ca.crt
     peer_endpoint: localhost:7051
     gateway_peer: peer0.org1.example.com
     accessible_network_channel_name : mychannel
-    accessible_network_chaincode_name : accessible_net
+    accessible_network_chaincode_name : accessible_net_2
     permitted_network_channel_name : mychannel
-    permitted_network_chaincode_name : permitted_net
+    permitted_network_chaincode_name : permitted_net_2
     permitted_method_channel_name : mychannel
-    permitted_method_chaincode_name : permitted_method
+    permitted_method_chaincode_name : permitted_method_2
     iop_history_chaincode_name : iop_history
     iop_history_channel_name : mychannel

@@ -5,6 +5,8 @@ import (
 	"strconv"
 )
 
+// ./network.sh deployCC -ccn addition_chaincode
+// -ccp /home/koosha/Desktop/Automated-Gateways/sample/sample-chaincode/addition-chaincode -ccl go -ccs 1
 type SmartContract struct {
 	contractapi.Contract
 }

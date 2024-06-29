@@ -48,7 +48,7 @@ go.work
 
 # Generated files
 .idea/**/contentModel.xml
-
+.idea/workspace.xml
 # Sensitive or high-churn files
 .idea/**/dataSources/
 .idea/**/dataSources.ids

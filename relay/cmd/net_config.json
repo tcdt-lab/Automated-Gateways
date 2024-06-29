@@ -1,0 +1,97 @@
+{
+    "caliper": {
+        "blockchain": "ethereum"
+    },
+    "ethereum": {
+        "url": "ws://localhost:8546",
+        "contractDeployerAddress": "0xC9C913c8c3C1Cd416d80A0abF475db2062F161f6",
+        "contractDeployerAddressPrivateKey": "0x60bbe10a196a4e71451c0f6e9ec9beab454c2a5ac0542aa5b8b733ff5719fec3",
+        "fromAddress": "0xC9C913c8c3C1Cd416d80A0abF475db2062F161f6",
+        "fromAddressPassword": "",
+        "fromAddressPrivateKey": "0x60bbe10a196a4e71451c0f6e9ec9beab454c2a5ac0542aa5b8b733ff5719fec3",
+        "transactionConfirmationBlocks": 12,
+        "contracts": {
+            "SimpleStorage": {
+                "address": "0x6410E8e6321f46B7A34B9Ea9649a4c84563d8045",
+                "estimateGas": true,
+                "gas": {
+                    "set": 100000,
+                    "get": 70000
+                },
+                
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "initVal",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "stored",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "get",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "retVal",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "name": "set",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "storedData",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+
+            }
+        }
+    }
+}
