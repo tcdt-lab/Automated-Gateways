@@ -53,3 +53,9 @@ platform:
     permitted_method_chaincode_name : permitted_method_2
     iop_history_chaincode_name : iop_history
     iop_history_channel_name : mychannel
+
+  ethereum:
+    url: ws://127.0.0.1:8546
+    accessible_network_smart_contract_address : 0xA9F8FeF0B3DF9159F1443427dAa79210fCEB009C
+    permitted_network_smart_contract_address : 0xC8c03647d39a96f02f6Ce8999bc22493C290e734
+    permitted_method_smart_contract_address : 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2

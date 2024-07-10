@@ -40,6 +40,7 @@ type Client struct {
 }
 type Platform struct {
 	Hyperledger Hyperledger `yaml:"hyperledger"`
+	Ethereum    Ethereum    `yaml:"ethereum"`
 }
 
 type Hyperledger struct {
@@ -58,6 +59,13 @@ type Hyperledger struct {
 	PermittedMethodChannelName     string `yaml:"permitted_method_channel_name"`
 	IopHistoryChannelName          string `yaml:"iop_history_channel_name"`
 	IopHistoryChaincodeName        string `yaml:"iop_history_chaincode_name"`
+}
+
+type Ethereum struct {
+	Url                                   string `yaml:"url"`
+	AccessibleNetworkSmartContractAddress string `yaml:"accessible_network_smart_contract_address"`
+	PermittedNetworkSmartContractAddress  string `yaml:"permitted_network_smart_contract_address"`
+	PermittedMethodSmartContractAddress   string `yaml:"permitted_method_smart_contract_address"`
 }
 
 func ReadConfigYAMLFile() (Configuration, error) {

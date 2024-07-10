@@ -2,8 +2,8 @@ package hlf_mediator
 
 import (
 	datatypes "github.com/tcdt-lab/Automated-Gateways/relay/data_types"
+	iopHistoryOnchain "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/hlf_handler/iop_history_handler"
 )
-import iopHistoryOnchain "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/iop_history_handler"
 
 type HlfIopHistoryMediator struct {
 }

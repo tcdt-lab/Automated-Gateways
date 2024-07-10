@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="916c491e-72c0-49dd-b46a-9f2a799765c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/logger/logger.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logger/logger.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/starter/starter.go" beforeDir="false" afterPath="$PROJECT_DIR$/starter/starter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sample/sample-chaincode/addition-chaincode/chaincode/smartcontract.go" beforeDir="false" afterPath="$PROJECT_DIR$/../sample/sample-chaincode/addition-chaincode/chaincode/smartcontract.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

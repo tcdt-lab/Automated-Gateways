@@ -2,7 +2,7 @@ package hlf_mediator
 
 import (
 	dataTypes "github.com/tcdt-lab/Automated-Gateways/relay/data_types"
-	permittedHandler "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/permitted_method_handler"
+	permittedHandler "github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/hlf_handler/permitted_method_handler"
 )
 
 type HlfPermittedMethodsMediator struct {
