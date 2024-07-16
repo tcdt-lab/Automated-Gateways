@@ -79,18 +79,15 @@ describe("permitted_network_management contract", function () {
     console.log("##############GET ARRAY INDEX BEFORE DELETE################");
     var  getPermittedNetworkIndexArray = await contract.getPermittedNetworkIndexArray();
     console.log(getPermittedNetworkIndexArray);
-    console.log("################GET ALL KEYS BEFORE DELETE##############");
-    var getAlltheKeysInMapping = await contract.getAlltheKeysInMapping();
-    console.log(getAlltheKeysInMapping);
-    console.log("###############DELETE###############");
+  
 
     const deletedPermittedNet = await contract.deletePermittedNetwork(1);
  console.log("#################GET ALL INDEXS AFTER DELETE#############");
      getPermittedNetworkIndexArray = await contract.getPermittedNetworkIndexArray();
     console.log(getPermittedNetworkIndexArray);
-    console.log("##############GET ALL KEYS AFTER DLETE################");
-     getAlltheKeysInMapping = await contract.getAlltheKeysInMapping();
-    console.log(getAlltheKeysInMapping);
+    console.log("##############GET ALL Permitted Nets AFTER DLETE################");
+     allpermittedNets = await contract.getAllPermittedNetworks();
+    console.log(allpermittedNets);
     console.log("##############################");
 
     console.log("##############################");

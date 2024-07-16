@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/koosha/Desktop/Automated-Gateways/eth_smartcontracts/contracts/AccessibleNetworkMangementContract.sol": {
-      "lastModificationDate": 1719358018039,
-      "contentHash": "7a4c690b199608be0abbacad75036f8b",
+      "lastModificationDate": 1721144331987,
+      "contentHash": "734bf18d5c4e189a8117c071dd2c2b24",
       "sourceName": "contracts/AccessibleNetworkMangementContract.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -33,12 +33,12 @@
         "^0.8.19"
       ],
       "artifacts": [
-        "AccessibleNetworkManagementContarcts"
+        "AccessibleNetworkManagementContract"
       ]
     },
     "/home/koosha/Desktop/Automated-Gateways/eth_smartcontracts/contracts/PermittedNetworkManagementContract.sol": {
-      "lastModificationDate": 1719358087924,
-      "contentHash": "7c3eb46a62852d9f219eab0e598da675",
+      "lastModificationDate": 1721165759437,
+      "contentHash": "91a2bb4c7784e4d86e1a10efda67b4f6",
       "sourceName": "contracts/PermittedNetworkManagementContract.sol",
       "solcConfig": {
         "version": "0.8.19",

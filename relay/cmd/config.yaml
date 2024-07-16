@@ -56,6 +56,6 @@ platform:
 
   ethereum:
     url: ws://127.0.0.1:8546
-    accessible_network_smart_contract_address : 0xA9F8FeF0B3DF9159F1443427dAa79210fCEB009C
-    permitted_network_smart_contract_address : 0xC8c03647d39a96f02f6Ce8999bc22493C290e734
+    accessible_network_smart_contract_address : 0xEC97D2EAcf72A0bFb04E714056C6dd47Af04D6b4
+    permitted_network_smart_contract_address : 0x83DcE984E34cfcFcA1b8572fde0E5dED714C7725
     permitted_method_smart_contract_address : 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
