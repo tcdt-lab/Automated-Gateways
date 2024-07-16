@@ -14,7 +14,7 @@ contract PermittedNetworkManagementContract {
     }
     mapping(uint => PermittedNetwork) public permittedNetworks;
     uint256[] public permittedNetworkIndexs;
-    uint16 public  existingAccessibleNetworks = 0;
+    uint16 public  existingPermittedNetworks = 0;
 
     function generatePermittedNetworkId() public view returns (uint) {
         return permittedNetworkIndexs.length +1;
@@ -26,7 +26,7 @@ contract PermittedNetworkManagementContract {
         PermittedNetwork memory permittedNetwork = PermittedNetwork(networkName, networkIP, networkAddress, companyName,permittedNetworkId) ;
         permittedNetworks[permittedNetworkId] = permittedNetwork;
         permittedNetworkIndexs.push(permittedNetworkId);
-        existingAccessibleNetworks = existingAccessibleNetworks + 1;
+        existingPermittedNetworks = existingPermittedNetworks + 1;
         return permittedNetwork;
     }
 
@@ -39,12 +39,22 @@ contract PermittedNetworkManagementContract {
     }
 
     function getAllPermittedNetworks() public view returns (PermittedNetwork[] memory) {
-        PermittedNetwork[] memory permittedNetworksArray = new PermittedNetwork[](permittedNetworkIndexs.length);
+        
+         PermittedNetwork[] memory permittedNetworksArray = new PermittedNetwork[](existingPermittedNetworks);
+        uint16 counter = 0;
         for (uint i = 0; i < permittedNetworkIndexs.length; i++) {
 
-            permittedNetworksArray[i] = permittedNetworks[permittedNetworkIndexs[i]];
+            
+            uint permittedNetworkId = permittedNetworkIndexs[i];
+            if (permittedNetworkId == 0) {
+                continue;
+            }
+            permittedNetworksArray[counter] = permittedNetworks[permittedNetworkId];
+            counter = counter + 1;
+            
         }
         return permittedNetworksArray;
+
     }
 
     function updatePermittedNetwork(uint permittedNetworkId, string calldata networkName, string calldata networkIP,string calldata networkAddress, string calldata companyName) public
@@ -64,6 +74,7 @@ contract PermittedNetworkManagementContract {
                 delete permittedNetworkIndexs[i];
             }
         }
+        existingPermittedNetworks = existingPermittedNetworks - 1;
     }
 
     function permittedNetworkExists(uint permittedNetworkId) public view returns (bool) {
@@ -74,11 +85,5 @@ contract PermittedNetworkManagementContract {
         return permittedNetworkIndexs;
     }
 
-    function getAlltheKeysInMapping() public view returns (uint[] memory) {
-        uint[] memory keys = new uint[](permittedNetworkIndexs.length);
-        for (uint i = 0; i < permittedNetworkIndexs.length; i++) {
-            keys[i] = permittedNetworks[permittedNetworkIndexs[i]].permittedNetworkId;
-        }
-        return keys;
-    }
+    
 }
