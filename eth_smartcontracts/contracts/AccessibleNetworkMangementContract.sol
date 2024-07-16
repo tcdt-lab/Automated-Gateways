@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-contract AccessibleNetworkManagementContarcts{
+contract AccessibleNetworkManagementContract{
     struct AccessibleNetwork {
         string networkName;
         string networkIP;
@@ -37,17 +37,21 @@ contract AccessibleNetworkManagementContarcts{
     }
 
     function getAllAccessibleNetworks() public view returns (AccessibleNetwork[] memory) {
-        AccessibleNetwork[] memory accessibleNetworksArray = new AccessibleNetwork[](accessibleNetworkIndexs.length);
+        AccessibleNetwork[] memory accessibleNetworksArray = new AccessibleNetwork[](existingAccessibleNetworks);
+        uint16 counter = 0;
         for (uint i = 0; i < accessibleNetworkIndexs.length; i++) {
 
+            
             uint accessibleNetworkId = accessibleNetworkIndexs[i];
             if (accessibleNetworkId == 0) {
                 continue;
             }
-            accessibleNetworksArray[i] = accessibleNetworks[accessibleNetworkIndexs[i]];
+            accessibleNetworksArray[counter] = accessibleNetworks[accessibleNetworkId];
+            counter = counter + 1;
             
         }
         return accessibleNetworksArray;
+
     }
 
     function updateAccessibleNetwork(uint accessibleNetworkId, string calldata networkName, string calldata networkIP,string calldata networkAddress, string calldata companyName) public returns (AccessibleNetwork memory) {
