@@ -1,7 +1,10 @@
 {
   "AccessibleNetworkManagementContractsModule#AccessibleNetworkManagementContarcts": "0xc0ED63E3A70BfCB003452B1Cc083db822e1f23e1",
   "AccessibleNetworkManagementContractsModule#AccessibleNetworkManagementContarct": "0xA9F8FeF0B3DF9159F1443427dAa79210fCEB009C",
-  "PermittedNetworkManagementContractsModule#PermittedNetworkManagementContract": "0x83DcE984E34cfcFcA1b8572fde0E5dED714C7725",
-  "AccessibleNetworkManagementContractsModule#AccessibleNetworkManagementContract": "0xEC97D2EAcf72A0bFb04E714056C6dd47Af04D6b4",
-  "PermittedNetworkManagementContractsModule_2#PermittedNetworkManagementContract": "0x77479F2004034F207383cA23E878354c42be601d"
+  "PermittedNetworkManagementContractsModule#PermittedNetworkManagementContract": "0x4D2D24899c0B115a1fce8637FCa610Fe02f1909e",
+  "AccessibleNetworkManagementContractsModule#AccessibleNetworkManagementContract": "0xA9F8FeF0B3DF9159F1443427dAa79210fCEB009C",
+  "PermittedNetworkManagementContractsModule_2#PermittedNetworkManagementContract": "0x77479F2004034F207383cA23E878354c42be601d",
+  "PermittedMethodManagementContractsModule#PermittedNetworkManagementContract": "0xf90E97357b8dF646389519112F2fdeE1f8A09bd0",
+  "PermittedMethodManagementContractsModule#PermittedMethodManagementContract": "0xc0ED63E3A70BfCB003452B1Cc083db822e1f23e1",
+  "PermittedNetworkManagementContractsModule#PermittedMethodManagementContract": "0xb9A219631Aed55eBC3D998f17C3840B7eC39C0cc"
 }

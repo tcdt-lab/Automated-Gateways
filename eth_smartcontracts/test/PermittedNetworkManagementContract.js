@@ -34,11 +34,11 @@ describe("permitted_network_management contract", function () {
     const permittedNet3 = await contract.createPermittedNetwork("networkName3","networkIP3","networkAddress3","networkCompany3");
 
     const permittedNetwork = await contract.getPermittedNetwork(1);
-    console.log(permittedNetwork);
+
     expect(permittedNetwork.networkName).to.equal("networkName1");
 
     const permittedNetworks = await contract.getAllPermittedNetworks();
-    console.log(permittedNetworks);
+  
     expect(permittedNetworks.length).to.equal(3);
     expect(permittedNetworks[0].networkName).to.equal("networkName1");
   });
@@ -58,7 +58,7 @@ describe("permitted_network_management contract", function () {
 
     const updatedPermittedNet = await contract.updatePermittedNetwork(1,"networkName2_updated","networkIP2_updated","networkAddress2_updated","networkCompany2_update");
     const updatedPermittedNetwork = await contract.getPermittedNetwork(1);
-    console.log(updatedPermittedNetwork);
+
     expect(updatedPermittedNetwork.networkName).to.equal("networkName2_updated");
   });
 
@@ -76,21 +76,13 @@ describe("permitted_network_management contract", function () {
     const permittedNet3 = await contract.createPermittedNetwork("networkName3","networkIP3","networkAddress3","networkCompany3");
     const checkPermittedNetworkExists = await contract.permittedNetworkExists(1);
     expect(checkPermittedNetworkExists).to.equal(true);
-    console.log("##############GET ARRAY INDEX BEFORE DELETE################");
     var  getPermittedNetworkIndexArray = await contract.getPermittedNetworkIndexArray();
-    console.log(getPermittedNetworkIndexArray);
-  
-
+   
     const deletedPermittedNet = await contract.deletePermittedNetwork(1);
- console.log("#################GET ALL INDEXS AFTER DELETE#############");
-     getPermittedNetworkIndexArray = await contract.getPermittedNetworkIndexArray();
-    console.log(getPermittedNetworkIndexArray);
-    console.log("##############GET ALL Permitted Nets AFTER DLETE################");
-     allpermittedNets = await contract.getAllPermittedNetworks();
-    console.log(allpermittedNets);
-    console.log("##############################");
 
-    console.log("##############################");
+     getPermittedNetworkIndexArray = await contract.getPermittedNetworkIndexArray();
+    
+     allpermittedNets = await contract.getAllPermittedNetworks();
   
   });
 });

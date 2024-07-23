@@ -5,21 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="916c491e-72c0-49dd-b46a-9f2a799765c9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/artifacts/build-info/ba0107a12212d2312bc950695e2dc33f.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/artifacts/contracts/AccessibleNetworkMangementContract.sol/AccessibleNetworkManagementContarcts.dbg.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/artifacts/contracts/AccessibleNetworkMangementContract.sol/AccessibleNetworkManagementContarcts.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/artifacts/contracts/PermittedNetworkManagementContract.sol/PermittedNetworkManagementContract.dbg.json" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/artifacts/contracts/PermittedNetworkManagementContract.sol/PermittedNetworkManagementContract.dbg.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/artifacts/contracts/PermittedNetworkManagementContract.sol/PermittedNetworkManagementContract.json" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/artifacts/contracts/PermittedNetworkManagementContract.sol/PermittedNetworkManagementContract.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler/EthPermittedMethodHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler/EthPermittedMethodHandler_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler/PermittedMethodUtility.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedNetworkHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedNetworkHandler_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/cache/solidity-files-cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/cache/solidity-files-cache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/contracts/PermittedNetworkManagementContract.sol" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/contracts/PermittedNetworkManagementContract.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/hardhat.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/hardhat.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/deployed_addresses.json" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/deployed_addresses.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/journal.jsonl" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/journal.jsonl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/ignition/modules/PermittedNetworkManagementContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/ignition/modules/PermittedNetworkManagementContract.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/test/AccessibleNetworkManagementContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/test/AccessibleNetworkManagementContract.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/test/PermittedNetworkManagementContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/test/PermittedNetworkManagementContract.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/AccessibleNetworkUtility.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/AccessibleNetworkUtility.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedMethodHandler.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedMethodHandler_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/PermittedNetworkUtility.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/PermittedNetworkUtility.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +80,7 @@
       <recent name="$PROJECT_DIR$/internal/onchain/hlf" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestEthAccessibleNetworkHandler_GetAllAccessibleNetworks in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler">
+  <component name="RunManager" selected="Go Test.TestEthPermittedMethodHandler_DeletePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler">
     <configuration name="go build github.com/tcdt-lab/Automated-Gateways/relay/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="relay" />
       <working_directory value="$PROJECT_DIR$" />
@@ -85,73 +90,73 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestEthAccessibleNetworkHandler_CreateAccessibleNetwork in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestEthPermittedMethodHandler_CreatePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="relay" />
-      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestEthAccessibleNetworkHandler_CreateAccessibleNetwork\E$" />
+      <pattern value="^\QTestEthPermittedMethodHandler_CreatePermittedMethod\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestEthAccessibleNetworkHandler_GetAccessibleNetworkById in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestEthPermittedMethodHandler_DeletePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="relay" />
-      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestEthAccessibleNetworkHandler_GetAccessibleNetworkById\E$" />
+      <pattern value="^\QTestEthPermittedMethodHandler_DeletePermittedMethod\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestEthAccessibleNetworkHandler_GetAccessibleNetworksNumber in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestEthPermittedMethodHandler_GetAllPermittedMethods in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="relay" />
-      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestEthAccessibleNetworkHandler_GetAccessibleNetworksNumber\E$" />
+      <pattern value="^\QTestEthPermittedMethodHandler_GetAllPermittedMethods\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestEthAccessibleNetworkHandler_GetAllAccessibleNetworks in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestEthPermittedMethodHandler_GetPermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="relay" />
-      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestEthAccessibleNetworkHandler_GetAllAccessibleNetworks\E$" />
+      <pattern value="^\QTestEthPermittedMethodHandler_GetPermittedMethod\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestEthAccessibleNetworkHandler_IsAccessibleNetworkExist in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestEthPermittedMethodHandler_UpdatePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="relay" />
-      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <working_directory value="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
+      <package value="github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestEthAccessibleNetworkHandler_IsAccessibleNetworkExist\E$" />
+      <pattern value="^\QTestEthPermittedMethodHandler_UpdatePermittedMethod\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestEthAccessibleNetworkHandler_GetAllAccessibleNetworks in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
-        <item itemvalue="Go Test.TestEthAccessibleNetworkHandler_CreateAccessibleNetwork in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
-        <item itemvalue="Go Test.TestEthAccessibleNetworkHandler_IsAccessibleNetworkExist in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
-        <item itemvalue="Go Test.TestEthAccessibleNetworkHandler_GetAccessibleNetworksNumber in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
-        <item itemvalue="Go Test.TestEthAccessibleNetworkHandler_GetAccessibleNetworkById in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/accessible_network_handler" />
+        <item itemvalue="Go Test.TestEthPermittedMethodHandler_DeletePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
+        <item itemvalue="Go Test.TestEthPermittedMethodHandler_GetPermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
+        <item itemvalue="Go Test.TestEthPermittedMethodHandler_UpdatePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
+        <item itemvalue="Go Test.TestEthPermittedMethodHandler_CreatePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
+        <item itemvalue="Go Test.TestEthPermittedMethodHandler_GetAllPermittedMethods in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
       </list>
     </recent_temporary>
   </component>
@@ -226,9 +231,29 @@
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler_test.go</url>
-          <line>51</line>
-          <option name="timeStamp" value="62" />
+          <url>file://$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedNetworkHandler.go</url>
+          <line>349</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$USER_HOME$/go1.20.5.linux-amd64/go/pkg/mod/github.com/ethereum/go-ethereum@v1.12.2/accounts/abi/bind/base.go</url>
+          <line>165</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$USER_HOME$/go1.20.5.linux-amd64/go/pkg/mod/github.com/ethereum/go-ethereum@v1.12.2/accounts/abi/bind/base.go</url>
+          <line>169</line>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$USER_HOME$/go1.20.5.linux-amd64/go/pkg/mod/github.com/ethereum/go-ethereum@v1.12.2/accounts/abi/bind/base.go</url>
+          <line>179</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$USER_HOME$/go1.20.5.linux-amd64/go/pkg/mod/github.com/ethereum/go-ethereum@v1.12.2/accounts/abi/bind/base.go</url>
+          <line>192</line>
+          <option name="timeStamp" value="71" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -251,6 +276,11 @@
         <watch expression="out" />
         <watch expression="res.Hash().Hex()" />
         <watch expression="res" />
+        <watch expression="res" />
+        <watch expression="err" />
+        <watch expression="ctx" />
+        <watch expression="op" />
+        <watch expression="msg" />
       </configuration>
     </watches-manager>
   </component>

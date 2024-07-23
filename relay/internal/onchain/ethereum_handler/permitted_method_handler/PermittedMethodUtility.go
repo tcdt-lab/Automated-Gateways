@@ -1,4 +1,4 @@
-package permitted_network_handler
+package permitted_method_handler
 
 import (
 	"errors"
@@ -18,13 +18,13 @@ func stringToBigIntConvertor(number string) (*big.Int, error) {
 	return numberInt, nil
 }
 
-func convertContractPermittedNetworkDataType(input ethereum_handler.PermittedNetworkManagementContractPermittedNetwork) (data *data_types.PermittedNetworkInfo) {
-	data = &data_types.PermittedNetworkInfo{
-		PermittedNetworkId: input.PermittedNetworkId.String(),
-		CompanyName:        input.CompanyName,
-		IP:                 input.NetworkIP,
-		ADDRESS:            input.NetworkAddress,
-		NetworkName:        input.NetworkName,
+func convertContractPermittedMethodDataType(input ethereum_handler.PermittedMethodManagementContractPermittedMethod) (data *data_types.MethodInfo) {
+	data = &data_types.MethodInfo{
+		PermittedMethodId: input.PermittedMethodId.String(),
+		Name:              input.Name,
+		Chaincode:         input.Chaincode,
+		InputArgs:         input.InputArgs,
+		OutputArgs:        input.OutputArgs,
 	}
 	return data
 }

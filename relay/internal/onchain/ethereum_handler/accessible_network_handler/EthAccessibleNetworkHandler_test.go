@@ -23,13 +23,16 @@ func TestEthAccessibleNetworkHandler_CreateAccessibleNetwork(t *testing.T) {
 	res, err := ethAccessibleNetwork.CreateAccessibleNetwork(privateKey, "netNum3", "192.168.1.11", "localhost", "KooshaCompNum3", 300000, big.NewInt(0))
 
 	fmt.Print(res.Hash().Hex())
-	time.Sleep(60 * time.Second)
+	time.Sleep(30 * time.Second)
 	receipt, err := ethAccessibleNetwork.GetTransactionReceipt(res.Hash())
 	if err != nil {
-		log.Fatal(err)
+
 		t.Errorf(err.Error())
 	}
-	fmt.Print(receipt.Status)
+	if receipt.Status != 1 {
+		t.Errorf("Error transaction is failed. Status: %v", receipt.Status)
+	}
+	fmt.Println(receipt.Status)
 }
 
 func TestEthAccessibleNetworkHandler_GetAllAccessibleNetworks(t *testing.T) {
@@ -49,7 +52,7 @@ func TestEthAccessibleNetworkHandler_GetAllAccessibleNetworks(t *testing.T) {
 	}
 
 	for i := 0; i < len(res); i++ {
-		fmt.Println(res[i].NetworkName)
+		fmt.Println(res[i])
 	}
 
 }
@@ -63,16 +66,16 @@ func TestEthAccessibleNetworkHandler_IsAccessibleNetworkExist(t *testing.T) {
 	}
 	res, err := ethAccessibleNetwork.AccessibleNetworkExists(privateKey, "2")
 	if err != nil {
-		log.Fatal(err)
+
 		t.Errorf("Error getting accessible network: %v", err)
 	}
 	if !res {
 		t.Errorf("Error getting a false result while the id does  exist")
 	}
 
-	res, err = ethAccessibleNetwork.AccessibleNetworkExists(privateKey, "1")
+	res, err = ethAccessibleNetwork.AccessibleNetworkExists(privateKey, "10000")
 	if err != nil {
-		log.Fatal(err)
+
 		t.Errorf("Error getting accessible network: %v", err)
 	}
 	if res {
@@ -132,7 +135,7 @@ func TestEthAccessibleNetworkHandler_GetAccessibleNetworkById(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	res, err := ethAccessibleNetwork.GetAccessibleNetwork(privateKey, "1")
+	res, err := ethAccessibleNetwork.GetAccessibleNetwork(privateKey, "2")
 	if err != nil {
 		log.Fatal(err)
 		t.Errorf("Error getting accessible network by id: %v", err)

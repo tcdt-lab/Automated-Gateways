@@ -215,7 +215,7 @@ func (ethAccessibleNetworkHandler *EthAccessibleNetworkHandler) UpdateAccessible
 	}
 
 	transaction, err := accessibleManager.UpdateAccessibleNetwork(transOpts, accessibleId, accessibleNetworkInfo.NetworkName,
-		accessibleNetworkInfo.NetworkName, accessibleNetworkInfo.NetworkName, accessibleNetworkInfo.NetworkName)
+		accessibleNetworkInfo.IP, accessibleNetworkInfo.ADDRESS, accessibleNetworkInfo.CompanyName)
 
 	if err != nil {
 		log.Fatalf("Failed to create Permitted Network: %v", err)

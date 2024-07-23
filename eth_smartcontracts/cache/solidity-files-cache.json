@@ -70,6 +70,41 @@
       "artifacts": [
         "PermittedNetworkManagementContract"
       ]
+    },
+    "/home/koosha/Desktop/Automated-Gateways/eth_smartcontracts/contracts/PermittedMethodManagementContratc.sol": {
+      "lastModificationDate": 1721688876074,
+      "contentHash": "eb43a1a04a73582e5948bc8dea7a0814",
+      "sourceName": "contracts/PermittedMethodManagementContratc.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "PermittedMethodManagementContract"
+      ]
     }
   }
 }

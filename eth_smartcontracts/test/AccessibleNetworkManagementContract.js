@@ -43,9 +43,6 @@ describe("accessible_network_management contract", function () {
     expect(network3.networkName).to.equal("networkAccessibleName3");
 
     const networks = await contract.getAllAccessibleNetworks();
-    console.log("************TEST GET ALL ************");
-    console.log(networks);
-    console.log("*************************************");
     expect(networks.length).to.equal(6);
     expect(networks[0].networkName).to.equal("networkAccessibleName1");
 
@@ -80,7 +77,7 @@ describe("accessible_network_management contract", function () {
 
     const deleteAccessibleNet= await contract.deleteAccessibleNetwork(1);
     const getAllAccessibleNetworks = await contract.getAllAccessibleNetworks();
-    console.log(getAllAccessibleNetworks);
+    expect(getAllAccessibleNetworks.length).to.equal(2);
 
     const numberOfPermits = await contract.getAccessibleNetworksNumber();
     expect(numberOfPermits).to.equal(2);
