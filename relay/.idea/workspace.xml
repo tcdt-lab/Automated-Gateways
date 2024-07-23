@@ -5,26 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="916c491e-72c0-49dd-b46a-9f2a799765c9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler/EthPermittedMethodHandler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler/EthPermittedMethodHandler_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_method_handler/PermittedMethodUtility.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedNetworkHandler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedNetworkHandler_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/cache/solidity-files-cache.json" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/cache/solidity-files-cache.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/deployed_addresses.json" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/deployed_addresses.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/journal.jsonl" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/ignition/deployments/chain-1337/journal.jsonl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/ignition/modules/PermittedNetworkManagementContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/ignition/modules/PermittedNetworkManagementContract.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/test/AccessibleNetworkManagementContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/test/AccessibleNetworkManagementContract.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eth_smartcontracts/test/PermittedNetworkManagementContract.js" beforeDir="false" afterPath="$PROJECT_DIR$/../eth_smartcontracts/test/PermittedNetworkManagementContract.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mediator/eth_mediator/EthAccessibleNetworkMediator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/accessible_network_handler/EthAccessibleNetworkHandler_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedMethodHandler.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/EthPermittedMethodHandler_test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/PermittedNetworkUtility.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/onchain/ethereum_handler/permitted_network_handler/PermittedNetworkUtility.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +62,7 @@
       <recent name="$PROJECT_DIR$/internal/onchain/hlf" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestEthPermittedMethodHandler_DeletePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler">
+  <component name="RunManager" selected="Go Test.TestEthPermittedMethodHandler_GetAllPermittedMethods in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler">
     <configuration name="go build github.com/tcdt-lab/Automated-Gateways/relay/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="relay" />
       <working_directory value="$PROJECT_DIR$" />
@@ -152,11 +134,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestEthPermittedMethodHandler_GetAllPermittedMethods in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
         <item itemvalue="Go Test.TestEthPermittedMethodHandler_DeletePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
         <item itemvalue="Go Test.TestEthPermittedMethodHandler_GetPermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
         <item itemvalue="Go Test.TestEthPermittedMethodHandler_UpdatePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
         <item itemvalue="Go Test.TestEthPermittedMethodHandler_CreatePermittedMethod in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
-        <item itemvalue="Go Test.TestEthPermittedMethodHandler_GetAllPermittedMethods in github.com/tcdt-lab/Automated-Gateways/relay/internal/onchain/ethereum_handler/permitted_method_handler" />
       </list>
     </recent_temporary>
   </component>
