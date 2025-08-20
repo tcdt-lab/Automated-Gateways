@@ -26,8 +26,20 @@ In order to get a better insight about the project we highly recommand to read p
 *  [Process Flow](https://github.com/tcdt-lab/Automated-Gateways/wiki/Process-Flow)
 *  [Main Data Types](https://github.com/tcdt-lab/Automated-Gateways/wiki/Main-Data-Types)
 
-Also we highly recommend readers and contributers to watch the presentation of the Automated-Gateways in hyperledger meetup. you can watch the video from [here](https://www.youtube.com/live/zVNNh5OCplM?si=9byA615Pfkt49C6i).
+Also we highly recommend readers and contributers to watch the presentation of the Automated-Gateways in hyperledger meetup. You can watch the video from [here](https://www.youtube.com/live/zVNNh5OCplM?si=9byA615Pfkt49C6i).
 
+# Citation
+If you use this code in your academic research or publications, please cite the following paper:
+
+```bibtex
+@inproceedings{khorasani2024automated,
+  title={Automated Gateways: A Smart Contract-Powered Solution for Interoperability Across Blockchains},
+  author={Khorasani, Koosha Esmaeilzadeh and Rouhani, Sara and Pan, Rui and Pourheidari, Vahid},
+  booktitle={2024 IEEE International Conference on Blockchain (Blockchain)},
+  pages={611--618},
+  year={2024},
+  organization={IEEE}
+}
 
 
 
